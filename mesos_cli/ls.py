@@ -36,7 +36,7 @@ def main():
     for t in master.tasks(m, args.task):
         d = os.path.join(task.directory(m, t), args.path)
 
-        flist = slave.files(master.slave(m, t["slave_id"]), d)
+        flist = slave.file_list(master.slave(m, t["slave_id"]), d)
         if len(flist) > 0:
             print '--%s' % (t["id"],)
 

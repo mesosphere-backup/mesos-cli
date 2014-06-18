@@ -1,9 +1,11 @@
 
 import os
+import sys
 
 from . import cli
 from . import master
 from . import slave
+from . import slave_file
 from . import task
 
 parser = cli.parser(
@@ -27,5 +29,5 @@ def main():
     s = master.slave(m, t["slave_id"])
     p = os.path.join(task.directory(m, t), args.file)
 
-    for chunk in slave.file(s, p):
-        print chunk
+    for chunk in slave_file.SlaveFile(s, p):
+        sys.stdout.write(chunk)

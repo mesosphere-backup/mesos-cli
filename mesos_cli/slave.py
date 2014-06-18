@@ -46,9 +46,11 @@ def file_size(s, d):
         log.fatal("No such file or directory.")
     return resp.json()["offset"]
 
-def file(s, d):
-    size = file_size(s, d)
-    progress = 0
+def file(s, d, offset=0, size=-1):
+    if size == -1:
+        size = file_size(s, d)
+
+    progress = offset
     while progress < size:
         resp = fetch(s, "/files/read.json",
             params={ "path": d, "offset": progress }).json()

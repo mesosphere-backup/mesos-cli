@@ -19,6 +19,7 @@ config = {
         'console_scripts': [
             # Need a better way to handle these already implemented by mesos
             'mesos-c = mesos_cli.cat:main',
+            'mesos-t = mesos_cli.tail:main',
 
             'mesos-find = mesos_cli.find:main',
             'mesos-ls = mesos_cli.ls:main',
@@ -26,6 +27,7 @@ config = {
         ]
     },
     'install_requires': [
+        "gevent",
         "kazoo",
         "protobuf",
         "requests",
