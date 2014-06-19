@@ -5,6 +5,7 @@ gevent.monkey.patch_all()
 
 import functools
 import gevent
+import itertools
 import os
 
 from . import cli
@@ -13,7 +14,7 @@ from . import slave_file
 from . import task
 
 parser = cli.parser(
-    description="tail a file inside a task's sandbox"
+    description="display the last part of a file"
 )
 
 parser.add_argument(
@@ -36,17 +37,24 @@ parser.add_argument(
     help="Number of lines of the file to tail."
 )
 
-def get_file(fobj, follow=False, n=10):
-    while 1:
-        for l in fobj
+parser.add_argument(
+    '-q', action='store_true',
+    help="Suppresses printing of headers when multiple files/tasks are being examined"
+)
 
 def main():
     cfg, args, m = cli.init(parser)
 
-    for t in master.tasks(m, args.task):
+    tlist = master.tasks(m, args.task)
+    for t in tlist:
         s = master.slave(m, t["slave_id"])
         d = task.directory(m, t)
         for f in args.file:
             fobj = slave_file.SlaveFile(s, os.path.join(d, f))
 
-            gevent.spawn(get_file, fobj, args.follow, args.n)
+            if not args.q and (len(tlist) > 1 or len(args.file) > 1):
+                cli.file_header(s, t, f)
+
+            lines = list(itertools.islice(reversed(fobj), args.n))
+            for l in reversed(lines):
+                print l

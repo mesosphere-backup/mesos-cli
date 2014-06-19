@@ -33,9 +33,9 @@ def main():
             for f in flist:
                 print os.path.relpath(f["path"], base)
                 if f["mode"][0] == "d":
-                    walk_dir(slave.files(s, f["path"]), f["path"])
+                    walk_dir(slave.file_list(s, f["path"]), f["path"])
 
-        flist = slave.files(s, base)
+        flist = slave.file_list(s, base)
         if len(flist) > 0:
             print "--%s" % (t["id"],)
             walk_dir(flist, base)
