@@ -18,6 +18,3 @@ def parser(**kwargs):
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         **kwargs
     )
-
-def file_header(s, t, f):
-    print "==> %s:%s/%s <==" % (s["pid"], t["id"], f)

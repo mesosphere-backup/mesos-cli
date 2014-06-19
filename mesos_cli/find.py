@@ -22,10 +22,16 @@ parser.add_argument(
     help="""Path to view."""
 )
 
+parser.add_argument(
+    '-q', action='store_true',
+    help="Suppresses printing of headers when multiple tasks are being examined"
+)
+
 def main():
     cfg, args, m = cli.init(parser)
 
-    for t in master.tasks(m, args.task):
+    tlist = master.tasks(m, args.task)
+    for t in tlist:
         s = master.slave(m, t["slave_id"])
         base = os.path.join(task.directory(m, t), args.path)
 
@@ -37,6 +43,7 @@ def main():
 
         flist = slave.file_list(s, base)
         if len(flist) > 0:
-            print "--%s" % (t["id"],)
+            if len(tlist) > 0 and not args.q:
+                print "==>%s:%s<==" % (s["pid"], t["id"])
             walk_dir(flist, base)
 

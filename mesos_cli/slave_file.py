@@ -12,16 +12,17 @@ class FileDNE(Exception):
 
 class SlaveFile(object):
 
-    def __init__(self, s, d, f):
+    def __init__(self, s, t, d, f):
         self._slave = s
+        self._task = t
         self.dir = d
         self.fname = f
-        self.path = os.path.join(d, f)
+        self._slave_path = os.path.join(d, f)
         self._offset = 0
 
         # Used during fetch, class level so the dict isn't constantly alloc'd
         self._params = {
-            "path": self.path,
+            "path": self._slave_path,
             "offset": -1,
             "length": CHUNK
         }
@@ -43,6 +44,9 @@ class SlaveFile(object):
             raise FileDNE("No such file or directory.")
         return resp.json()
 
+    def name(self):
+        return "%s:%s/%s" % (self._slave["pid"], self._task["id"], self.fname)
+
     def exists(self):
         try:
             self._fetch()
@@ -51,7 +55,8 @@ class SlaveFile(object):
             return False
 
     def size(self):
-        return self._fetch()["offset"]
+        self.last_size = self._fetch()["offset"]
+        return self.last_size
 
     def seek(self, offset, whence=os.SEEK_SET):
         if whence == os.SEEK_SET:

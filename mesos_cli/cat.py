@@ -29,7 +29,5 @@ def main():
         s = master.slave(m, t["slave_id"])
         d = task.directory(m, t)
         for f in args.file:
-            p = os.path.join(d, f)
-
-            for chunk in slave_file.SlaveFile(s, p):
+            for chunk in slave_file.SlaveFile(s, t, d, f):
                 print chunk

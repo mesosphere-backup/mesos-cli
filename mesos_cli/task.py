@@ -15,14 +15,14 @@ def directory(m, t):
 
 def files(m, fltr, flist):
     tlist = master.tasks(m, fltr)
-    mult = len(tlist) > 1 or len(args.file) > 1
+    mult = len(tlist) > 1 or len(flist) > 1
     dne = True
 
     for t in tlist:
         s = master.slave(m, t["slave_id"])
         d = directory(m, t)
         for f in flist:
-            fobj = slave_file.SlaveFile(s, d, f)
+            fobj = slave_file.SlaveFile(s, t, d, f)
             if fobj.exists():
                 dne = False
                 yield (s, t, fobj, mult)

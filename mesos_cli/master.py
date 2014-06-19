@@ -40,7 +40,11 @@ def zookeeper_leader(cfg):
     info = mesos_pb2.MasterInfo()
     info.ParseFromString(data)
 
-    return info.pid.split("@")[-1]
+    host = info.pid.split("@")[-1]
+
+    zk.stop()
+
+    return host
 
 def file_leader(cfg):
     return resolve(open(cfg[6:], "r+").read().strip())

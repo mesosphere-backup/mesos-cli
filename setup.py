@@ -31,7 +31,7 @@ config = {
         "gevent",
         "kazoo",
         "protobuf",
-        "requests",
+        "requests"
     ]
 }
 

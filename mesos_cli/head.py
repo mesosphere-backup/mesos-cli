@@ -36,7 +36,7 @@ def main():
 
     for s, t, fobj, show_header in task.files(m, args.task, args.file):
         if not args.q and show_header:
-            cli.file_header(s, t, fobj.fname)
+            print "==>%s<==" % (fobj.name(),)
 
         for l in itertools.islice(fobj, args.n):
             print l

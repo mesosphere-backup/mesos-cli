@@ -1,12 +1,8 @@
 
-# Should be the first import
-import gevent.monkey
-gevent.monkey.patch_all()
-
 import functools
-import gevent
 import itertools
 import os
+import time
 
 from . import cli
 from . import master
@@ -44,13 +40,43 @@ parser.add_argument(
     help="Suppresses printing of headers when multiple files/tasks are being examined"
 )
 
+files_seen = {}
+last_seen = None
+
+def follow(cfg, args):
+    global last_seen
+    for s, t, fobj, show_header in task.files(
+            master.state(cfg.master), args.task, args.file):
+
+        fobj.seek(files_seen.get(fobj.name(), 0))
+        if fobj.size() == fobj.tell():
+            continue
+
+        if fobj.name() != last_seen and not args.q:
+            print "==>%s<==" % (fobj.name(),)
+
+        for l in fobj:
+            print l
+
+        files_seen[fobj.name()] = fobj.tell()
+        last_seen = fobj.name()
+
 def main():
+    global last_seen
     cfg, args, m = cli.init(parser)
 
     for s, t, fobj, show_header in task.files(m, args.task, args.file):
         if not args.q and show_header:
-            cli.file_header(s, t, fobj.fname)
+            print "==>%s<==" % (fobj.name(),)
 
         lines = list(itertools.islice(reversed(fobj), args.n))
         for l in reversed(lines):
             print l
+
+        files_seen[fobj.name()] = fobj.last_size
+        last_seen = fobj.name()
+
+    if args.follow:
+        while 1:
+            follow(cfg, args)
+            time.sleep(RECHECK)
