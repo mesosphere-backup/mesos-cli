@@ -7,16 +7,21 @@ from . import util
 
 CHUNK = 1024
 
+class FileDNE(Exception):
+    pass
+
 class SlaveFile(object):
 
-    def __init__(self, s, p):
+    def __init__(self, s, d, f):
         self._slave = s
-        self._path = p
+        self.dir = d
+        self.fname = f
+        self.path = os.path.join(d, f)
         self._offset = 0
 
         # Used during fetch, class level so the dict isn't constantly alloc'd
         self._params = {
-            "path": self._path,
+            "path": self.path,
             "offset": -1,
             "length": CHUNK
         }
@@ -35,8 +40,15 @@ class SlaveFile(object):
     def _fetch(self):
         resp = slave.fetch(self._slave, "/files/read.json", params=self._params)
         if resp.status_code == 404:
-            log.fatal("No such file or directory.")
+            raise FileDNE("No such file or directory.")
         return resp.json()
+
+    def exists(self):
+        try:
+            self._fetch()
+            return True
+        except FileDNE:
+            return False
 
     def size(self):
         return self._fetch()["offset"]

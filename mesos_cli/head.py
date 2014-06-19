@@ -34,16 +34,9 @@ parser.add_argument(
 def main():
     cfg, args, m = cli.init(parser)
 
-    tlist = master.tasks(m, args.task)
-    for t in tlist:
-        s = master.slave(m, t["slave_id"])
-        d = task.directory(m, t)
-        for f in args.file:
-            p = os.path.join(d, f)
+    for s, t, fobj, show_header in task.files(m, args.task, args.file):
+        if not args.q and show_header:
+            cli.file_header(s, t, fobj.fname)
 
-            if not args.q and (len(tlist) > 1 or len(args.file) > 1):
-                cli.file_header(s, t, f)
-
-            for l in itertools.islice(
-                    slave_file.SlaveFile(s, p).readlines(), args.n):
-                print l
+        for l in itertools.islice(fobj, args.n):
+            print l

@@ -13,6 +13,8 @@ from . import master
 from . import slave_file
 from . import task
 
+RECHECK = 1
+
 parser = cli.parser(
     description="display the last part of a file"
 )
@@ -45,16 +47,10 @@ parser.add_argument(
 def main():
     cfg, args, m = cli.init(parser)
 
-    tlist = master.tasks(m, args.task)
-    for t in tlist:
-        s = master.slave(m, t["slave_id"])
-        d = task.directory(m, t)
-        for f in args.file:
-            fobj = slave_file.SlaveFile(s, os.path.join(d, f))
+    for s, t, fobj, show_header in task.files(m, args.task, args.file):
+        if not args.q and show_header:
+            cli.file_header(s, t, fobj.fname)
 
-            if not args.q and (len(tlist) > 1 or len(args.file) > 1):
-                cli.file_header(s, t, f)
-
-            lines = list(itertools.islice(reversed(fobj), args.n))
-            for l in reversed(lines):
-                print l
+        lines = list(itertools.islice(reversed(fobj), args.n))
+        for l in reversed(lines):
+            print l
