@@ -30,4 +30,4 @@ def main():
     p = os.path.join(task.directory(m, t), args.file)
 
     for chunk in slave_file.SlaveFile(s, p):
-        sys.stdout.write(chunk)
+        print chunk

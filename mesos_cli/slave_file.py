@@ -1,4 +1,5 @@
 
+import itertools
 import os
 
 from . import slave
@@ -21,8 +22,8 @@ class SlaveFile(object):
         }
 
     def __iter__(self):
-        for blob in self.read():
-            yield blob
+        for l in self._readlines():
+            yield l
 
     def _fetch(self):
         resp = slave.fetch(self._slave, "/files/read.json", params=self._params)
@@ -30,31 +31,8 @@ class SlaveFile(object):
             log.fatal("No such file or directory.")
         return resp.json()
 
-    def _read(self, size=CHUNK):
-        self._params["offset"] = self.tell()
-        self._params["length"] = size
-
-        data = self._fetch()["data"]
-        self.seek(len(data), os.SEEK_CUR)
-        return data
-
     def size(self):
         return self._fetch()["offset"]
-
-    def _length(self, start, size):
-        if size and self.tell() - start + CHUNK > size:
-            return size - (self.tell() - start)
-        return CHUNK
-
-    def read(self, size=None):
-        start = self.tell()
-
-        fn = lambda: self._read(size=self._length(start, size))
-        predicate = lambda x: (x == "" or
-            (size and (self.tell() - start) >= size))
-
-        for blob in util.iter_until(fn, predicate):
-            yield blob
 
     def seek(self, offset, whence=os.SEEK_SET):
         if whence == os.SEEK_SET:
@@ -66,3 +44,47 @@ class SlaveFile(object):
 
     def tell(self):
         return self._offset
+
+    def _length(self, start, size):
+        if size and self.tell() - start + CHUNK > size:
+            return size - (self.tell() - start)
+        return CHUNK
+
+    def _get_chunk(self, size=CHUNK):
+        self._params["offset"] = self.tell()
+        self._params["length"] = size
+
+        data = self._fetch()["data"]
+        self.seek(len(data), os.SEEK_CUR)
+        return data
+
+    def _read(self, size=None):
+        start = self.tell()
+
+        fn = lambda: self._get_chunk(size=self._length(start, size))
+        pre = lambda x: x == ""
+        post = lambda x: size and (self.tell() - start) >= size
+
+        for blob in util.iter_until(fn, pre, post):
+            yield blob
+
+    def read(self, size=None):
+        return ''.join(self._read(size))
+
+    def readline(self, size=None):
+        for l in self._readlines(size):
+            return l
+
+    def _readlines(self, size=None):
+        last = ""
+        for blob in self._read(size):
+
+            # This is not streaming and assumes small chunk sizes
+            blob_lines = (last + blob).split("\n")
+            for l in itertools.islice(blob_lines, 0, len(blob_lines) - 1):
+                yield l
+
+            last = blob_lines[-1]
+
+    def readlines(self, size=None):
+        return list(self._readlines(size))
