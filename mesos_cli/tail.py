@@ -4,9 +4,13 @@ import gevent.monkey
 gevent.monkey.patch_all()
 
 import functools
+import gevent
+import os
 
 from . import cli
 from . import master
+from . import slave_file
+from . import task
 
 parser = cli.parser(
     description="tail a file inside a task's sandbox"
@@ -32,8 +36,9 @@ parser.add_argument(
     help="Number of lines of the file to tail."
 )
 
-def get_file(fn):
-    pass
+def get_file(fobj, follow=False, n=10):
+    while 1:
+        for l in fobj
 
 def main():
     cfg, args, m = cli.init(parser)
@@ -42,9 +47,6 @@ def main():
         s = master.slave(m, t["slave_id"])
         d = task.directory(m, t)
         for f in args.file:
-            p = os.path.join(d, f)
+            fobj = slave_file.SlaveFile(s, os.path.join(d, f))
 
-            fn = functools.partial(slave.file, s, d)
-
-
-
+            gevent.spawn(get_file, fobj, args.follow, args.n)

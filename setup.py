@@ -22,6 +22,7 @@ config = {
             'mesos-t = mesos_cli.tail:main',
 
             'mesos-find = mesos_cli.find:main',
+            'mesos-head = mesos_cli.head:main',
             'mesos-ls = mesos_cli.ls:main',
             'mesos-ssh = mesos_cli.ssh:main'
         ]
