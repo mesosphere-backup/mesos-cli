@@ -49,8 +49,11 @@ All commands have their own options and parameters. Make sure you run `mesos com
 Most commands take a `task-id` as parameter. This does not need to be an exact match and for commands where it makes sense, can match multiple tasks. Supposed your cluster is running the following tasks:
 
     hadoop.myjob.12345-1928731
+
     rails.48271236-1231234
+
     app-10.89934ht-2398hriwuher
+
     app-20.9845uih-9823hriu-2938u422
 
 - A task-id of app will match both app-10 and app-20.
