@@ -23,6 +23,11 @@ parser.add_argument(
     help="""Path to view.
 """)
 
+parser.add_argument(
+    '-q', action='store_true',
+    help="Suppresses printing of headers when multiple tasks are being examined"
+)
+
 def format_line(obj, base):
     human_time = datetime.datetime.fromtimestamp(obj["mtime"]).strftime(
         "%b %d %H:%M")
@@ -33,12 +38,14 @@ def format_line(obj, base):
 def main():
     cfg, args, m = cli.init(parser)
 
-    for t in master.tasks(m, args.task):
+    tlist = master.tasks(m, args.task)
+    for t in tlist:
+        s = master.slave(m, t["slave_id"])
         d = os.path.join(task.directory(m, t), args.path)
 
-        flist = slave.file_list(master.slave(m, t["slave_id"]), d)
-        if len(flist) > 0:
-            print '--%s' % (t["id"],)
+        flist = slave.file_list(s, d)
+        if len(tlist) > 0 and not args.q:
+            print "==>%s:%s<==" % (s["pid"], t["id"])
 
         for f in flist:
             print format_line(f, d)
