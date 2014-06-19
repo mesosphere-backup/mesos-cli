@@ -28,7 +28,6 @@ config = {
         ]
     },
     'install_requires': [
-        "gevent",
         "kazoo",
         "protobuf",
         "requests"
