@@ -40,12 +40,8 @@ def main():
 
     tlist = master.tasks(args.task)
     for t in tlist:
-        s = master.slave(t["slave_id"])
-        d = os.path.join(task.directory(t), args.path)
-
-        flist = slave.file_list(s, d)
         if len(tlist) > 0 and not args.q:
-            cli.header("%s:%s" % (s["pid"], t["id"]))
+            cli.header(t)
 
-        for f in flist:
-            print format_line(f, d)
+        for f in t.file_list(args.path):
+            print format_line(f, os.path.join(t.directory, args.path))

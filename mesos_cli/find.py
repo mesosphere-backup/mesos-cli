@@ -32,18 +32,16 @@ def main():
 
     tlist = master.tasks(args.task)
     for t in tlist:
-        s = master.slave(t["slave_id"])
-        base = os.path.join(task.directory(t), args.path)
+        base = os.path.join(t.directory, args.path)
+        flist = t.file_list(args.path)
 
         def walk_dir(flist, pth):
             for f in flist:
                 print os.path.relpath(f["path"], base)
-                if f["mode"][0] == "d":
-                    walk_dir(slave.file_list(s, f["path"]), f["path"])
+                if f["mode"][0].startswith("d"):
+                    walk_dir(t.file_list(f["path"]), f["path"])
 
-        flist = slave.file_list(s, base)
         if len(flist) > 0:
             if len(tlist) > 0 and not args.q:
-                cli.header("%s:%s" % (s["pid"], t["id"]))
-            walk_dir(flist, base)
-
+                cli.header(t)
+            walk_dir(flist, args.path)

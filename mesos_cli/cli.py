@@ -21,4 +21,4 @@ def parser(**kwargs):
 
 def header(name):
     term = blessings.Terminal()
-    print "==>" + term.red + name + term.white + "<=="
+    print "==>" + term.red + str(name) + term.white + "<=="

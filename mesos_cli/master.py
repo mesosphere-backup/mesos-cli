@@ -12,6 +12,7 @@ import sys
 import urlparse
 
 from . import config
+from . import task
 from . import util
 from . import zookeeper
 
@@ -108,9 +109,10 @@ class MesosMaster(object):
         return lst[0]
 
     def tasks(self, fltr):
-        return filter(lambda x: fltr in x["id"],
-            itertools.chain(*[util.merge(x, "tasks", "completed_tasks") for x in
-                self.frameworks()]))
+        return map(lambda x: task.Task(self, x),
+            itertools.ifilter(lambda x: fltr in x["id"],
+                itertools.chain(*[util.merge(x, "tasks", "completed_tasks") for x in
+                    self.frameworks()])))
 
     def frameworks(self):
         return util.merge(current.state, "frameworks", "completed_frameworks")

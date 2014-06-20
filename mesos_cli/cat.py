@@ -26,8 +26,6 @@ def main():
     cfg, args = cli.init(parser)
 
     for t in master.tasks(args.task):
-        s = master.slave(t["slave_id"])
-        d = task.directory(t)
         for f in args.file:
-            for chunk in slave_file.SlaveFile(s, t, d, f):
-                print chunk
+            for l in t.file(f):
+                print l

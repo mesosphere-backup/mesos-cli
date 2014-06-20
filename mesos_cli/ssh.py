@@ -20,12 +20,10 @@ def main():
     cfg, args = cli.init(parser)
 
     t = master.task(args.task)
-    s = master.slave(t["slave_id"])
-    d = task.directory(t)
 
     os.execvp("ssh", [
       "ssh",
       "-t",
-      slave.host(s).split(":")[0],
-      "cd %s && bash" % (d,)
+      slave.host(t.slave).split(":")[0],
+      "cd %s && bash" % (t.directory,)
     ])

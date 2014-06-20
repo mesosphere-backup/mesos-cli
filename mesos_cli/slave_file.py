@@ -12,12 +12,11 @@ class FileDNE(Exception):
 
 class SlaveFile(object):
 
-    def __init__(self, s, t, d, f):
+    def __init__(self, s, t, f):
         self._slave = s
         self._task = t
-        self.dir = d
         self.fname = f
-        self._slave_path = os.path.join(d, f)
+        self._slave_path = os.path.join(self._task.directory, f)
         self._offset = 0
 
         # Used during fetch, class level so the dict isn't constantly alloc'd
@@ -45,7 +44,7 @@ class SlaveFile(object):
         return resp.json()
 
     def name(self):
-        return "%s:%s/%s" % (self._slave["pid"], self._task["id"], self.fname)
+        return "%s:%s/%s" % (self._slave["pid"], self._task.id, self.fname)
 
     def exists(self):
         try:
