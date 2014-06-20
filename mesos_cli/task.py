@@ -4,23 +4,23 @@ import requests
 import urlparse
 
 from . import log
-from . import master
+from .master import current as master
 from . import slave
 from . import slave_file
 
-def directory(m, t):
+def directory(t):
     return slave.executor(
-        slave.state(master.slave(m, t["slave_id"])),
+        slave.state(master.slave(t["slave_id"])),
         t["id"])["directory"]
 
-def files(m, fltr, flist):
-    tlist = master.tasks(m, fltr)
+def files(fltr, flist):
+    tlist = master.tasks(fltr)
     mult = len(tlist) > 1 or len(flist) > 1
     dne = True
 
     for t in tlist:
-        s = master.slave(m, t["slave_id"])
-        d = directory(m, t)
+        s = master.slave(t["slave_id"])
+        d = directory(t)
         for f in flist:
             fobj = slave_file.SlaveFile(s, t, d, f)
             if fobj.exists():

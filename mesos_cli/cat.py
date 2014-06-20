@@ -3,7 +3,7 @@ import os
 import sys
 
 from . import cli
-from . import master
+from .master import current as master
 from . import slave
 from . import slave_file
 from . import task
@@ -23,11 +23,11 @@ parser.add_argument(
 )
 
 def main():
-    cfg, args, m = cli.init(parser)
+    cfg, args = cli.init(parser)
 
-    for t in master.tasks(m, args.task):
-        s = master.slave(m, t["slave_id"])
-        d = task.directory(m, t)
+    for t in master.tasks(args.task):
+        s = master.slave(t["slave_id"])
+        d = task.directory(t)
         for f in args.file:
             for chunk in slave_file.SlaveFile(s, t, d, f):
                 print chunk

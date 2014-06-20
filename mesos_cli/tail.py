@@ -5,7 +5,7 @@ import os
 import time
 
 from . import cli
-from . import master
+from .master import current as master
 from . import slave_file
 from . import task
 
@@ -63,9 +63,9 @@ def follow(cfg, args):
 
 def main():
     global last_seen
-    cfg, args, m = cli.init(parser)
+    cfg, args = cli.init(parser)
 
-    for s, t, fobj, show_header in task.files(m, args.task, args.file):
+    for s, t, fobj, show_header in task.files(args.task, args.file):
         if not args.q and show_header:
             cli.header(fobj.name(),)
 

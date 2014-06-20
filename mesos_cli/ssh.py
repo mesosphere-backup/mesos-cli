@@ -3,7 +3,7 @@ import os
 import sys
 
 from . import cli
-from . import master
+from .master import current as master
 from . import slave
 from . import task
 
@@ -17,11 +17,11 @@ parser.add_argument(
 )
 
 def main():
-    cfg, args, m = cli.init(parser)
+    cfg, args = cli.init(parser)
 
-    t = master.task(m, args.task)
-    s = master.slave(m, t["slave_id"])
-    d = task.directory(m, t)
+    t = master.task(args.task)
+    s = master.slave(t["slave_id"])
+    d = task.directory(t)
 
     os.execvp("ssh", [
       "ssh",

@@ -5,7 +5,7 @@ import sys
 import time
 
 from . import cli
-from . import master
+from .master import current as master
 from . import slave
 from . import task
 
@@ -15,7 +15,7 @@ parser = cli.parser(
     description="display and update sorted information about tasks"
 )
 
-def top(stdscr, cfg, args, m):
+def top(stdscr, cfg, args):
     while 1:
 
         stdscr.addstr(0, 0, time.strftime('%H:%M:%S'))

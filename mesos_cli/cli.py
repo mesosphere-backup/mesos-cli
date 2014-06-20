@@ -11,8 +11,7 @@ def init(parser):
     cfg = config.Config()
     args = parser.parse_args()
 
-    m = master.state(cfg.master)
-    return (cfg, args, m)
+    return (cfg, args)
 
 def parser(**kwargs):
     return argparse.ArgumentParser(

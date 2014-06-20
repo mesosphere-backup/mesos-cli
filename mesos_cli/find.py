@@ -2,7 +2,7 @@
 import os
 
 from . import cli
-from . import master
+from .master import current as master
 from . import slave
 from . import task
 
@@ -28,12 +28,12 @@ parser.add_argument(
 )
 
 def main():
-    cfg, args, m = cli.init(parser)
+    cfg, args = cli.init(parser)
 
-    tlist = master.tasks(m, args.task)
+    tlist = master.tasks(args.task)
     for t in tlist:
-        s = master.slave(m, t["slave_id"])
-        base = os.path.join(task.directory(m, t), args.path)
+        s = master.slave(t["slave_id"])
+        base = os.path.join(task.directory(t), args.path)
 
         def walk_dir(flist, pth):
             for f in flist:

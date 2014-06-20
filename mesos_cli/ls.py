@@ -3,7 +3,7 @@ import datetime
 import os
 
 from . import cli
-from . import master
+from .master import current as master
 from . import slave
 from . import task
 
@@ -36,12 +36,12 @@ def format_line(obj, base):
     return fmt.format(human_time=human_time, fname=fname, **obj)
 
 def main():
-    cfg, args, m = cli.init(parser)
+    cfg, args = cli.init(parser)
 
-    tlist = master.tasks(m, args.task)
+    tlist = master.tasks(args.task)
     for t in tlist:
-        s = master.slave(m, t["slave_id"])
-        d = os.path.join(task.directory(m, t), args.path)
+        s = master.slave(t["slave_id"])
+        d = os.path.join(task.directory(t), args.path)
 
         flist = slave.file_list(s, d)
         if len(tlist) > 0 and not args.q:
