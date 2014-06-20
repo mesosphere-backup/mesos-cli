@@ -22,11 +22,9 @@ class MesosMaster(object):
     def __init__(self, cfg):
         self._cfg = cfg.master
 
-    @property
+    @util.cached_property()
     def host(self):
-        if not hasattr(self, "_host"):
-            self._host = "http://%s" % (self.resolve(self._cfg),)
-        return self._host
+        return "http://%s" % (self.resolve(self._cfg),)
 
     def _file_resolver(self, cfg):
         return self.resolve(open(cfg[6:], "r+").read().strip())
@@ -68,19 +66,14 @@ class MesosMaster(object):
         else:
             return cfg
 
-    def get_state(self):
+    @util.cached_property(ttl=30)
+    def state(self):
         try:
             return requests.get(urlparse.urljoin(
                 self.host, "/master/state.json")).json()
         except requests.exceptions.ConnectionError:
             logging.error("Unable to connect to the master at %s." % (cfg,))
             sys.exit(1)
-
-    @property
-    def state(self):
-        if not hasattr(self, "_state"):
-            self._state = self.get_state()
-        return self._state
 
     def slave(self, fltr):
         lst = self.slaves(fltr)
