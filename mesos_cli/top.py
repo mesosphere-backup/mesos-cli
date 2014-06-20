@@ -1,15 +1,29 @@
 
+import curses
 import os
 import sys
+import time
 
 from . import cli
 from . import master
 from . import slave
 from . import task
 
+REFRESH = 1
+
 parser = cli.parser(
     description="display and update sorted information about tasks"
 )
 
+def top(stdscr, cfg, args, m):
+    while 1:
+
+        stdscr.addstr(0, 0, time.strftime('%H:%M:%S'))
+        stdscr.refresh()
+
+        time.sleep(REFRESH)
+
+        stdscr.erase()
+
 def main():
-    cfg, args, m = cli.init(parser)
+    curses.wrapper(top, *cli.init(parser))
