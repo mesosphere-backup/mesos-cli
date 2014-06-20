@@ -44,6 +44,6 @@ def main():
         flist = slave.file_list(s, base)
         if len(flist) > 0:
             if len(tlist) > 0 and not args.q:
-                print "==>%s:%s<==" % (s["pid"], t["id"])
+                cli.header("%s:%s" % (s["pid"], t["id"]))
             walk_dir(flist, base)
 

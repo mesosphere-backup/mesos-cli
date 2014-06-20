@@ -1,5 +1,6 @@
 
 import argparse
+import blessings
 import logging
 logging.basicConfig()
 
@@ -18,3 +19,7 @@ def parser(**kwargs):
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         **kwargs
     )
+
+def header(name):
+    term = blessings.Terminal()
+    print "==>" + term.red + name + term.white + "<=="

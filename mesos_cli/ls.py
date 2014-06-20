@@ -45,7 +45,7 @@ def main():
 
         flist = slave.file_list(s, d)
         if len(tlist) > 0 and not args.q:
-            print "==>%s:%s<==" % (s["pid"], t["id"])
+            cli.header("%s:%s" % (s["pid"], t["id"]))
 
         for f in flist:
             print format_line(f, d)

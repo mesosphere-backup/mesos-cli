@@ -53,7 +53,7 @@ def follow(cfg, args):
             continue
 
         if fobj.name() != last_seen and not args.q:
-            print "==>%s<==" % (fobj.name(),)
+            cli.header(fobj.name())
 
         for l in fobj:
             print l
@@ -67,7 +67,7 @@ def main():
 
     for s, t, fobj, show_header in task.files(m, args.task, args.file):
         if not args.q and show_header:
-            print "==>%s<==" % (fobj.name(),)
+            cli.header(fobj.name(),)
 
         lines = list(itertools.islice(reversed(fobj), args.n))
         for l in reversed(lines):

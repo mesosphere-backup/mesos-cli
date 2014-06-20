@@ -29,6 +29,7 @@ config = {
         ]
     },
     'install_requires': [
+        "blessings",
         "kazoo",
         "protobuf",
         "requests"
