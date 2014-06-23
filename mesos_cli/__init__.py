@@ -3,6 +3,7 @@ import os
 import sys
 
 from . import cli
+from . import log
 
 def main():
     if len(sys.argv) == 1:
@@ -11,8 +12,6 @@ def main():
         cmd = "mesos-" + sys.argv[1]
 
     if cmd in cli.cmds():
-        os.execvp(cmd, [cmd] + sys.argv[2:])
+        log.fn(os.execvp, cmd, [cmd] + sys.argv[2:])
     else:
-        print "'{}' is not a valid command (or cannot be found)".format(cmd)
-        sys.exit(1)
-
+        log.fatal("'{}' is not a valid command (or cannot be found)".format(cmd))

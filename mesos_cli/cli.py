@@ -3,7 +3,6 @@ import argparse
 import blessings
 import logging
 import os
-logging.basicConfig()
 
 from . import config
 from . import master
@@ -11,6 +10,8 @@ from . import master
 def init(parser):
     cfg = config.Config()
     args = parser.parse_args()
+
+    logging.basicConfig(level=getattr(logging, cfg.level.upper()))
 
     return (cfg, args)
 

@@ -24,6 +24,7 @@ config = {
             'mesos-head = mesos_cli.head:main',
             'mesos-help = mesos_cli.help:main',
             'mesos-ls = mesos_cli.ls:main',
+            'mesos-ps = mesos_cli.ps:main',
             'mesos-resolve = mesos_cli.resolve:main',
             'mesos-ssh = mesos_cli.ssh:main',
             'mesos-tail = mesos_cli.tail:main'

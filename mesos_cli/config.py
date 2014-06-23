@@ -10,7 +10,8 @@ DEFAULT_CONFIG = os.environ.get(
 class Config(dict):
 
     DEFAULTS = {
-        "master": "localhost:5050"
+        "master": "localhost:5050",
+        "level": "warning"
     }
 
     def __init__(self):

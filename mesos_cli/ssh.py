@@ -1,9 +1,12 @@
 
+import copy
 import os
+import platform
 import sys
 
 from . import cli
 from .master import current as master
+from . import log
 from . import slave
 from . import task
 
@@ -17,13 +20,18 @@ parser.add_argument(
 )
 
 def main():
+    # There's a security bug in Mavericks wrt. urllib2:
+    #     http://bugs.python.org/issue20585
+    if platform.system() == "Darwin":
+        os.environ["no_proxy"] = "*"
+
     cfg, args = cli.init(parser)
 
     t = master.task(args.task)
-
-    os.execvp("ssh", [
-      "ssh",
-      "-t",
-      slave.host(t.slave).split(":")[0],
-      "cd %s && bash" % (t.directory,)
-    ])
+    cmd = [
+        "ssh",
+        "-t",
+        t.slave.hostname,
+        "cd {} && bash".format(t.directory)
+    ]
+    log.fn(os.execvp, "ssh", cmd)

@@ -15,16 +15,16 @@ class Task(dict):
         self._meta = meta
 
     def __str__(self):
-        return "%s:%s" % (self.slave["pid"], self._meta["id"])
+        return "{}:{}".format(self.slave.pid, self.id)
 
-    @property
-    def id(self):
-        return self._meta["id"]
+    def __getattr__(self, name):
+        if name in self._meta:
+            return self._meta[name]
+        raise AttributeError()
 
     @util.cached_property()
     def directory(self):
-        return slave.executor(
-            slave.state(self.slave), self._meta["id"])["directory"]
+        return self.slave.executor(self.id)["directory"]
 
     @util.cached_property()
     def slave(self):
@@ -34,7 +34,7 @@ class Task(dict):
         return slave_file.SlaveFile(self.slave, self, path)
 
     def file_list(self, path):
-        return slave.file_list(self.slave, os.path.join(self.directory, path))
+        return self.slave.file_list(os.path.join(self.directory, path))
 
 def files(fltr, flist):
     # Preventing circular imports

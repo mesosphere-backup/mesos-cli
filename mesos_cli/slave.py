@@ -8,51 +8,45 @@ import urlparse
 from . import log
 from . import util
 
-FILE_CHUNK = 1024
+class MesosSlave(object):
 
-def fetch(s, u, **kwargs):
-    try:
-        return requests.get(urlparse.urljoin(
-            url(s), u), **kwargs)
-    except requests.exceptions.ConnectionError:
-        logging.error("Unable to connect to the slave at %s." % (url(s),))
-        sys.exit(1)
+    def __init__(self, meta):
+        self._meta = meta
 
-def host(s):
-    return s["hostname"] + ":" + s["pid"].split(":")[-1]
+    def __getattr__(self, name):
+        if name in self._meta:
+            return self._meta[name]
+        raise AttributeError()
 
-def url(s):
-    return "http://" + host(s)
+    @property
+    def host(self):
+        return "http://{}:{}".format(
+            self.hostname,
+            self.pid.split(":")[-1])
 
-def state(s):
-    return fetch(s, "/slave(1)/state.json").json()
+    def fetch(self, url, **kwargs):
+        try:
+            return requests.get(urlparse.urljoin(
+                self.host, url), **kwargs)
+        except requests.excption.ConnectionError:
+            log.fatal("Unable to connect to the slave at {}.".format(self.host))
 
-def executor(s, i):
-    for fw in s["frameworks"]:
-        for exc in util.merge(fw, "executors", "completed_executors"):
-            if i == exc["id"]:
-                return exc
-    raise Exception("No executor by that id")
+    @util.cached_property()
+    def state(self):
+        return self.fetch("/slave(1)/state.json").json()
 
-def file_list(s, d):
-    resp = fetch(s, "/files/browse.json", params={ "path": d })
-    if resp.status_code == 404:
-        return []
-    return resp.json()
+    def executor(self, fltr):
+        for fw in self.state["frameworks"]:
+            for exc in util.merge(fw, "executors", "completed_executors"):
+                if fltr in exc["id"]:
+                    return exc
+        raise Exception("No executor by that id")
 
-def file_size(s, d):
-    resp = fetch(s, "/files/read.json", params={ "path": d, "offset": -1})
-    if resp.status_code == 404:
-        log.fatal("No such file or directory.")
-    return resp.json()["offset"]
+    def file_list(self, path):
+        resp = self.fetch("/files/browse.json", params={ "path": path })
+        if resp.status_code == 404:
+            return []
+        return resp.json()
 
-def file(s, d, offset=0, size=-1):
-    if size == -1:
-        size = file_size(s, d)
-
-    progress = offset
-    while progress < size:
-        resp = fetch(s, "/files/read.json",
-            params={ "path": d, "offset": progress }).json()
-        progress += len(resp["data"])
-        yield resp["data"]
+    def file(self, task, path):
+        return slave_file.SlaveFile(self, task, path)

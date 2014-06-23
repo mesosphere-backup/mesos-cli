@@ -13,10 +13,10 @@ class FileDNE(Exception):
 class SlaveFile(object):
 
     def __init__(self, s, t, f):
-        self._slave = s
-        self._task = t
+        self.slave = s
+        self.task = t
         self.fname = f
-        self._slave_path = os.path.join(self._task.directory, f)
+        self._slave_path = os.path.join(self.task.directory, f)
         self._offset = 0
 
         # Used during fetch, class level so the dict isn't constantly alloc'd
@@ -38,13 +38,13 @@ class SlaveFile(object):
             yield l
 
     def _fetch(self):
-        resp = slave.fetch(self._slave, "/files/read.json", params=self._params)
+        resp = self.slave.fetch("/files/read.json", params=self._params)
         if resp.status_code == 404:
             raise FileDNE("No such file or directory.")
         return resp.json()
 
     def name(self):
-        return "%s:%s/%s" % (self._slave["pid"], self._task.id, self.fname)
+        return "%s:%s/%s" % (self.slave.pid, self.task.id, self.fname)
 
     def exists(self):
         try:

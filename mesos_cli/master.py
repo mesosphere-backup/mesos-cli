@@ -12,6 +12,7 @@ import sys
 import urlparse
 
 from . import config
+from . import slave
 from . import task
 from . import util
 from . import zookeeper
@@ -76,6 +77,7 @@ class MesosMaster(object):
             logging.error("Unable to connect to the master at %s." % (self.host,))
             sys.exit(1)
 
+    @util.memoize
     def slave(self, fltr):
         lst = self.slaves(fltr)
 
@@ -83,15 +85,16 @@ class MesosMaster(object):
             log.fatal("Cannot find a slave by that name.")
 
         elif len(lst) > 1:
-            result = "There are multiple tasks with that id. Please choose one: "
+            result = "There are multiple slaves with that id. Please choose one: "
             for s in lst:
-                result += "\n\t%s" % (s["id"],)
+                result += "\n\t{}".format(s.id)
             log.fatal(result)
 
         return lst[0]
 
     def slaves(self, fltr):
-        return filter(lambda x: fltr in x["id"], self.state["slaves"])
+        return map(lambda x: slave.MesosSlave(x),
+            itertools.ifilter(lambda x: fltr in x["id"], self.state["slaves"]))
 
     def task(self, fltr):
         lst = self.tasks(fltr)
@@ -103,7 +106,7 @@ class MesosMaster(object):
         elif len(lst) > 1:
             print "There are multiple tasks with that id. Please choose one: "
             for t in lst:
-                print "\t" + t["id"]
+                print "\t{}".format(t.id)
             sys.exit(1)
 
         return lst[0]
