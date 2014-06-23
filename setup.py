@@ -25,8 +25,7 @@ config = {
             'mesos-help = mesos_cli.help:main',
             'mesos-ls = mesos_cli.ls:main',
             'mesos-ssh = mesos_cli.ssh:main',
-            'mesos-tail = mesos_cli.tail:main',
-            'mesos-top = mesos_cli.top:main'
+            'mesos-tail = mesos_cli.tail:main'
         ]
     },
     'install_requires': [
