@@ -2,6 +2,7 @@
 import argparse
 import blessings
 import logging
+import os
 logging.basicConfig()
 
 from . import config
@@ -22,3 +23,13 @@ def parser(**kwargs):
 def header(name):
     term = blessings.Terminal()
     print "==>" + term.red + str(name) + term.white + "<=="
+
+def cmds():
+    cmds = []
+    for path in os.environ.get("PATH").split(os.pathsep):
+        try:
+            cmds += filter(lambda x: x.startswith("mesos-"), os.listdir(path))
+        except OSError:
+            pass
+
+    return cmds

@@ -73,7 +73,7 @@ class MesosMaster(object):
             return requests.get(urlparse.urljoin(
                 self.host, "/master/state.json")).json()
         except requests.exceptions.ConnectionError:
-            logging.error("Unable to connect to the master at %s." % (cfg,))
+            logging.error("Unable to connect to the master at %s." % (self.host,))
             sys.exit(1)
 
     def slave(self, fltr):

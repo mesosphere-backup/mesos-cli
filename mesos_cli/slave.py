@@ -19,7 +19,7 @@ def fetch(s, u, **kwargs):
         sys.exit(1)
 
 def host(s):
-    return s["pid"].split("@")[-1]
+    return s["hostname"] + ":" + s["pid"].split(":")[-1]
 
 def url(s):
     return "http://" + host(s)

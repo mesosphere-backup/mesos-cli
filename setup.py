@@ -17,14 +17,15 @@ config = {
     ],
     'entry_points': {
         'console_scripts': [
-            # Need a better way to handle these already implemented by mesos
-            'mesos-c = mesos_cli.cat:main',
-            'mesos-t = mesos_cli.tail:main',
+            'mesos = mesos_cli:main',
 
+            'mesos-cat = mesos_cli.cat:main',
             'mesos-find = mesos_cli.find:main',
             'mesos-head = mesos_cli.head:main',
+            'mesos-help = mesos_cli.help:main',
             'mesos-ls = mesos_cli.ls:main',
             'mesos-ssh = mesos_cli.ssh:main',
+            'mesos-tail = mesos_cli.tail:main',
             'mesos-top = mesos_cli.top:main'
         ]
     },
