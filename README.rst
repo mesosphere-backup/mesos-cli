@@ -23,6 +23,7 @@ To solve the problem, some of the coreutil commands have been re-implemented to 
 - mesos itself isn't required locally. Developers want to debug their tasks without having a local copy of mesos installed.
 - everything is task centric. There's no need to worry about specifying a framework if you don't want to, just put in the task id.
 - complete/match everything. Task IDs are long and normally require cut/paste to get exact matches. Instead, all `task` parameters are partial matches, no need to type that long thing in. Also, most parameters tab-complete (see the section on auto-completion to configure), just type a couple characters in and get what you're looking for.
+- extensibility. Write your own subcommands. Most of the required information can be accessed via. existing subcommands (leading master resolution via. mesos-resolve), so you only need to implement what you want and not re-invent the wheel.
 
 ------------
 Installation
