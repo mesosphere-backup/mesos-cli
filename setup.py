@@ -26,12 +26,14 @@ config = {
             'mesos-ls = mesos_cli.ls:main',
             'mesos-ps = mesos_cli.ps:main',
             'mesos-resolve = mesos_cli.resolve:main',
+            'mesos-scp = mesos_cli.scp:main',
             'mesos-ssh = mesos_cli.ssh:main',
             'mesos-tail = mesos_cli.tail:main'
         ]
     },
     'install_requires': [
         "blessings",
+        "gevent",
         "kazoo",
         "prettytable",
         "protobuf",

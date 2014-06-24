@@ -92,7 +92,7 @@ class MesosMaster(object):
 
         return lst[0]
 
-    def slaves(self, fltr):
+    def slaves(self, fltr=""):
         return map(lambda x: slave.MesosSlave(x),
             itertools.ifilter(lambda x: fltr in x["id"], self.state["slaves"]))
 
