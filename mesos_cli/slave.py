@@ -35,12 +35,16 @@ class MesosSlave(object):
     def state(self):
         return self.fetch("/slave(1)/state.json").json()
 
-    def executor(self, fltr):
-        for fw in self.state["frameworks"]:
+    @property
+    def frameworks(self):
+        return util.merge(self.state, "frameworks", "completed_frameworks")
+
+    def task_executor(self, task_id):
+        for fw in self.frameworks:
             for exc in util.merge(fw, "executors", "completed_executors"):
-                if fltr in exc["id"]:
+                if task_id in map(lambda x: x["id"], exc["tasks"]):
                     return exc
-        raise Exception("No executor by that id")
+        raise Exception("No executor has a task by that id")
 
     def file_list(self, path):
         resp = self.fetch("/files/browse.json", params={ "path": path })
@@ -50,3 +54,15 @@ class MesosSlave(object):
 
     def file(self, task, path):
         return slave_file.SlaveFile(self, task, path)
+
+    @util.cached_property(ttl=1)
+    def stats(self):
+        return self.fetch("/monitor/statistics.json").json()
+
+    def executor_stats(self, _id):
+        return filter(lambda x: x["executor_id"])
+
+    def task_stats(self, _id):
+        eid = self.task_executor(_id)["id"]
+        return filter(lambda x: x["executor_id"] == eid,
+            self.stats)[0]["statistics"]

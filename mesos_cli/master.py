@@ -111,12 +111,18 @@ class MesosMaster(object):
 
         return lst[0]
 
-    def tasks(self, fltr):
+    # XXX - need to filter on task state as well as id
+    def tasks(self, fltr=""):
         return map(lambda x: task.Task(self, x),
             itertools.ifilter(lambda x: fltr in x["id"],
                 itertools.chain(*[util.merge(x, "tasks", "completed_tasks") for x in
-                    self.frameworks()])))
+                    self.frameworks])))
 
+    def framework(self, fwid):
+        return filter(lambda x: x["id"] == fwid,
+            self.frameworks)[0]
+
+    @property
     def frameworks(self):
         return util.merge(current.state, "frameworks", "completed_frameworks")
 

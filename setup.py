@@ -33,6 +33,7 @@ config = {
     'install_requires': [
         "blessings",
         "kazoo",
+        "prettytable",
         "protobuf",
         "requests"
     ]
