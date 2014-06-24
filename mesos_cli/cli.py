@@ -6,12 +6,16 @@ import os
 
 from . import config
 from .master import current as master
+from . import log
 
 def init(parser=None):
     cfg = config.Config()
     args = parser.parse_args() if parser else None
 
-    logging.basicConfig(level=getattr(logging, cfg.level.upper()))
+    logging.basicConfig(
+        level=getattr(logging, cfg.log_level.upper()),
+        filename=cfg.log_file
+    )
 
     return (cfg, args)
 
@@ -48,3 +52,19 @@ def cmds(short=False):
 def task_completer(prefix, parsed_args, **kwargs):
     return [x.id for x in master.tasks(prefix)]
 
+def file_completer(prefix, parsed_args, **kwargs):
+    files = set([])
+    split = prefix.rsplit("/", 1)
+    base = ""
+    if len(split) == 2:
+        base = split[0]
+    pattern = split[-1]
+
+    for t in master.tasks(parsed_args.task):
+        for f in t.file_list(base):
+            rel = os.path.relpath(f["path"], t.directory)
+            if rel.rsplit("/", 1)[-1].startswith(pattern):
+                if f["mode"].startswith("d"):
+                    rel += "/"
+                files.add(rel)
+    return files

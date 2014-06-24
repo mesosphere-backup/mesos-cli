@@ -20,7 +20,7 @@ parser.add_argument(
 parser.add_argument(
     'path', type=str, nargs="?", default="",
     help="""Path to view."""
-)
+).completer = cli.file_completer
 
 parser.add_argument(
     '-q', action='store_true',

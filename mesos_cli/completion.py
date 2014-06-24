@@ -26,7 +26,6 @@ def cmd_options():
 
 def main():
     cfg, args = cli.init()
-    log.debug(os.environ.get("COMP_POINT"))
 
     cmdline = os.environ.get('COMP_LINE') or \
         os.environ.get('COMMAND_LINE') or ''

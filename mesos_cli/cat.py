@@ -21,7 +21,7 @@ parser.add_argument(
 parser.add_argument(
     'file', type=str, nargs="*", default=["stdout"],
     help="Path to the file inside the task's sandbox."
-)
+).completer = cli.file_completer
 
 def main():
     cfg, args = cli.init(parser)

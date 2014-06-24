@@ -39,7 +39,7 @@ This currently relies on mesos being installed locally. Make sure that `mesos` i
 Command Completion
 -------------------
 
-There is an included command completion feature. If you'd like to auto-complete things like task ids and remote files, you'll need to enable tab completion.
+Task IDs? File names? Complete all the things! Configure command completion and you'll be able to tab complete most everything.
 
 +++++
 BASH

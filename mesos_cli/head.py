@@ -19,7 +19,7 @@ parser.add_argument(
 parser.add_argument(
     'file', nargs="*", default=["stdout"],
     help="Path to the file inside the task's sandbox."
-)
+).completer = cli.file_completer
 
 parser.add_argument(
     '-n', default=10, type=int,

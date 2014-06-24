@@ -11,7 +11,8 @@ class Config(dict):
 
     DEFAULTS = {
         "master": "localhost:5050",
-        "level": "warning"
+        "log_level": "warning",
+        "log_file": None
     }
 
     def __init__(self):
