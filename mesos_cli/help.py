@@ -8,6 +8,4 @@ Available commands:
 """
 
 def main():
-    cmds = [x.split("-")[-1] for x in cli.cmds()]
-
-    print USAGE.format(cmds="\n\t".join(cmds))
+    print USAGE.format(cmds="\n\t".join(cli.cmds(short=True)))

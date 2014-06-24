@@ -1,10 +1,22 @@
 
+import mesos_cli
+
 with open("README.rst") as f:
   readme = f.read()
 
+requires = [
+    "argcomplete>=0.8.0",
+    "blessings>=1.5.1",
+    "gevent>=1.0.1",
+    "kazoo>=2.0",
+    "prettytable>=0.7.2",
+    "protobuf>=2.5.0",
+    "requests>=2.2.1"
+]
+
 config = {
     'name': 'mesos_cli',
-    'version': '0.0.0',
+    'version': mesos_cli.__version__,
     'description': 'Mesos CLI Tools',
     'long_description': readme,
     'author': 'Thomas Rampelberg',
@@ -19,6 +31,10 @@ config = {
         'console_scripts': [
             'mesos = mesos_cli:main',
 
+            # helpers
+            'mesos-completion = mesos_cli.completion:main',
+
+            # coreutils
             'mesos-cat = mesos_cli.cat:main',
             'mesos-find = mesos_cli.find:main',
             'mesos-head = mesos_cli.head:main',
@@ -31,13 +47,9 @@ config = {
             'mesos-tail = mesos_cli.tail:main'
         ]
     },
-    'install_requires': [
-        "blessings",
-        "gevent",
-        "kazoo",
-        "prettytable",
-        "protobuf",
-        "requests"
+    'install_requires': requires,
+    'scripts': [
+        'bin/mesos-zsh-completion.sh'
     ]
 }
 

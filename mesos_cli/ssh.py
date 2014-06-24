@@ -17,7 +17,7 @@ parser = cli.parser(
 parser.add_argument(
     'task', type=str,
     help="""Name of the task."""
-)
+).completer = cli.task_completer
 
 def main():
     # There's a security bug in Mavericks wrt. urllib2:

@@ -5,6 +5,8 @@ import sys
 from . import cli
 from . import log
 
+__version__ = '0.0.0'
+
 def main():
     if len(sys.argv) == 1:
         cmd = "mesos-help"

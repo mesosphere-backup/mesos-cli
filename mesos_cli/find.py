@@ -15,7 +15,7 @@ parser.add_argument(
     help="""Name of the task.
 
     Note that this can be a partial match."""
-)
+).completer = cli.task_completer
 
 parser.add_argument(
     'path', type=str, nargs="?", default="",

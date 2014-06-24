@@ -1,4 +1,5 @@
 
+import argcomplete
 import os
 import sys
 
@@ -15,7 +16,7 @@ parser = cli.parser(
 parser.add_argument(
     'task',
     help="ID of the task. May match multiple tasks (or all)"
-)
+).completer = cli.task_completer
 
 parser.add_argument(
     'file', type=str, nargs="*", default=["stdout"],

@@ -2,6 +2,8 @@
 import logging
 import sys
 
+debug = logging.debug
+
 def fatal(msg, code=1):
     logging.error(msg)
     sys.exit(code)
