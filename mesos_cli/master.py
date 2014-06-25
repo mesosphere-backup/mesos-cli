@@ -12,6 +12,7 @@ import sys
 import urlparse
 
 from . import config
+from . import log
 from . import slave
 from . import task
 from . import util

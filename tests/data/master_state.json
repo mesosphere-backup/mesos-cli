@@ -1,0 +1,458 @@
+{
+    "lost_tasks": 4,
+    "build_user": "root",
+    "pid": "master@10.141.141.10:5050",
+    "build_time": 1402338541,
+    "finished_tasks": 0,
+    "id": "20140623-174033-177048842-5050-6160",
+    "git_sha": "51e047524cf744ee257870eb479345646c0428ff",
+    "build_date": "2014-06-09 18:29:01",
+    "hostname": "mesos.vm",
+    "version": "0.19.0",
+    "log_dir": "/var/log/mesos",
+    "killed_tasks": 9,
+    "leader": "master@10.141.141.10:5050",
+    "deactivated_slaves": 0,
+    "failed_tasks": 0,
+    "start_time": 1403545233.35094,
+    "git_tag": "0.19.0",
+    "staged_tasks": 13,
+    "completed_frameworks": [],
+    "elected_time": 1403545244.01246,
+    "activated_slaves": 2,
+    "frameworks": [
+        {
+            "tasks": [
+                {
+                    "executor_id": "",
+                    "name": "app-15.41fef02d-fcba-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_RUNNING",
+                    "statuses": [
+                        {
+                            "timestamp": 1403736266.31089,
+                            "state": "TASK_RUNNING"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-15.41fef02d-fcba-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31654-31654]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_RUNNING",
+                    "statuses": [
+                        {
+                            "timestamp": 1403736269.35222,
+                            "state": "TASK_RUNNING"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31705-31705]"
+                    }
+                }
+            ],
+            "name": "marathon-0.6.0-SNAPSHOT",
+            "hostname": "mesos.vm",
+            "checkpoint": false,
+            "offers": [],
+            "failover_timeout": 604800,
+            "completed_tasks": [
+                {
+                    "executor_id": "",
+                    "name": "app-15.2b6891a2-fafd-11e3-a955-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_KILLED",
+                    "statuses": [
+                        {
+                            "timestamp": 1403545102.37249,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403732313.32661,
+                            "state": "TASK_KILLED"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-15.2b6891a2-fafd-11e3-a955-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31768-31768]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-15.d4077961-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_KILLED",
+                    "statuses": [
+                        {
+                            "timestamp": 1403732216.32838,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403732313.44489,
+                            "state": "TASK_KILLED"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-15.d4077961-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31650-31650]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-15.d793d472-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_KILLED",
+                    "statuses": [
+                        {
+                            "timestamp": 1403732221.33185,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403732313.44429,
+                            "state": "TASK_KILLED"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-15.d793d472-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31974-31974]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-15.db275b73-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_KILLED",
+                    "statuses": [
+                        {
+                            "timestamp": 1403732227.3805,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403732313.46733,
+                            "state": "TASK_KILLED"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-15.db275b73-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31651-31651]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-15.e54e8a16-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_KILLED",
+                    "statuses": [
+                        {
+                            "timestamp": 1403732244.43668,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403732313.50248,
+                            "state": "TASK_KILLED"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-15.e54e8a16-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31995-31995]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-15.debbf3e4-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_KILLED",
+                    "statuses": [
+                        {
+                            "timestamp": 1403732233.40399,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403732313.50099,
+                            "state": "TASK_KILLED"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-15.debbf3e4-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31637-31637]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-15.e2526115-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_KILLED",
+                    "statuses": [
+                        {
+                            "timestamp": 1403732239.42299,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403732313.49919,
+                            "state": "TASK_KILLED"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-15.e2526115-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31939-31939]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-15.ec771eb8-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_KILLED",
+                    "statuses": [
+                        {
+                            "timestamp": 1403732256.48262,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403732313.56178,
+                            "state": "TASK_KILLED"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-15.ec771eb8-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31943-31943]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-15.ef7a9ab9-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_KILLED",
+                    "statuses": [
+                        {
+                            "timestamp": 1403732261.48864,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403732313.55922,
+                            "state": "TASK_KILLED"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-15.ef7a9ab9-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31647-31647]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-15.e8e2fb77-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_LOST",
+                    "statuses": [
+                        {
+                            "timestamp": 1403732250.45604,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403736220.1014,
+                            "state": "TASK_LOST"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-15.e8e2fb77-fcb0-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31646-31646]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-215.2e6508c3-fafd-11e3-a955-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_LOST",
+                    "statuses": [
+                        {
+                            "timestamp": 1403545125.42471,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403736220.10378,
+                            "state": "TASK_LOST"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-215.2e6508c3-fafd-11e3-a955-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31964-31964]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-215.2a1d811b-fcba-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_LOST",
+                    "statuses": [
+                        {
+                            "timestamp": 1403736238.28576,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403736245.2927,
+                            "state": "TASK_LOST"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-215.2a1d811b-fcba-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31175-31175]"
+                    }
+                },
+                {
+                    "executor_id": "",
+                    "name": "app-15.27217f2a-fcba-11e3-8b67-b6f6cc110ef2",
+                    "framework_id": "20140612-230025-16842879-5050-1151-0000",
+                    "state": "TASK_LOST",
+                    "statuses": [
+                        {
+                            "timestamp": 1403736221.23526,
+                            "state": "TASK_RUNNING"
+                        },
+                        {
+                            "timestamp": 1403736245.29414,
+                            "state": "TASK_LOST"
+                        }
+                    ],
+                    "slave_id": "20140619-151434-16842879-5050-1196-0",
+                    "id": "app-15.27217f2a-fcba-11e3-8b67-b6f6cc110ef2",
+                    "resources": {
+                        "mem": 16,
+                        "disk": 0,
+                        "cpus": 0.1,
+                        "ports": "[31714-31714]"
+                    }
+                }
+            ],
+            "role": "*",
+            "user": "root",
+            "active": true,
+            "unregistered_time": 0,
+            "registered_time": 1403545244.06318,
+            "reregistered_time": 1403732199.84529,
+            "id": "20140612-230025-16842879-5050-1151-0000",
+            "resources": {
+                "mem": 32,
+                "disk": 0,
+                "cpus": 0.2
+            }
+        }
+    ],
+    "flags": {
+        "help": "false",
+        "zk": "zk://localhost:2181/mesos",
+        "whitelist": "*",
+        "recovery_slave_removal_limit": "100%",
+        "port": "5050",
+        "logbufsecs": "0",
+        "authenticate": "false",
+        "work_dir": "/var/lib/mesos",
+        "slave_reregister_timeout": "10mins",
+        "authenticate_slaves": "false",
+        "framework_sorter": "drf",
+        "version": "false",
+        "log_dir": "/var/log/mesos",
+        "logging_level": "INFO",
+        "log_auto_initialize": "true",
+        "registry_strict": "false",
+        "registry_fetch_timeout": "1mins",
+        "root_submissions": "true",
+        "webui_dir": "/usr/local/share/mesos/webui",
+        "registry": "replicated_log",
+        "allocation_interval": "1secs",
+        "zk_session_timeout": "10secs",
+        "quorum": "1",
+        "user_sorter": "drf",
+        "quiet": "false",
+        "registry_store_timeout": "5secs"
+    },
+    "started_tasks": 0,
+    "slaves": [
+        {
+            "hostname": "10.141.141.10",
+            "pid": "slave(1)@10.141.141.10:5052",
+            "attributes": {},
+            "registered_time": 1403736321.15912,
+            "id": "20140623-174033-177048842-5050-6160-0",
+            "resources": {
+                "mem": 1000,
+                "disk": 34068,
+                "cpus": 2,
+                "ports": "[31000-32000]"
+            }
+        },
+        {
+            "hostname": "10.141.141.10",
+            "pid": "slave(1)@10.141.141.10:5051",
+            "attributes": {},
+            "registered_time": 1403545244.90016,
+            "reregistered_time": 1403736259.18602,
+            "id": "20140619-151434-16842879-5050-1196-0",
+            "resources": {
+                "mem": 1000,
+                "disk": 34068,
+                "cpus": 2,
+                "ports": "[31000-32000]"
+            }
+        }
+    ]
+}

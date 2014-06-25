@@ -2,11 +2,6 @@ import os
 import json
 import errno
 
-DEFAULT_CONFIG = os.environ.get(
-    'MESOS_CLI_CONFIG_DIR',
-    os.path.expanduser('~/.mesos_cli.json')
-)
-
 class Config(dict):
 
     DEFAULTS = {
@@ -20,7 +15,9 @@ class Config(dict):
         self.load()
 
     def _get_path(self):
-        return DEFAULT_CONFIG
+        return os.environ.get(
+            'MESOS_CLI_CONFIG',
+            os.path.expanduser('~/.mesos_cli.json'))
 
     def __getattr__(self, item):
         return self[item]

@@ -1,0 +1,146 @@
+{
+  "attributes": {},
+  "started_tasks": 0,
+  "flags": {
+    "recovery_timeout": "15mins",
+    "cgroups_root": "mesos",
+    "quiet": "false",
+    "isolation": "posix/cpu,posix/mem",
+    "default_role": "*",
+    "executor_shutdown_grace_period": "5secs",
+    "gc_delay": "1weeks",
+    "frameworks_home": "",
+    "resource_monitoring_interval": "1secs",
+    "logging_level": "INFO",
+    "hadoop_home": "",
+    "log_dir": "/var/log/mesos",
+    "master": "zk://localhost:2181/mesos",
+    "cgroups_hierarchy": "/sys/fs/cgroup",
+    "help": "false",
+    "port": "5051",
+    "executor_registration_timeout": "1mins",
+    "recover": "reconnect",
+    "launcher_dir": "/usr/local/libexec/mesos",
+    "cgroups_enable_cfs": "false",
+    "logbufsecs": "0",
+    "work_dir": "/tmp/mesos",
+    "switch_user": "true",
+    "disk_watch_interval": "1mins",
+    "hostname": "10.141.141.10",
+    "registration_backoff_factor": "1secs",
+    "checkpoint": "true",
+    "strict": "true",
+    "version": "false"
+  },
+  "frameworks": [
+    {
+      "id": "20140612-230025-16842879-5050-1151-0000",
+      "name": "marathon-0.6.0-SNAPSHOT",
+      "executors": [
+        {
+          "resources": {
+            "ports": "[31654-31654]",
+            "cpus": 0.1,
+            "disk": 0,
+            "mem": 16
+          },
+          "tasks": [
+            {
+              "resources": {
+                "ports": "[31654-31654]",
+                "cpus": 0.1,
+                "disk": 0,
+                "mem": 16
+              },
+              "id": "app-15.41fef02d-fcba-11e3-8b67-b6f6cc110ef2",
+              "slave_id": "20140619-151434-16842879-5050-1196-0",
+              "statuses": [
+                {
+                  "state": "TASK_RUNNING",
+                  "timestamp": 1403736266.31089
+                }
+              ],
+              "state": "TASK_RUNNING",
+              "framework_id": "20140612-230025-16842879-5050-1151-0000",
+              "name": "app-15.41fef02d-fcba-11e3-8b67-b6f6cc110ef2",
+              "executor_id": ""
+            }
+          ],
+          "container": "6de5ce8a-62c2-473a-9523-ee0fad1f0d5c",
+          "name": "Command Executor (Task: app-15.41fef02d-fcba-11e3-8b67-b6f6cc110ef2) (Command: sh -c 'while true; ...')",
+          "source": "app-15.41fef02d-fcba-11e3-8b67-b6f6cc110ef2",
+          "queued_tasks": [],
+          "completed_tasks": [],
+          "directory": "/tmp/mesos/slaves/20140619-151434-16842879-5050-1196-0/frameworks/20140612-230025-16842879-5050-1151-0000/executors/app-15.41fef02d-fcba-11e3-8b67-b6f6cc110ef2/runs/6de5ce8a-62c2-473a-9523-ee0fad1f0d5c",
+          "id": "app-15.41fef02d-fcba-11e3-8b67-b6f6cc110ef2"
+        },
+        {
+          "resources": {
+            "ports": "[31705-31705]",
+            "cpus": 0.1,
+            "disk": 0,
+            "mem": 16
+          },
+          "tasks": [
+            {
+              "resources": {
+                "ports": "[31705-31705]",
+                "cpus": 0.1,
+                "disk": 0,
+                "mem": 16
+              },
+              "id": "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2",
+              "slave_id": "20140619-151434-16842879-5050-1196-0",
+              "statuses": [
+                {
+                  "state": "TASK_RUNNING",
+                  "timestamp": 1403736269.35222
+                }
+              ],
+              "state": "TASK_RUNNING",
+              "framework_id": "20140612-230025-16842879-5050-1151-0000",
+              "name": "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2",
+              "executor_id": ""
+            }
+          ],
+          "container": "3db4a3e8-52c7-4b3f-8a30-f9cb0dc3d6ba",
+          "name": "Command Executor (Task: app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2) (Command: sh -c 'while true; ...')",
+          "source": "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2",
+          "queued_tasks": [],
+          "completed_tasks": [],
+          "directory": "/tmp/mesos/slaves/20140619-151434-16842879-5050-1196-0/frameworks/20140612-230025-16842879-5050-1151-0000/executors/app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2/runs/3db4a3e8-52c7-4b3f-8a30-f9cb0dc3d6ba",
+          "id": "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2"
+        }
+      ],
+      "hostname": "mesos.vm",
+      "checkpoint": false,
+      "failover_timeout": 604800,
+      "completed_executors": [],
+      "role": "*",
+      "user": "root"
+    }
+  ],
+  "completed_frameworks": [],
+  "staged_tasks": 4,
+  "git_tag": "0.19.0",
+  "build_date": "2014-06-09 18:29:01",
+  "git_sha": "51e047524cf744ee257870eb479345646c0428ff",
+  "id": "20140619-151434-16842879-5050-1196-0",
+  "finished_tasks": 0,
+  "build_time": 1402338541,
+  "pid": "slave(1)@10.141.141.10:5051",
+  "build_user": "root",
+  "lost_tasks": 0,
+  "hostname": "10.141.141.10",
+  "version": "0.19.0",
+  "log_dir": "/var/log/mesos",
+  "killed_tasks": 0,
+  "master_hostname": "mesos.vm",
+  "resources": {
+    "cpus": 0,
+    "disk": 0,
+    "mem": 0
+  },
+  "failed_tasks": 0,
+  "start_time": 1403736258.8475
+}

@@ -1,0 +1,5 @@
+{
+	"master": "zk://localhost:2181/mesos",
+	"log_level": "debug",
+	"log_file": "/tmp/mesos-cli.log"
+}
