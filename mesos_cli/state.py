@@ -1,4 +1,5 @@
 
+import argcomplete
 import json
 
 from . import cli
@@ -11,7 +12,7 @@ parser = cli.parser(
 parser.add_argument(
     "slave", nargs="?",
     help="ID of the slave. May match multiple slaves (or all)"
-)
+).completer = cli.slave_completer
 
 def main():
     cfg, args = cli.init(parser)

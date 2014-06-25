@@ -52,6 +52,9 @@ def cmds(short=False):
 def task_completer(prefix, parsed_args, **kwargs):
     return [x.id for x in master.tasks(prefix)]
 
+def slave_completer(prefix, parsed_args, **kwargs):
+    return [s.id for s in master.slaves(prefix)]
+
 def file_completer(prefix, parsed_args, **kwargs):
     files = set([])
     split = prefix.rsplit("/", 1)
