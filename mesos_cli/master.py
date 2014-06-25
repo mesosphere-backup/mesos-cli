@@ -35,7 +35,7 @@ class MesosMaster(object):
         hosts, path = cfg[5:].split("/", 1)
         path = "/" + path
 
-        with zookeeper.Client(hosts=hosts, read_only=True) as zk:
+        with zookeeper.client(hosts=hosts, read_only=True) as zk:
             try:
                 leader = sorted(
                     [[int(x.split("_")[-1]), x]
