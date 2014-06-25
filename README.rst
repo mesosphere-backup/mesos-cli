@@ -78,10 +78,12 @@ If you're using a non-local master, you'll need to configure where the master sh
 .. code-block:: json
 
     {
-        "master": "zk://localhost:2181/mesos"
+        "master": "zk://localhost:2181/mesos",
+        "log_level": "warning",
+        "log_file": "/tmp/mesos-cli.log"
     }
 
-Note that this accepts all values that mesos normally does, eg:
+Note that master accepts all values that mesos normally does, eg:
 
 .. code-block:: bash
 
@@ -93,7 +95,7 @@ Note that this accepts all values that mesos normally does, eg:
 Commands
 ========
 
-All commands have their own options and parameters. Make sure you run `mesos command --help` to get the potential options.
+All commands have their own options and parameters. Make sure you run `mesos [command] --help` to get the potential options.
 
 Most commands take a `task-id` as parameter. This does not need to be an exact match and for commands where it makes sense, can match multiple tasks. Supposed your cluster is running the following tasks:
 
@@ -110,6 +112,62 @@ Most commands take a `task-id` as parameter. This does not need to be an exact m
 - A task-id of 1231234 will only match the rails task.
 
 ---
+cat
+---
+
+.. code-block:: bash
+
+    mesos cat task-id file [file]
+
+----
+find
+----
+
+.. code-block:: bash
+
+    mesos find task-id [path]
+
+When multiple tasks match task-id, headers will be printed between their results.
+
+----
+head
+----
+
+.. code-block:: bash
+
+    mesos head -n 10 task-id file [file]
+
+--
+ls
+--
+
+.. code-block:: bash
+
+    mesos ls task-id [path]
+
+The default view is `ls -la`. When multiple tasks match task-id, headers will be printed between their results.
+
+--
+ps
+--
+
+.. code-block:: bash
+
+    mesos ps
+
+Output time, memory, cpu, command, user and slave/task_id information for currently running tasks.
+
+---
+scp
+---
+
+.. code-block:: bash
+
+    mesos scp file [file ...] remote_path
+
+Upload local file(s) to the remote_path on every slave. Note that you will need to have SSH access to every slave you'd like to upload to.
+
+---
 ssh
 ---
 
@@ -118,42 +176,6 @@ ssh
     mesos ssh task-id
 
 This will SSH into the sandbox of the specified task on the slave that it is running on. Note that you need to have SSH access to this slave/sandbox.
-
---
-ls
---
-
-.. code-block:: ls
-
-    mesos ls task-id [path]
-
-The default view is `ls -la`. When multiple tasks match task-id, headers will be printed between their results.
-
-----
-find
-----
-
-.. code-block:: find
-
-    mesos find task-id [path]
-
-When multiple tasks match task-id, headers will be printed between their results.
-
----
-cat
----
-
-.. code-block:: cat
-
-    mesos cat task-id file [file]
-
-----
-head
-----
-
-.. code-block:: head
-
-    mesos head -n 10 task-id file [file]
 
 ----
 tail
@@ -164,3 +186,38 @@ tail
     mesos tail -n 10 task-id file [file]
 
 This also implements follow. Unlike normal tail, it will look for tasks/files being created on your mesos cluster and begin to follow those files as they are written to. You can start tail in --follow mode and then launch your tasks to watch everything has it happens.
+
+===============
+Adding Commands
+===============
+
+Commands are all separate scripts. The `mesos` script inspects your path and looks for everything that starts with `mesos-`. To add a new command, just name the script `mesos-new-name` and you'll have a new command. This makes it possible to write new sub-commands in whatever language you'd like.
+
+There are some functions that are nice to have when you're doing a new command. While all of them are available in python via. this package, a subset is available via. existing commands. This allows you to focus on the new functionality you'd like in your command (in the language you're comfortable with).
+
+-------
+resolve
+-------
+
+.. code-block:: bash
+
+    mesos resolve [master-config]
+
+Take either the existing configured master or the one passed on the command line and discover where the leading master is. You'll be able to use the following format:
+
+.. code-block:: bash
+
+    localhost:5050
+    zk://localhost:2181/mesos
+    file:///path/to/config/above
+
+-----
+state
+-----
+
+.. code-block:: bash
+
+    mesos state [slave-id]
+
+Return the full JSON state of either the master or slave (partial matches are valid).
+

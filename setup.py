@@ -35,6 +35,7 @@ config = {
             'mesos-completion = mesos_cli.completion:main',
             'mesos-config = mesos_cli.config:main',
             'mesos-resolve = mesos_cli.resolve:main',
+            'mesos-state = mesos_cli.state:main',
 
             # coreutils
             'mesos-cat = mesos_cli.cat:main',
