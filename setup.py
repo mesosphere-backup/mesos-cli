@@ -33,6 +33,8 @@ config = {
 
             # helpers
             'mesos-completion = mesos_cli.completion:main',
+            'mesos-config = mesos_cli.config:main',
+            'mesos-resolve = mesos_cli.resolve:main',
 
             # coreutils
             'mesos-cat = mesos_cli.cat:main',
@@ -41,7 +43,6 @@ config = {
             'mesos-help = mesos_cli.help:main',
             'mesos-ls = mesos_cli.ls:main',
             'mesos-ps = mesos_cli.ps:main',
-            'mesos-resolve = mesos_cli.resolve:main',
             'mesos-scp = mesos_cli.scp:main',
             'mesos-ssh = mesos_cli.ssh:main',
             'mesos-tail = mesos_cli.tail:main'

@@ -39,3 +39,6 @@ class Config(dict):
         except IOError as e:
             if e.errno != errno.ENOENT:
                 raise
+
+def main():
+    print json.dumps(Config(), indent=4)
