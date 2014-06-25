@@ -4,6 +4,7 @@ import blessings
 import logging
 import os
 
+import mesos_cli
 from . import config
 from .master import current as master
 from . import log
@@ -20,10 +21,16 @@ def init(parser=None):
     return (cfg, args)
 
 def parser(**kwargs):
-    return argparse.ArgumentParser(
+    p = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         **kwargs
     )
+
+    p.add_argument(
+        "-v", "--version",
+        action="version", version="%(prog)s {}".format(mesos_cli.__version__)
+    )
+    return p
 
 def header(name):
     term = blessings.Terminal()
