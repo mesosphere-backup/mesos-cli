@@ -29,7 +29,7 @@ config = {
     ],
     'entry_points': {
         'console_scripts': [
-            'mesos = mesos_cli:main',
+            'mesos = mesos_cli.main:main',
 
             # helpers
             'mesos-completion = mesos_cli.completion:main',
@@ -49,7 +49,15 @@ config = {
             'mesos-tail = mesos_cli.tail:main'
         ]
     },
+    'setup_requires': [
+        "nose>=1.3.3",
+        "tox>=1.7.1"
+    ],
     'install_requires': requires,
+    'tests_require': [
+        'coverage'
+    ],
+    'test_suite': 'nose.collector',
     'scripts': [
         'bin/mesos-zsh-completion.sh'
     ]
