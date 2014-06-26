@@ -17,7 +17,7 @@ class TestCat(utils.MockState):
     def test_single_default(self):
         mesos_cli.cat.main()
 
-        assert len(self.stdout.split("\n")) == 5
+        assert len(self.lines) == 5
 
     @utils.patch_args([
         "mesos-cat",
@@ -27,7 +27,7 @@ class TestCat(utils.MockState):
     def test_single_specific(self):
         mesos_cli.cat.main()
 
-        assert len(self.stdout.split("\n")) == 8
+        assert len(self.lines) == 8
 
     @utils.patch_args([
         "mesos-cat",
@@ -46,7 +46,7 @@ class TestCat(utils.MockState):
     def test_multiple(self):
         mesos_cli.cat.main()
 
-        assert len(self.stdout.split("\n")) == 9
+        assert len(self.lines) == 9
 
     @utils.patch_args([
         "mesos-cat",

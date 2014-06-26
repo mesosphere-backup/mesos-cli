@@ -48,6 +48,10 @@ class MesosSlave(object):
         raise exceptions.MissingExecutor("No executor has a task by that id")
 
     def file_list(self, path):
+        # The sandbox does not exist on the slave.
+        if path == "":
+            return []
+
         resp = self.fetch("/files/browse.json", params={ "path": path })
         if resp.status_code == 404:
             return []

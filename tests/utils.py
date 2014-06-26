@@ -6,6 +6,7 @@ import os
 import sys
 import unittest
 
+import mesos_cli
 import mesos_cli.exceptions
 
 def get_state(name, parse=True):
@@ -21,6 +22,8 @@ def get_state(name, parse=True):
 def sandbox_file(path):
     fpath = os.path.normpath(os.path.join(
         os.path.dirname(__file__), "data", "sandbox", os.path.basename(path)))
+    if not os.path.exists(fpath):
+        raise mesos_cli.exceptions.FileDNE("")
     return open(fpath, "rb")
 
 # Emulate the byte fetch interface and replace with reading local files
@@ -43,6 +46,12 @@ def sandbox_read(self):
             "offset": self._params["offset"]
         }
 
+browse_state = None
+def file_list(self, path):
+    if not globals()["browse_state"]:
+        globals()["browse_state"] = get_state("browse.json")
+    return globals()["browse_state"].get(path, [])
+
 patch_args = functools.partial(mock.patch, "sys.argv")
 
 class MockState(unittest.TestCase):
@@ -63,3 +72,7 @@ class MockState(unittest.TestCase):
     @property
     def stdout(self):
         return sys.stdout.getvalue()
+
+    @property
+    def lines(self):
+        return self.stdout.split("\n")

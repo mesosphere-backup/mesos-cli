@@ -17,10 +17,6 @@ def generate_env(line):
     env.update(os.environ)
     return env
 
-@httmock.urlmatch(path="/files/browse.json.*")
-def browse_mock(url, req):
-    return utils.get_state("browse_twisted.json", parse=False)
-
 # There are some side effects in completion. To test completers, make sure you
 # use different commands. Otherwise, you'll get what appears to be random
 # failures.
@@ -47,7 +43,7 @@ class TestCompletion(utils.MockState):
         assert len(self.stdout.split("\n")) == 2
 
     @mock.patch("os.environ", generate_env("mesos ls app-215 Twisted-14.0.0/"))
-    @httmock.with_httmock(browse_mock)
+    @mock.patch("mesos_cli.slave.MesosSlave.file_list", utils.file_list)
     def test_file(self):
         self.assertRaises(SystemExit, mesos_cli.completion.main)
 

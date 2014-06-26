@@ -35,13 +35,13 @@ def main():
         base = os.path.join(t.directory, args.path)
         flist = t.file_list(args.path)
 
-        def walk_dir(flist, pth):
+        def walk_dir(flist):
             for f in flist:
                 print os.path.relpath(f["path"], base)
                 if f["mode"][0].startswith("d"):
-                    walk_dir(t.file_list(f["path"]), f["path"])
+                    walk_dir(t.file_list(f["path"]))
 
+        if len(tlist) > 1 and not args.q:
+            cli.header(t)
         if len(flist) > 0:
-            if len(tlist) > 0 and not args.q:
-                cli.header(t)
-            walk_dir(flist, args.path)
+            walk_dir(flist)
