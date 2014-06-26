@@ -14,11 +14,9 @@ class TestState(utils.MockMaster):
     def setUp(self):
         super(utils.MockMaster, self).setUp()
 
-        slave = mock.patch(
+        self.mock(
             "mesos_cli.slave.MesosSlave.state",
             utils.get_state("slave-20140619-151434-16842879-5050-1196-0.json"))
-        slave.start()
-        self.addCleanup(slave.stop)
 
     @mock.patch("sys.argv", [ "mesos-state" ])
     def test_master(self):

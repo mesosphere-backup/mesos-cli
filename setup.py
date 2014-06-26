@@ -56,7 +56,8 @@ config = {
     'install_requires': requires,
     'tests_require': [
         'coverage>=3.7.1',
-        'mock>=1.0.1'
+        'mock>=1.0.1',
+        'zake>=0.0.20'
     ],
     'test_suite': 'nose.collector',
     'scripts': [

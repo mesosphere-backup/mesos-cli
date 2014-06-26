@@ -41,12 +41,14 @@ class MesosMaster(object):
                 leader = sorted(
                     [[int(x.split("_")[-1]), x]
                         for x in zk.get_children(path) if re.search("\d+", x)],
-                    key=lambda x: x[0])[0][1]
-                data, stat = zk.get(os.path.join(path, leader))
+                    key=lambda x: x[0])
+
+                if len(leader) == 0:
+                    log.fatal("cannot find any masters at {}".format(cfg,))
+                data, stat = zk.get(os.path.join(path, leader[0][1]))
             except kazoo.exceptions.NoNodeError:
-                logging.error(
-                    "%s does not have a valid path. Did you forget /mesos?" % (cfg,))
-                sys.exit(1)
+                log.fatal(
+                    "{} does not have a valid path. Did you forget /mesos?".format(cfg))
 
             info = mesos_pb2.MasterInfo()
             info.ParseFromString(data)
