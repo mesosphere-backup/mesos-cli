@@ -135,6 +135,7 @@ class SlaveFile(object):
                 yield l
 
             buf = blob_lines[0]
+        yield buf
 
     def readlines(self, size=None):
         return list(self._readlines(size))
