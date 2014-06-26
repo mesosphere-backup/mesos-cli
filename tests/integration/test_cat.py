@@ -43,10 +43,21 @@ class TestCat(utils.MockState):
         "mesos-cat",
         "app"
     ])
-    def test_multiple(self):
+    def test_multiple_tasks(self):
         mesos_cli.cat.main()
 
         assert len(self.lines) == 9
+
+    @utils.patch_args([
+        "mesos-cat",
+        "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2",
+        "stdout",
+        "stderr"
+    ])
+    def test_multiple_files(self):
+        mesos_cli.cat.main()
+
+        assert len(self.lines) == 12
 
     @utils.patch_args([
         "mesos-cat",
