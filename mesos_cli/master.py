@@ -20,6 +20,10 @@ from . import zookeeper
 
 ZOOKEEPER_TIMEOUT = 1
 
+MISSING_MASTER = """unable to connect to a master at {}.
+
+Try configuring a master in `~/.mesos_cli.json`. See the README for examples."""
+
 class MesosMaster(object):
 
     def __init__(self, cfg):
@@ -77,8 +81,7 @@ class MesosMaster(object):
             return requests.get(urlparse.urljoin(
                 self.host, "/master/state.json")).json()
         except requests.exceptions.ConnectionError:
-            logging.error("Unable to connect to the master at %s." % (self.host,))
-            sys.exit(1)
+            log.fatal(MISSING_MASTER.format(self.host))
 
     @util.memoize
     def slave(self, fltr):
@@ -103,14 +106,12 @@ class MesosMaster(object):
         lst = self.tasks(fltr)
 
         if len(lst) == 0:
-            print "Cannot find a task by that name."
-            sys.exit(1)
+            log.fatal("Cannot find a task by that name.")
 
         elif len(lst) > 1:
-            print "There are multiple tasks with that id. Please choose one: "
-            for t in lst:
-                print "\t{}".format(t.id)
-            sys.exit(1)
+            msg = ["There are multiple tasks with that id. Please choose one:"]
+            msg += ["\t{}".format(t.id) for t in lst]
+            log.fatal("\n".join(msg))
 
         return lst[0]
 
