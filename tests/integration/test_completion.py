@@ -47,3 +47,4 @@ class TestCompletion(utils.MockState):
 
         assert "twisted/" in self.stdout
         assert "NEWS" in self.stdout
+        assert False
