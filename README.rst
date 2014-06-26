@@ -16,24 +16,25 @@ While mesos allows you to treat all the nodes in your data center as anonymous r
 How is the problem solved?
 --------------------------
 
-To solve the problem, some of the coreutil commands have been re-implemented to work on the scale of a data center instead of a single host.
+To solve the problem, some of the coreutil commands have been re-implemented to work across the entire data center instead of a single host.
 
 - commands and options have been copied as closely as it makes sense. They should have the same options that you're used to.
 - pipe works the way you'd expect it to. You should be able to replace most host specific debug scripts easily.
 - mesos itself isn't required locally. Developers want to debug their tasks without having a local copy of mesos installed.
 - everything is task centric. There's no need to worry about specifying a framework if you don't want to, just put in the task id.
-- complete/match everything. Task IDs are long and normally require cut/paste to get exact matches. Instead, all `task` parameters are partial matches, no need to type that long thing in. Also, most parameters tab-complete (see the section on auto-completion to configure), just type a couple characters in and get what you're looking for.
+- lazy matching. Task IDs are long and normally require cut/paste to get exact matches. Instead, all `task` parameters are partial matches, no need to type that long thing in.
+- auto-complete. Most parameters tab-complete (see the section on auto-completion to configure), just type a couple characters in and get what you're looking for.
 - extensibility. Write your own subcommands. Most of the required information can be accessed via. existing subcommands (leading master resolution via. mesos-resolve), so you only need to implement what you want and not re-invent the wheel.
 
 ------------
 Installation
 ------------
 
-This currently relies on mesos being installed locally. Make sure that `mesos` is on your path.
-
 .. code-block:: bash
 
     sudo pip install git+ssh://github.com:mesosphere/mesos-cli.git@master
+
+Note that if you've already installed `mesos` locally, you can either install this to a location other than `/usr/local/bin` via. pip options or remove `/usr/local/bin/mesos`. There should be no downsides to just removing it.
 
 -------------------
 Command Completion
@@ -194,6 +195,16 @@ Adding Commands
 Commands are all separate scripts. The `mesos` script inspects your path and looks for everything that starts with `mesos-`. To add a new command, just name the script `mesos-new-name` and you'll have a new command. This makes it possible to write new sub-commands in whatever language you'd like.
 
 There are some functions that are nice to have when you're doing a new command. While all of them are available in python via. this package, a subset is available via. existing commands. This allows you to focus on the new functionality you'd like in your command (in the language you're comfortable with).
+
+------
+config
+------
+
+..code-block:: bash
+
+    mesos config
+
+Output a json object containing all the mesos-cli config.
 
 -------
 resolve
