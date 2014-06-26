@@ -28,10 +28,16 @@ def main():
     cfg, args = cli.init(parser)
 
     t = master.task(args.task)
+
     cmd = [
         "ssh",
         "-t",
         t.slave.hostname,
         "cd {} && bash".format(t.directory)
     ]
+    if t.directory == "":
+        print "warning: the task no longer exists on the target slave. " + \
+            "Will not enter sandbox"
+        cmd = cmd[:-1]
+
     log.fn(os.execvp, "ssh", cmd)
