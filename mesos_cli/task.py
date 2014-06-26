@@ -57,31 +57,37 @@ class Task(dict):
 
     @property
     def stats(self):
-        return self.slave.task_stats(self.id)
+        try:
+            return self.slave.task_stats(self.id)
+        except exceptions.MissingExecutor:
+            return {}
 
     @property
     def cpu_time(self):
         st = self.stats
-        secs = st["cpus_user_time_secs"] + \
-            st["cpus_system_time_secs"]
+        secs = st.get("cpus_user_time_secs", 0) + \
+            st.get("cpus_system_time_secs", 0)
         # timedelta has a resolution of .000000 while mesos only keeps .00
         return str(datetime.timedelta(seconds=secs))[:-4]
 
     @property
     def cpu_limit(self):
-        return self.stats["cpus_limit"]
+        return self.stats.get("cpus_limit", 0)
 
     @property
     def mem_limit(self):
-        return self.stats["mem_limit_bytes"]
+        return self.stats.get("mem_limit_bytes", 0)
 
     @property
     def rss(self):
-        return self.stats["mem_rss_bytes"]
+        return self.stats.get("mem_rss_bytes", 0)
 
     @property
     def command(self):
-        result = self.cmd_re.search(self.executor["name"])
+        try:
+            result = self.cmd_re.search(self.executor["name"])
+        except exceptions.MissingExecutor:
+            result = None
         if not result:
             return "none"
         return result.group(1)

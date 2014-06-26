@@ -62,6 +62,7 @@ class MesosSlave(object):
 
     @util.cached_property(ttl=1)
     def stats(self):
+        open("/tmp/slave_statistics.json", "wb").write(self.fetch("/monitor/statistics.json").text)
         return self.fetch("/monitor/statistics.json").json()
 
     def executor_stats(self, _id):

@@ -52,6 +52,8 @@ def file_list(self, path):
         globals()["browse_state"] = get_state("browse.json")
     return globals()["browse_state"].get(path, [])
 
+slave_stats = mock.PropertyMock(return_value=get_state("slave_statistics.json"))
+
 patch_args = functools.partial(mock.patch, "sys.argv")
 
 class MockState(unittest.TestCase):
