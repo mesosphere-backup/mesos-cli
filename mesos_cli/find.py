@@ -31,9 +31,13 @@ def main():
     cfg, args = cli.init(parser)
 
     tlist = master.tasks(args.task)
+    path = args.path
+    if path.endswith("/"):
+        path = path[:-1]
+
     for t in tlist:
-        base = os.path.join(t.directory, args.path)
-        flist = t.file_list(args.path)
+        base = os.path.join(t.directory, path)
+        flist = t.file_list(path)
 
         def walk_dir(flist):
             for f in flist:

@@ -40,8 +40,11 @@ def main():
 
     tlist = master.tasks(args.task)
     for t in tlist:
-        if len(tlist) > 0 and not args.q:
+        if len(tlist) > 1 and not args.q:
             cli.header(t)
 
-        for f in t.file_list(args.path):
+        p = args.path
+        if p.endswith("/"):
+            p = p[:-1]
+        for f in t.file_list(p):
             print format_line(f, os.path.join(t.directory, args.path))

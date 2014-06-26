@@ -36,11 +36,15 @@ class TestCompletion(utils.MockState):
         assert "app-15" in self.stdout
         assert "app-215" in self.stdout
 
+        reload(mesos_cli.cat)
+
     @mock.patch("os.environ", generate_env("mesos state 2"))
     def test_slave(self):
         self.assertRaises(SystemExit, mesos_cli.completion.main)
 
         assert len(self.stdout.split("\n")) == 2
+
+        reload(mesos_cli.state)
 
     @mock.patch("os.environ", generate_env("mesos ls app-215 Twisted-14.0.0/"))
     @mock.patch("mesos_cli.slave.MesosSlave.file_list", utils.file_list)
@@ -49,3 +53,5 @@ class TestCompletion(utils.MockState):
 
         assert "twisted/" in self.stdout
         assert "NEWS" in self.stdout
+
+        reload(mesos_cli.ls)
