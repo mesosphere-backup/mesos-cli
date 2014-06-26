@@ -28,5 +28,7 @@ def main():
 
     for t in master.tasks(args.task):
         for f in args.file:
-            for l in t.file(f):
-                print l
+            fobj = t.file(f)
+            if fobj.exists():
+                for l in fobj:
+                    print l

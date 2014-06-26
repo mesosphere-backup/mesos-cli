@@ -1,0 +1,7 @@
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+I0625 22:44:19.287855 29509 fetcher.cpp:73] Fetching URI 'http://twistedmatrix.com/Releases/Twisted/14.0/Twisted-14.0.0.tar.bz2'
+I0625 22:44:19.288079 29509 fetcher.cpp:123] Downloading 'http://twistedmatrix.com/Releases/Twisted/14.0/Twisted-14.0.0.tar.bz2' to '/tmp/mesos/slaves/20140619-151434-16842879-5050-1196-0/frameworks/20140612-230025-16842879-5050-1151-0000/executors/app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2/runs/3db4a3e8-52c7-4b3f-8a30-f9cb0dc3d6ba/Twisted-14.0.0.tar.bz2'
+I0625 22:44:29.127799 29509 fetcher.cpp:61] Extracted resource '/tmp/mesos/slaves/20140619-151434-16842879-5050-1196-0/frameworks/20140612-230025-16842879-5050-1151-0000/executors/app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2/runs/3db4a3e8-52c7-4b3f-8a30-f9cb0dc3d6ba/Twisted-14.0.0.tar.bz2' into '/tmp/mesos/slaves/20140619-151434-16842879-5050-1196-0/frameworks/20140612-230025-16842879-5050-1151-0000/executors/app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2/runs/3db4a3e8-52c7-4b3f-8a30-f9cb0dc3d6ba'
+WARNING: Logging before InitGoogleLogging() is written to STDERR
+I0625 22:44:29.337065 29542 exec.cpp:131] Version: 0.19.0
+I0625 22:44:29.344285 29551 exec.cpp:205] Executor registered on slave 20140619-151434-16842879-5050-1196-0

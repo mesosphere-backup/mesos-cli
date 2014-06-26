@@ -17,4 +17,4 @@ class TestConfig(utils.MockState):
     def test_output(self):
         mesos_cli.config.main()
 
-        assert "master" in json.loads(sys.stdout.getvalue())
+        assert "master" in json.loads(self.stdout)

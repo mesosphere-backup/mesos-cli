@@ -1,0 +1,4 @@
+Registered executor on 10.141.141.10
+Starting task app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2
+sh -c 'while true; do sleep 10; done'
+Forked command at 29554

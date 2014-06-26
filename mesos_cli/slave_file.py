@@ -2,13 +2,11 @@
 import itertools
 import os
 
+from . import exceptions
 from . import slave
 from . import util
 
 CHUNK = 1024
-
-class FileDNE(Exception):
-    pass
 
 class SlaveFile(object):
 
@@ -40,7 +38,7 @@ class SlaveFile(object):
     def _fetch(self):
         resp = self.slave.fetch("/files/read.json", params=self._params)
         if resp.status_code == 404:
-            raise FileDNE("No such file or directory.")
+            raise exceptions.FileDNE("No such file or directory.")
         return resp.json()
 
     def name(self):
@@ -50,7 +48,7 @@ class SlaveFile(object):
         try:
             self._fetch()
             return True
-        except FileDNE:
+        except exceptions.FileDNE:
             return False
 
     def size(self):

@@ -6,6 +6,8 @@ import os
 import sys
 import unittest
 
+import mesos_cli.exceptions
+
 def get_state(name, parse=True):
     path = os.path.normpath(os.path.join(
         os.path.dirname(__file__), "data", name))
@@ -15,6 +17,33 @@ def get_state(name, parse=True):
             return json.loads(val)
         else:
             return val
+
+def sandbox_file(path):
+    fpath = os.path.normpath(os.path.join(
+        os.path.dirname(__file__), "data", "sandbox", os.path.basename(path)))
+    return open(fpath, "rb")
+
+# Emulate the byte fetch interface and replace with reading local files
+def sandbox_read(self):
+    # This is an invalid path and the file does not exist.
+    if not self._params["path"].startswith("/tmp/mesos"):
+        raise mesos_cli.exceptions.FileDNE("")
+
+    with sandbox_file(self._params["path"]) as fobj:
+        if self._params["offset"] == -1:
+            fobj.seek(0, os.SEEK_END)
+            return {
+                "data": "",
+                "offset": fobj.tell()
+            }
+
+        fobj.seek(self._params["offset"])
+        return {
+            "data": fobj.read(self._params["length"]),
+            "offset": self._params["offset"]
+        }
+
+patch_args = functools.partial(mock.patch, "sys.argv")
 
 class MockState(unittest.TestCase):
 

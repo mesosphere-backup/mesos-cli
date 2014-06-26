@@ -5,6 +5,7 @@ import re
 import requests
 import urlparse
 
+from . import exceptions
 from . import log
 from . import slave
 from . import slave_file
@@ -39,7 +40,10 @@ class Task(dict):
 
     @util.cached_property()
     def directory(self):
-        return self.executor["directory"]
+        try:
+            return self.executor["directory"]
+        except exceptions.MissingExecutor:
+            return ""
 
     @util.cached_property()
     def slave(self):

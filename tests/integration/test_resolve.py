@@ -33,19 +33,19 @@ class TestResolve(utils.MockState):
             utils.get_state("master.pb", parse=False),
             makepath=True)
 
-    @mock.patch("sys.argv", [ "mesos-resolve", "localhost:5050" ])
+    @utils.patch_args([ "mesos-resolve", "localhost:5050" ])
     def test_tcp(self):
         mesos_cli.resolve.main()
 
         assert self.stdout == "localhost:5050\n"
 
-    @mock.patch("sys.argv", [ "mesos-resolve", "zk://localhost:5050/mesos" ])
+    @utils.patch_args([ "mesos-resolve", "zk://localhost:5050/mesos" ])
     def test_zk(self):
         mesos_cli.resolve.main()
 
         assert self.stdout == "10.141.141.10:5050\n"
 
-    @mock.patch("sys.argv", [ "mesos-resolve", "file:///" + master_file ])
+    @utils.patch_args([ "mesos-resolve", "file:///" + master_file ])
     def test_file(self):
         mesos_cli.resolve.main()
 
