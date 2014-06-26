@@ -56,6 +56,7 @@ config = {
     'install_requires': requires,
     'tests_require': [
         'coverage>=3.7.1',
+        'httmock>=1.2.2',
         'mock>=1.0.1',
         'zake>=0.0.20'
     ],

@@ -11,7 +11,7 @@ from .. import utils
 config_path = os.path.normpath(os.path.join(
     os.path.dirname(__file__), "..", "data", "config.json"))
 
-class TestConfig(utils.MockMaster):
+class TestConfig(utils.MockState):
 
     @mock.patch('os.environ', { "MESOS_CLI_CONFIG": config_path })
     def test_output(self):

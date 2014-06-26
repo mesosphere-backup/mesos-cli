@@ -11,6 +11,8 @@ from . import log
 To debug, add `_ARC_DEBUG` to your env.
 """
 
+EXIT = os._exit
+
 def complete_cmd(name=""):
     print "\n".join([x for x in cli.cmds(short=True) if x.startswith(name)])
 
@@ -28,7 +30,8 @@ def cmd_options(cmd):
         return
     importlib.import_module("argcomplete").autocomplete(
         mod.parser,
-        output_stream=sys.stdout
+        output_stream=sys.stdout,
+        exit_method=EXIT
     )
 
 def main():

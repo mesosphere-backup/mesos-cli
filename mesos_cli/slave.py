@@ -5,6 +5,7 @@ import requests
 import sys
 import urlparse
 
+from . import exceptions
 from . import log
 from . import util
 
@@ -44,7 +45,7 @@ class MesosSlave(object):
             for exc in util.merge(fw, "executors", "completed_executors"):
                 if task_id in map(lambda x: x["id"], exc["tasks"]):
                     return exc
-        raise Exception("No executor has a task by that id")
+        raise exceptions.MissingExecutor("No executor has a task by that id")
 
     def file_list(self, path):
         resp = self.fetch("/files/browse.json", params={ "path": path })

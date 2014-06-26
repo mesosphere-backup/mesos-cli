@@ -12,13 +12,12 @@ from .. import utils
 master_file = os.path.normpath(os.path.join(
     os.path.dirname(__file__), "..", "data", "master-host"))
 
-class TestResolve(utils.MockMaster):
+class TestResolve(utils.MockState):
 
     def setUp(self):
-        super(utils.MockMaster, self).setUp()
+        super(utils.MockState, self).setUp()
 
         self.init_zk()
-
 
     def init_zk(self):
         self.storage = zake.fake_storage.FakeStorage()
@@ -38,16 +37,16 @@ class TestResolve(utils.MockMaster):
     def test_tcp(self):
         mesos_cli.resolve.main()
 
-        assert sys.stdout.getvalue() == "localhost:5050\n"
+        assert self.stdout == "localhost:5050\n"
 
     @mock.patch("sys.argv", [ "mesos-resolve", "zk://localhost:5050/mesos" ])
     def test_zk(self):
         mesos_cli.resolve.main()
 
-        assert sys.stdout.getvalue() == "10.141.141.10:5050\n"
+        assert self.stdout == "10.141.141.10:5050\n"
 
     @mock.patch("sys.argv", [ "mesos-resolve", "file:///" + master_file ])
     def test_file(self):
         mesos_cli.resolve.main()
 
-        assert sys.stdout.getvalue() == "10.141.141.10:5050\n"
+        assert self.stdout == "10.141.141.10:5050\n"

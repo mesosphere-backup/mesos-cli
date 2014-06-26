@@ -7,6 +7,7 @@ import os
 import mesos_cli
 from . import config
 from .master import current as master
+from . import exceptions
 from . import log
 
 def init(parser=None):
@@ -71,10 +72,15 @@ def file_completer(prefix, parsed_args, **kwargs):
     pattern = split[-1]
 
     for t in master.tasks(parsed_args.task):
-        for f in t.file_list(base):
-            rel = os.path.relpath(f["path"], t.directory)
-            if rel.rsplit("/", 1)[-1].startswith(pattern):
-                if f["mode"].startswith("d"):
-                    rel += "/"
-                files.add(rel)
+        # It is possible for the master to have completed tasks that no longer
+        # have files and/or executors
+        try:
+            for f in t.file_list(base):
+                rel = os.path.relpath(f["path"], t.directory)
+                if rel.rsplit("/", 1)[-1].startswith(pattern):
+                    if f["mode"].startswith("d"):
+                        rel += "/"
+                    files.add(rel)
+        except exceptions.MissingExecutor:
+            pass
     return files
