@@ -4,7 +4,7 @@ import mock
 import os
 import sys
 
-import mesos_cli.config
+import mesoscli.config
 
 from .. import utils
 
@@ -13,8 +13,8 @@ config_path = os.path.normpath(os.path.join(
 
 class TestConfig(utils.MockState):
 
-    @mock.patch('os.environ', { "MESOS_CLI_CONFIG": config_path })
+    @mock.patch('os.environ', { "mesoscli_CONFIG": config_path })
     def test_output(self):
-        mesos_cli.config.main()
+        mesoscli.config.main()
 
         assert "master" in json.loads(self.stdout)

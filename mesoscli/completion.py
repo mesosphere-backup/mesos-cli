@@ -23,10 +23,11 @@ def cmd_options(cmd):
 
     try:
         mod = importlib.import_module(
-            ".{}".format(cmd), package="mesos_cli")
+            ".{}".format(cmd), package="mesoscli")
     except ImportError:
         return
     if not hasattr(mod, 'parser'):
+        print "Asfd"
         return
     importlib.import_module("argcomplete").autocomplete(
         mod.parser,

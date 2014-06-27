@@ -1,5 +1,5 @@
 
-import mesos_cli
+import mesoscli
 
 with open("README.rst") as f:
   readme = f.read()
@@ -15,8 +15,8 @@ requires = [
 ]
 
 config = {
-    'name': 'mesos_cli',
-    'version': mesos_cli.__version__,
+    'name': 'mesoscli',
+    'version': mesoscli.__version__,
     'description': 'Mesos CLI Tools',
     'long_description': readme,
     'author': 'Thomas Rampelberg',
@@ -25,28 +25,28 @@ config = {
     'maintainer_email': 'support@mesosphere.io',
     'url': 'https://github.com/mesosphere/mesos-cli',
     'packages': [
-        'mesos_cli'
+        'mesoscli'
     ],
     'entry_points': {
         'console_scripts': [
-            'mesos = mesos_cli.main:main',
+            'mesos = mesoscli.main:main',
 
             # helpers
-            'mesos-completion = mesos_cli.completion:main',
-            'mesos-config = mesos_cli.config:main',
-            'mesos-resolve = mesos_cli.resolve:main',
-            'mesos-state = mesos_cli.state:main',
+            'mesos-completion = mesoscli.completion:main',
+            'mesos-config = mesoscli.config:main',
+            'mesos-resolve = mesoscli.resolve:main',
+            'mesos-state = mesoscli.state:main',
 
             # coreutils
-            'mesos-cat = mesos_cli.cat:main',
-            'mesos-find = mesos_cli.find:main',
-            'mesos-head = mesos_cli.head:main',
-            'mesos-help = mesos_cli.help:main',
-            'mesos-ls = mesos_cli.ls:main',
-            'mesos-ps = mesos_cli.ps:main',
-            'mesos-scp = mesos_cli.scp:main',
-            'mesos-ssh = mesos_cli.ssh:main',
-            'mesos-tail = mesos_cli.tail:main'
+            'mesos-cat = mesoscli.cat:main',
+            'mesos-find = mesoscli.find:main',
+            'mesos-head = mesoscli.head:main',
+            'mesos-help = mesoscli.help:main',
+            'mesos-ls = mesoscli.ls:main',
+            'mesos-ps = mesoscli.ps:main',
+            'mesos-scp = mesoscli.scp:main',
+            'mesos-ssh = mesoscli.ssh:main',
+            'mesos-tail = mesoscli.tail:main'
         ]
     },
     'setup_requires': [

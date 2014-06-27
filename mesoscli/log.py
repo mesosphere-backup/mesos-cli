@@ -5,7 +5,7 @@ import sys
 debug = logging.debug
 
 def fatal(msg, code=1):
-    sys.stderr.write(msg + "\n")
+    sys.stdout.write(msg + "\n")
     logging.error(msg)
     sys.exit(code)
 

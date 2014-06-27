@@ -22,7 +22,7 @@ ZOOKEEPER_TIMEOUT = 1
 
 MISSING_MASTER = """unable to connect to a master at {}.
 
-Try configuring a master in `~/.mesos_cli.json`. See the README for examples."""
+Try configuring a master in `~/.mesoscli.json`. See the README for examples."""
 
 class MesosMaster(object):
 

@@ -1,11 +1,11 @@
 
 import mock
 
-import mesos_cli.head
+import mesoscli.head
 
 from .. import utils
 
-@mock.patch("mesos_cli.slave_file.SlaveFile._fetch", utils.sandbox_read)
+@mock.patch("mesoscli.slave_file.SlaveFile._fetch", utils.sandbox_read)
 class TestHead(utils.MockState):
 
     @utils.patch_args([
@@ -13,7 +13,7 @@ class TestHead(utils.MockState):
         "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2"
     ])
     def test_single_default(self):
-        mesos_cli.head.main()
+        mesoscli.head.main()
 
         assert len(self.lines) == 5
 
@@ -23,7 +23,7 @@ class TestHead(utils.MockState):
         "stderr"
     ])
     def test_single_specific(self):
-        mesos_cli.head.main()
+        mesoscli.head.main()
 
         assert len(self.lines) == 8
 
@@ -33,16 +33,16 @@ class TestHead(utils.MockState):
         "st"
     ])
     def test_partial(self):
-        self.assertRaises(SystemExit, mesos_cli.head.main)
+        self.assertRaises(SystemExit, mesoscli.head.main)
 
-        assert len(self.lines) == 1
+        assert len(self.lines) == 2
 
     @utils.patch_args([
         "mesos-head",
         "app"
     ])
     def test_multiple_tasks(self):
-        mesos_cli.head.main()
+        mesoscli.head.main()
 
         assert len(self.lines) == 11
 
@@ -53,7 +53,7 @@ class TestHead(utils.MockState):
         "stderr"
     ])
     def test_multiple_files(self):
-        mesos_cli.head.main()
+        mesoscli.head.main()
 
         assert len(self.lines) == 14
 
@@ -63,7 +63,7 @@ class TestHead(utils.MockState):
         "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2"
     ])
     def test_line_limit(self):
-        mesos_cli.head.main()
+        mesoscli.head.main()
 
         assert "Registered" in self.stdout
         assert len(self.lines) == 2
@@ -74,6 +74,6 @@ class TestHead(utils.MockState):
         "app"
     ])
     def test_hide_header(self):
-        mesos_cli.head.main()
+        mesoscli.head.main()
 
         assert len(self.lines) == 9

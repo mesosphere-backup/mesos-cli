@@ -72,7 +72,7 @@ Place a configuration file at:
 
 .. code-block:: bash
 
-    ~/.mesos_cli.json
+    ~/.mesos.json
 
 If you're using a non-local master, you'll need to configure where the master should be found like so:
 

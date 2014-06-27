@@ -16,8 +16,8 @@ class Config(dict):
 
     def _get_path(self):
         return os.environ.get(
-            'MESOS_CLI_CONFIG',
-            os.path.expanduser('~/.mesos_cli.json'))
+            'MESOS_CONFIG',
+            os.path.expanduser('~/.mesos.json'))
 
     def __getattr__(self, item):
         return self[item]
