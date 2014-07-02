@@ -4,7 +4,7 @@ import blessings
 import logging
 import os
 
-import mesoscli
+import mesos.cli
 from . import config
 from .master import current as master
 from . import exceptions
@@ -29,7 +29,7 @@ def parser(**kwargs):
 
     p.add_argument(
         "-v", "--version",
-        action="version", version="%(prog)s {0}".format(mesoscli.__version__)
+        action="version", version="%(prog)s {0}".format(mesos.cli.__version__)
     )
     return p
 

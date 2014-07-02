@@ -6,8 +6,8 @@ import os
 import sys
 import testtools
 
-import mesoscli
-import mesoscli.exceptions
+import mesos.cli
+import mesos.cli.exceptions
 
 def get_state(name, parse=True):
     path = os.path.normpath(os.path.join(
@@ -23,14 +23,14 @@ def sandbox_file(path):
     fpath = os.path.normpath(os.path.join(
         os.path.dirname(__file__), "data", "sandbox", os.path.basename(path)))
     if not os.path.exists(fpath):
-        raise mesoscli.exceptions.FileDNE("")
+        raise mesos.cli.exceptions.FileDNE("")
     return open(fpath, "rb")
 
 # Emulate the byte fetch interface and replace with reading local files
 def sandbox_read(self):
     # This is an invalid path and the file does not exist.
     if not self._params["path"].startswith("/tmp/mesos"):
-        raise mesoscli.exceptions.FileDNE("")
+        raise mesos.cli.exceptions.FileDNE("")
 
     with sandbox_file(self._params["path"]) as fobj:
         if self._params["offset"] == -1:
@@ -61,10 +61,10 @@ class MockState(testtools.TestCase):
     def setUp(self):
         super(MockState, self).setUp()
         self.mock(
-            "mesoscli.master.MesosMaster.state",
+            "mesos.cli.master.MesosMaster.state",
             get_state("master_state.json"))
         self.mock(
-            "mesoscli.slave.MesosSlave.state",
+            "mesos.cli.slave.MesosSlave.state",
             get_state("slave-20140619-151434-16842879-5050-1196-0.json"))
 
     def mock(self, obj, val):

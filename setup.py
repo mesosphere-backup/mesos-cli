@@ -1,5 +1,5 @@
 
-import mesoscli
+import mesos.cli
 
 with open("README.rst") as f:
   readme = f.read()
@@ -17,38 +17,39 @@ requires = [
 ]
 
 config = {
-    'name': 'mesoscli',
-    'version': mesoscli.__version__,
+    'name': 'mesos.cli',
+    'version': mesos.cli.__version__,
     'description': 'Mesos CLI Tools',
     'long_description': readme,
     'author': 'Thomas Rampelberg',
     'author_email': 'thomas@mesosphere.io',
-    'maintainer': 'Mesosphere',
-    'maintainer_email': 'support@mesosphere.io',
-    'url': 'https://github.com/mesosphere/mesos-cli',
-    'packages': [
-        'mesoscli'
-    ],
+    'url': 'http://pypi.python.org/pypi/mesos.cli',
+    'license': 'Apache 2.0',
+    'keywords': 'mesos',
+    'classifiers': [ ],
+
+    'namespace_packages': [ 'mesos' ],
+    'packages': [ 'mesos', 'mesos.cli' ],
     'entry_points': {
         'console_scripts': [
-            'mesos = mesoscli.main:main',
+            'mesos = mesos.cli.main:main',
 
             # helpers
-            'mesos-completion = mesoscli.completion:main',
-            'mesos-config = mesoscli.config:main',
-            'mesos-resolve = mesoscli.resolve:main',
-            'mesos-state = mesoscli.state:main',
+            'mesos-completion = mesos.cli.completion:main',
+            'mesos-config = mesos.cli.config:main',
+            'mesos-resolve = mesos.cli.resolve:main',
+            'mesos-state = mesos.cli.state:main',
 
             # coreutils
-            'mesos-cat = mesoscli.cat:main',
-            'mesos-find = mesoscli.find:main',
-            'mesos-head = mesoscli.head:main',
-            'mesos-help = mesoscli.help:main',
-            'mesos-ls = mesoscli.ls:main',
-            'mesos-ps = mesoscli.ps:main',
-            'mesos-scp = mesoscli.scp:main',
-            'mesos-ssh = mesoscli.ssh:main',
-            'mesos-tail = mesoscli.tail:main'
+            'mesos-cat = mesos.cli.cat:main',
+            'mesos-find = mesos.cli.find:main',
+            'mesos-head = mesos.cli.head:main',
+            'mesos-help = mesos.cli.help:main',
+            'mesos-ls = mesos.cli.ls:main',
+            'mesos-ps = mesos.cli.ps:main',
+            'mesos-scp = mesos.cli.scp:main',
+            'mesos-ssh = mesos.cli.ssh:main',
+            'mesos-tail = mesos.cli.tail:main'
         ]
     },
     'setup_requires': [

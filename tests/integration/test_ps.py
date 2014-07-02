@@ -1,18 +1,18 @@
 
 import mock
 
-import mesoscli.ps
+import mesos.cli.ps
 
 from .. import utils
 
-@mock.patch("mesoscli.slave.MesosSlave.stats", utils.slave_stats)
+@mock.patch("mesos.cli.slave.MesosSlave.stats", utils.slave_stats)
 class TestPs(utils.MockState):
 
     @utils.patch_args([
         "mesos-ps"
     ])
     def test_format(self):
-        mesoscli.ps.main()
+        mesos.cli.ps.main()
 
         # Time
         assert "01:23.33" in self.stdout
@@ -36,6 +36,6 @@ class TestPs(utils.MockState):
         "-i"
     ])
     def test_inactive(self):
-        mesoscli.ps.main()
+        mesos.cli.ps.main()
 
         assert len(self.lines) == 17

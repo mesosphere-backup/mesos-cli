@@ -5,7 +5,7 @@ import sys
 import zake.fake_client
 import zake.fake_storage
 
-import mesoscli.resolve
+import mesos.cli.resolve
 
 from .. import utils
 
@@ -26,7 +26,7 @@ class TestResolve(utils.MockState):
         self.addCleanup(self.zk.stop)
 
         zk = zake.fake_client.FakeClient(storage=self.storage)
-        self.mock("mesoscli.zookeeper.client_class",
+        self.mock("mesos.cli.zookeeper.client_class",
             lambda *args, **kwargs: zk)
 
         self.zk.create("/mesos/info_0000000008",
@@ -35,18 +35,18 @@ class TestResolve(utils.MockState):
 
     @utils.patch_args([ "mesos-resolve", "localhost:5050" ])
     def test_tcp(self):
-        mesoscli.resolve.main()
+        mesos.cli.resolve.main()
 
         assert self.stdout == "localhost:5050\n"
 
     @utils.patch_args([ "mesos-resolve", "zk://localhost:5050/mesos" ])
     def test_zk(self):
-        mesoscli.resolve.main()
+        mesos.cli.resolve.main()
 
         assert self.stdout == "10.141.141.10:5050\n"
 
     @utils.patch_args([ "mesos-resolve", "file:///" + master_file ])
     def test_file(self):
-        mesoscli.resolve.main()
+        mesos.cli.resolve.main()
 
         assert self.stdout == "10.141.141.10:5050\n"

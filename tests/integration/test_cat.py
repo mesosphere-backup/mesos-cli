@@ -2,12 +2,12 @@
 import mock
 import os
 
-import mesoscli.cat
-import mesoscli.exceptions
+import mesos.cli.cat
+import mesos.cli.exceptions
 
 from .. import utils
 
-@mock.patch("mesoscli.slave_file.SlaveFile._fetch", utils.sandbox_read)
+@mock.patch("mesos.cli.slave_file.SlaveFile._fetch", utils.sandbox_read)
 class TestCat(utils.MockState):
 
     @utils.patch_args([
@@ -15,7 +15,7 @@ class TestCat(utils.MockState):
         "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2"
     ])
     def test_single_default(self):
-        mesoscli.cat.main()
+        mesos.cli.cat.main()
 
         assert len(self.lines) == 5
 
@@ -25,7 +25,7 @@ class TestCat(utils.MockState):
         "stderr"
     ])
     def test_single_specific(self):
-        mesoscli.cat.main()
+        mesos.cli.cat.main()
 
         assert len(self.lines) == 8
 
@@ -35,7 +35,7 @@ class TestCat(utils.MockState):
         "st"
     ])
     def test_partial(self):
-        mesoscli.cat.main()
+        mesos.cli.cat.main()
 
         assert len(self.stdout) == 0
 
@@ -44,7 +44,7 @@ class TestCat(utils.MockState):
         "app"
     ])
     def test_multiple_tasks(self):
-        mesoscli.cat.main()
+        mesos.cli.cat.main()
 
         assert len(self.lines) == 9
 
@@ -55,7 +55,7 @@ class TestCat(utils.MockState):
         "stderr"
     ])
     def test_multiple_files(self):
-        mesoscli.cat.main()
+        mesos.cli.cat.main()
 
         assert len(self.lines) == 12
 
@@ -65,6 +65,6 @@ class TestCat(utils.MockState):
         "stdout"
     ])
     def test_missing(self):
-        mesoscli.cat.main()
+        mesos.cli.cat.main()
 
         assert len(self.stdout) == 0

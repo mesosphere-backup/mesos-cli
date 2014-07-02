@@ -1,7 +1,7 @@
 
 import mock
 
-import mesoscli.scp
+import mesos.cli.scp
 
 from .. import utils
 
@@ -14,7 +14,7 @@ class TestScp(utils.MockState):
     ])
     def test_single(self):
         with mock.patch("gevent.subprocess.check_call", return_value=0) as m:
-            mesoscli.scp.main()
+            mesos.cli.scp.main()
 
             m.assert_called_with(
                 [ "scp", "-pr", "stdout", "10.141.141.10:/tmp" ])
@@ -29,7 +29,7 @@ class TestScp(utils.MockState):
     ])
     def test_multiple(self):
         with mock.patch("gevent.subprocess.check_call", return_value=0):
-            mesoscli.scp.main()
+            mesos.cli.scp.main()
 
             assert len(self.lines) == 5
             assert "uploaded" in self.stdout

@@ -4,7 +4,7 @@ import mock
 import os
 import unittest
 
-import mesoscli.state
+import mesos.cli.state
 
 from .. import utils
 
@@ -12,12 +12,12 @@ class TestState(utils.MockState):
 
     @utils.patch_args([ "mesos-state" ])
     def test_master(self):
-        mesoscli.state.main()
+        mesos.cli.state.main()
         assert "version" in json.loads(self.stdout)
 
     @utils.patch_args([ "mesos-state", "20140619-151434-16842879-5050-1196-0" ])
     def test_single_slave(self):
-        mesoscli.state.main()
+        mesos.cli.state.main()
 
         val = json.loads(self.stdout)
         assert len(val) == 1
@@ -25,7 +25,7 @@ class TestState(utils.MockState):
 
     @utils.patch_args([ "mesos-state", "2" ])
     def test_partial_match(self):
-        mesoscli.state.main()
+        mesos.cli.state.main()
 
         val = json.loads(self.stdout)
         assert len(val) == 2

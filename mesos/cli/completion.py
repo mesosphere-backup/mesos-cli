@@ -23,7 +23,7 @@ def cmd_options(cmd):
 
     try:
         mod = importlib.import_module(
-            ".{0}".format(cmd), package="mesoscli")
+            ".{0}".format(cmd), package="mesos.cli")
     except ImportError:
         return
     if not hasattr(mod, 'parser'):
