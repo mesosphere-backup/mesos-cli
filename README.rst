@@ -232,3 +232,15 @@ state
 
 Return the full JSON state of either the master or slave (partial matches are valid).
 
+=======
+Testing
+=======
+
+There are two ways to do testing. If you'd like to just test with your local setup:
+
+    python setup.py nosetests --where tests
+
+For a full virtualenv + specific python versions (py26, py27), you can use tox:
+
+    pip install tox
+    tox

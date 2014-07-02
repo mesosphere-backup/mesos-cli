@@ -10,6 +10,7 @@ requires = [
     "gevent>=1.0.1",
     "importlib>=1.0.3", # py26
     "kazoo>=2.0",
+    "mesos.protocol>=0.20.0",
     "ordereddict>=1.1", # py26
     "prettytable>=0.7.2",
     "protobuf>=2.5.0",
