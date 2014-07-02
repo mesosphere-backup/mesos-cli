@@ -45,10 +45,10 @@ def cmds(short=False):
             return False
         return True
 
-    cmds = []
+    cmds = set([])
     for path in os.environ.get("PATH").split(os.pathsep):
         try:
-            cmds += filter(fltr, os.listdir(path))
+            cmds = cmds.union(filter(fltr, os.listdir(path)))
         except OSError:
             pass
 
