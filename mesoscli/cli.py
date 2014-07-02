@@ -29,7 +29,7 @@ def parser(**kwargs):
 
     p.add_argument(
         "-v", "--version",
-        action="version", version="%(prog)s {}".format(mesoscli.__version__)
+        action="version", version="%(prog)s {0}".format(mesoscli.__version__)
     )
     return p
 

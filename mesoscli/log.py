@@ -10,5 +10,5 @@ def fatal(msg, code=1):
     sys.exit(code)
 
 def fn(f, *args, **kwargs):
-    logging.debug("{}: {} {}".format(repr(f), args, kwargs))
+    logging.debug("{0}: {1} {2}".format(repr(f), args, kwargs))
     return f(*args, **kwargs)

@@ -20,7 +20,7 @@ from . import zookeeper
 
 ZOOKEEPER_TIMEOUT = 1
 
-MISSING_MASTER = """unable to connect to a master at {}.
+MISSING_MASTER = """unable to connect to a master at {0}.
 
 Try configuring a master in `~/.mesoscli.json`. See the README for examples."""
 
@@ -48,11 +48,11 @@ class MesosMaster(object):
                     key=lambda x: x[0])
 
                 if len(leader) == 0:
-                    log.fatal("cannot find any masters at {}".format(cfg,))
+                    log.fatal("cannot find any masters at {0}".format(cfg,))
                 data, stat = zk.get(os.path.join(path, leader[0][1]))
             except kazoo.exceptions.NoNodeError:
                 log.fatal(
-                    "{} does not have a valid path. Did you forget /mesos?".format(cfg))
+                    "{0} does not have a valid path. Did you forget /mesos?".format(cfg))
 
             info = mesos_pb2.MasterInfo()
             info.ParseFromString(data)
@@ -93,7 +93,7 @@ class MesosMaster(object):
         elif len(lst) > 1:
             result = "There are multiple slaves with that id. Please choose one: "
             for s in lst:
-                result += "\n\t{}".format(s.id)
+                result += "\n\t{0}".format(s.id)
             log.fatal(result)
 
         return lst[0]
@@ -110,7 +110,7 @@ class MesosMaster(object):
 
         elif len(lst) > 1:
             msg = ["There are multiple tasks with that id. Please choose one:"]
-            msg += ["\t{}".format(t.id) for t in lst]
+            msg += ["\t{0}".format(t.id) for t in lst]
             log.fatal("\n".join(msg))
 
         return lst[0]

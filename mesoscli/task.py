@@ -20,7 +20,7 @@ class Task(dict):
         self._meta = meta
 
     def __str__(self):
-        return "{}:{}".format(
+        return "{0}:{1}".format(
             self.slave.pid.split('@')[-1].split(':')[0], self.id)
 
     def __getattr__(self, name):

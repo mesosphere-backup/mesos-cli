@@ -33,7 +33,7 @@ def main():
         "ssh",
         "-t",
         t.slave.hostname,
-        "cd {} && bash".format(t.directory)
+        "cd {0} && bash".format(t.directory)
     ]
     if t.directory == "":
         print "warning: the task no longer exists on the target slave. " + \

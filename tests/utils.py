@@ -4,7 +4,7 @@ import json
 import mock
 import os
 import sys
-import unittest
+import testtools
 
 import mesoscli
 import mesoscli.exceptions
@@ -56,9 +56,10 @@ slave_stats = mock.PropertyMock(return_value=get_state("slave_statistics.json"))
 
 patch_args = functools.partial(mock.patch, "sys.argv")
 
-class MockState(unittest.TestCase):
+class MockState(testtools.TestCase):
 
     def setUp(self):
+        super(MockState, self).setUp()
         self.mock(
             "mesoscli.master.MesosMaster.state",
             get_state("master_state.json"))

@@ -8,7 +8,9 @@ requires = [
     "argcomplete>=0.8.0",
     "blessings>=1.5.1",
     "gevent>=1.0.1",
+    "importlib>=1.0.3", # py26
     "kazoo>=2.0",
+    "ordereddict>=1.1", # py26
     "prettytable>=0.7.2",
     "protobuf>=2.5.0",
     "requests>=2.2.1"
@@ -57,6 +59,7 @@ config = {
     'tests_require': [
         'coverage>=3.7.1',
         'mock>=1.0.1',
+        'testtools>=0.9.35', # py26
         'zake>=0.0.20'
     ],
     'test_suite': 'nose.collector',

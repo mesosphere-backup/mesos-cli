@@ -4,6 +4,11 @@ import collections
 import prettytable
 import util
 
+try:
+    from collections import OrderedDict
+except ImportError:
+    from ordereddict import OrderedDict
+
 from . import cli
 from .master import current as master
 
@@ -20,13 +25,13 @@ def get_memory(x):
     if x.mem_limit == 0:
         return "0"
     else:
-        return "{:.2f}".format((x.rss / (x.mem_limit * 1.0)) * 100)
+        return "{0:.2f}".format((x.rss / (x.mem_limit * 1.0)) * 100)
 
 def main():
     term = blessings.Terminal()
     max_pid = term.width - 70
 
-    table_generator = collections.OrderedDict([
+    table_generator = OrderedDict([
         # user_time + system_time
         ("time", lambda x: x.cpu_time),
         # mem_rss
