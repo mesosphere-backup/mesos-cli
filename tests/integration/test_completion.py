@@ -1,5 +1,4 @@
 
-import httmock
 import mock
 import os
 import StringIO
