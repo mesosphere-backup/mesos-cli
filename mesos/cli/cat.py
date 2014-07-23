@@ -40,7 +40,7 @@ parser.add_argument(
 ).completer = cli.file_completer
 
 def main():
-    cfg, args = cli.init(parser)
+    args = cli.init(parser)
 
     for t in master.tasks(args.task):
         for f in args.file:

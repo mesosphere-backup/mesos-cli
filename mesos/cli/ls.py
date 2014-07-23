@@ -52,7 +52,7 @@ def format_line(obj, base):
     return fmt.format(human_time=human_time, fname=fname, **obj)
 
 def main():
-    cfg, args = cli.init(parser)
+    args = cli.init(parser)
 
     tlist = master.tasks(args.task)
     for t in tlist:

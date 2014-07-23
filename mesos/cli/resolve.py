@@ -16,7 +16,7 @@
 
 
 from . import cli
-from . import config
+from .cfg import current as cfg
 from .master import current as master
 
 parser = cli.parser(
@@ -24,10 +24,10 @@ parser = cli.parser(
 )
 
 parser.add_argument(
-    "master", nargs="?", default=config.Config().master
+    "master", nargs="?", default=cfg.master
 )
 
 def main():
-    cfg, args = cli.init(parser)
+    args = cli.init(parser)
 
     print master.resolve(args.master)

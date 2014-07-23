@@ -41,7 +41,7 @@ def main():
     if platform.system() == "Darwin":
         os.environ["no_proxy"] = "*"
 
-    cfg, args = cli.init(parser)
+    args = cli.init(parser)
 
     t = master.task(args.task)
 

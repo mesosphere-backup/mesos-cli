@@ -63,7 +63,7 @@ def main():
         ("pid", lambda x: str(x).split('@')[-1][:max_pid]),
     ])
 
-    cfg, args = cli.init(parser)
+    args = cli.init(parser)
 
     tb = prettytable.PrettyTable(
         [x.upper() for x in table_generator.keys()],

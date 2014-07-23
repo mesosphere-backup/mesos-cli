@@ -53,7 +53,7 @@ def upload(slave, src, dst):
         return (slave, e.returncode)
 
 def main():
-    cfg, args = cli.init(parser)
+    args = cli.init(parser)
 
     jobs = list(itertools.chain(
         *[[gevent.spawn(upload, s, f, args.remote_path) for f in args.file]

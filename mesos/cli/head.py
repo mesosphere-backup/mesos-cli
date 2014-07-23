@@ -48,7 +48,7 @@ parser.add_argument(
 )
 
 def main():
-    cfg, args = cli.init(parser)
+    args = cli.init(parser)
 
     for s, t, fobj, show_header in task.files(args.task, args.file):
         if not args.q and show_header:

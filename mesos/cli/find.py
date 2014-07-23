@@ -44,7 +44,7 @@ parser.add_argument(
 )
 
 def main():
-    cfg, args = cli.init(parser)
+    args = cli.init(parser)
 
     tlist = master.tasks(args.task)
     path = args.path

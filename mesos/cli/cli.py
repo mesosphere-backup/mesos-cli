@@ -21,13 +21,12 @@ import logging
 import os
 
 import mesos.cli
-from . import config
+from .cfg import current as cfg
 from .master import current as master
 from . import exceptions
 from . import log
 
 def init(parser=None):
-    cfg = config.Config()
     args = parser.parse_args() if parser else None
 
     logging.basicConfig(
@@ -35,7 +34,7 @@ def init(parser=None):
         filename=cfg.log_file
     )
 
-    return (cfg, args)
+    return args
 
 def parser(**kwargs):
     p = argparse.ArgumentParser(

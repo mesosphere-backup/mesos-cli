@@ -52,7 +52,7 @@ def cmd_options(cmd):
     )
 
 def main():
-    cfg, args = cli.init()
+    args = cli.init()
 
     cmdline = os.environ.get('COMP_LINE') or \
         os.environ.get('COMMAND_LINE') or ''

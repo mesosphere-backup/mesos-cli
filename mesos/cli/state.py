@@ -31,7 +31,7 @@ parser.add_argument(
 ).completer = cli.slave_completer
 
 def main():
-    cfg, args = cli.init(parser)
+    args = cli.init(parser)
 
     if not args.slave:
         print json.dumps(master.state, indent=4)

@@ -27,7 +27,7 @@ import requests
 import sys
 import urlparse
 
-from . import config
+from .cfg import current as cfg
 from . import log
 from . import slave
 from . import task
@@ -42,12 +42,9 @@ Try configuring a master in `~/.mesos.cli.json`. See the README for examples."""
 
 class MesosMaster(object):
 
-    def __init__(self, cfg):
-        self._cfg = cfg.master
-
     @util.cached_property()
     def host(self):
-        return "http://%s" % (self.resolve(self._cfg),)
+        return "http://%s" % (self.resolve(cfg.master),)
 
     def _file_resolver(self, cfg):
         return self.resolve(open(cfg[6:], "r+").read().strip())
@@ -151,4 +148,4 @@ class MesosMaster(object):
             keys.append("completed_frameworks")
         return util.merge(self.state, *keys)
 
-current = MesosMaster(config.Config())
+current = MesosMaster()

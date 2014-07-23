@@ -59,10 +59,9 @@ parser.add_argument(
 files_seen = {}
 last_seen = None
 
-def follow(cfg, args):
+def follow(args):
     global last_seen
-    for s, t, fobj, show_header in task.files(
-            master.state(cfg.master), args.task, args.file):
+    for s, t, fobj, show_header in task.files(args.task, args.file):
 
         fobj.seek(files_seen.get(fobj.name(), 0))
         if fobj.size() == fobj.tell():
@@ -79,7 +78,7 @@ def follow(cfg, args):
 
 def main():
     global last_seen
-    cfg, args = cli.init(parser)
+    args = cli.init(parser)
 
     for s, t, fobj, show_header in task.files(args.task, args.file):
         if not args.q and show_header:
@@ -94,5 +93,5 @@ def main():
 
     if args.follow:
         while 1:
-            follow(cfg, args)
+            follow(args)
             time.sleep(RECHECK)
