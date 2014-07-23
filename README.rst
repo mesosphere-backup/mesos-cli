@@ -68,11 +68,17 @@ Note that `bashcompinit` is being used. If you're running an older version of ZS
 Configuration
 -------------
 
-Place a configuration file at:
+Place a configuration file at any of the following:
 
 .. code-block:: bash
 
+    ./.mesos.json
     ~/.mesos.json
+    /etc/.mesos.json
+    /usr/etc/.mesos.json
+    /usr/local/etc/.mesos.json
+
+You can override the location of this config via. `MESOS_CLI_CONFIG`.
 
 If you're using a non-local master, you'll need to configure where the master should be found like so:
 

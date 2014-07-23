@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import os
+
 import mesos.cli
 
 with open(os.path.join(os.path.dirname(__file__), "README.rst")) as f:

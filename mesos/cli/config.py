@@ -15,8 +15,8 @@
 # limitations under the License.
 
 import os
-import json
 import errno
+import json
 
 class Config(dict):
 
@@ -26,14 +26,28 @@ class Config(dict):
         "log_file": None
     }
 
+    cfg_name = ".mesos.json"
+
+    search_path = [ os.path.join(x, cfg_name) for x in [
+        ".",
+        os.path.expanduser("~"),
+        "/etc",
+        "/usr/etc",
+        "/usr/local/etc"
+    ]]
+
     def __init__(self):
         self.update(self.DEFAULTS)
         self.load()
 
+    def _config_file(self):
+        for p in self.search_path:
+            if os.path.exists(p):
+                return p
+
     def _get_path(self):
         return os.environ.get(
-            'MESOS_CONFIG',
-            os.path.expanduser('~/.mesos.json'))
+            'MESOS_CLI_CONFIG', self._config_file())
 
     def __getattr__(self, item):
         return self[item]
