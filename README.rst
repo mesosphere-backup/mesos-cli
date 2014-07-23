@@ -208,9 +208,10 @@ config
 
 ..code-block:: bash
 
-    mesos config
+    mesos config [key] [value]
 
-Output a json object containing all the mesos-cli config.
+
+Output a json object containing all the mesos-cli config or you can get/set specific values in the configuration.
 
 -------
 resolve

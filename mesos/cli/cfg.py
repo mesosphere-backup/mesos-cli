@@ -45,6 +45,9 @@ class Config(dict):
             if os.path.exists(p):
                 return p
 
+        # default to creating a user level config file
+        return self.search_path[1]
+
     def _get_path(self):
         return os.environ.get(
             'MESOS_CLI_CONFIG', self._config_file())
@@ -66,5 +69,9 @@ class Config(dict):
         except IOError as e:
             if e.errno != errno.ENOENT:
                 raise
+
+    def save(self):
+        with open(self._get_path(), "wb") as f:
+            f.write(json.dumps(self))
 
 current = Config()

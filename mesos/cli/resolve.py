@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 from . import cli
 from .cfg import current as cfg
 from .master import current as master

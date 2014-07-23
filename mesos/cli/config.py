@@ -16,7 +16,25 @@
 
 import json
 
+from . import cli
 from .cfg import current as cfg
 
+parser = cli.parser(
+    description="interact with your local cli configuration"
+)
+
+parser.add_argument("key", nargs="?", choices=cfg.DEFAULTS.keys())
+
+parser.add_argument("value", nargs="?")
+
 def main():
-    print json.dumps(cfg, indent=4)
+    args = cli.init(parser)
+
+    if args.key:
+        if args.value:
+            cfg[args.key] = args.value
+            cfg.save()
+        else:
+            print cfg[args.key]
+    else:
+        print json.dumps(cfg, indent=4)
