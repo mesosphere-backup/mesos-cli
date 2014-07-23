@@ -1,7 +1,6 @@
-
 import mesos.cli
 
-with open("README.rst") as f:
+with open(os.path.join(os.path.dirname(__file__), "README.rst")) as f:
   readme = f.read()
 
 requires = [
@@ -13,7 +12,7 @@ requires = [
     "mesos.protocol>=0.20.0",
     "ordereddict>=1.1", # py26
     "prettytable>=0.7.2",
-    "protobuf>=2.5.0",
+    "protobuf>=2.5.0,<3",
     "requests>=2.2.1"
 ]
 
@@ -70,6 +69,7 @@ config = {
     ]
 }
 
-from setuptools import setup
+if __name__ == "__main__":
+    from setuptools import setup
 
-setup(**config)
+    setup(**config)

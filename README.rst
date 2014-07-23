@@ -32,7 +32,7 @@ Installation
 
 .. code-block:: bash
 
-    sudo pip install git+https://github.com/mesosphere/mesos-cli.git
+    pip install mesos.cli
 
 Note that if you've already installed `mesos` locally, you can either install this to a location other than `/usr/local/bin` via. pip options or remove `/usr/local/bin/mesos`. There should be no downsides to just removing it.
 
