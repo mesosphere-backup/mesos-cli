@@ -61,7 +61,7 @@ last_seen = None
 
 def follow(args):
     global last_seen
-    for s, t, fobj, show_header in task.files(args.task, args.file):
+    for s, t, fobj, show_header in task.files(args.task, args.file, fail=False):
 
         fobj.seek(files_seen.get(fobj.name(), 0))
         if fobj.size() == fobj.tell():
@@ -80,7 +80,7 @@ def main():
     global last_seen
     args = cli.init(parser)
 
-    for s, t, fobj, show_header in task.files(args.task, args.file):
+    for s, t, fobj, show_header in task.files(args.task, args.file, fail=False):
         if not args.q and show_header:
             cli.header(fobj.name(),)
 

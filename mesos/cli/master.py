@@ -89,7 +89,7 @@ class MesosMaster(object):
         else:
             return cfg
 
-    @util.cached_property(ttl=30)
+    @util.cached_property(ttl=5)
     def state(self):
         try:
             return requests.get(urlparse.urljoin(

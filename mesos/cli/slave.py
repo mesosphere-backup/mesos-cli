@@ -48,7 +48,7 @@ class MesosSlave(object):
         except requests.excption.ConnectionError:
             log.fatal("Unable to connect to the slave at {}.".format(self.host))
 
-    @util.cached_property()
+    @util.cached_property(ttl=5)
     def state(self):
         return self.fetch("/slave(1)/state.json").json()
 

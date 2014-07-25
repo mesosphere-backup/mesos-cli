@@ -39,6 +39,9 @@ class Task(dict):
         return "{0}:{1}".format(
             self.slave.pid.split('@')[-1].split(':')[0], self.id)
 
+    def __repr__(self):
+        return self.__str__()
+
     def __getattr__(self, name):
         if name in self._meta:
             return self._meta[name]
@@ -112,7 +115,7 @@ class Task(dict):
     def user(self):
         return self.framework["user"]
 
-def files(fltr, flist):
+def files(fltr, flist, fail=True):
     # Preventing circular imports
     from .master import current as master
 
@@ -127,5 +130,5 @@ def files(fltr, flist):
                 dne = False
                 yield (t.slave, t, fobj, mult)
 
-    if dne:
+    if dne and fail:
         log.fatal("No such task has the requested file or directory")
