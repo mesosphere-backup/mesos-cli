@@ -80,7 +80,8 @@ def main():
     global last_seen
     args = cli.init(parser)
 
-    for s, t, fobj, show_header in task.files(args.task, args.file, fail=False):
+    for s, t, fobj, show_header in task.files(args.task, args.file,
+            fail=(not args.follow)):
         if not args.q and show_header:
             cli.header(fobj.name(),)
 

@@ -20,6 +20,8 @@ import json
 
 class Config(dict):
 
+    _default_profile = "default"
+
     DEFAULTS = {
         "master": "localhost:5050",
         "log_level": "warning",
@@ -37,7 +39,6 @@ class Config(dict):
     ]]
 
     def __init__(self):
-        self.update(self.DEFAULTS)
         self.load()
 
     def _config_file(self):
@@ -52,8 +53,28 @@ class Config(dict):
         return os.environ.get(
             'MESOS_CLI_CONFIG', self._config_file())
 
+    @property
+    def _profile_key(self):
+        return self.get("profile", self._default_profile)
+
+    @property
+    def _profile(self):
+        return self.get(self._profile_key, {})
+
     def __getattr__(self, item):
-        return self[item]
+        if item == "profile":
+            return self[item]
+        return self._profile.get(item, self.DEFAULTS[item])
+
+    def __setattr__(self, k, v):
+        base = self
+
+        if k != "profile":
+            if not self._profile_key in self.keys():
+                self[self._profile_key] = {}
+            base = self._profile
+
+        base[k] = v
 
     def load(self):
         try:
@@ -63,15 +84,20 @@ class Config(dict):
                 except ValueError as e:
                     raise ValueError(
                         'Invalid %s JSON: %s [%s]' %
-                        (type(self).__name__, e.message, self.path)
+                        (type(self).__name__, e.message, self._get_path())
                     )
                 self.update(data)
         except IOError as e:
             if e.errno != errno.ENOENT:
                 raise
 
+            # No config file exists, create the basic so that users can see the
+            # available options
+            self[self._default_profile] = self.DEFAULTS
+            self["profile"] = self._default_profile
+
     def save(self):
         with open(self._get_path(), "wb") as f:
-            f.write(json.dumps(self))
+            f.write(json.dumps(self, indent=4))
 
 current = Config()

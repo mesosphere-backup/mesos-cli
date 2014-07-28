@@ -22,7 +22,7 @@ import mesos.cli.tail
 from .. import utils
 
 @mock.patch("mesos.cli.slave_file.SlaveFile._fetch", utils.sandbox_read)
-class TestHead(utils.MockState):
+class TestTail(utils.MockState):
 
     @utils.patch_args([
         "mesos-tail",

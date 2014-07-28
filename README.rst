@@ -85,9 +85,12 @@ If you're using a non-local master, you'll need to configure where the master sh
 .. code-block:: json
 
     {
-        "master": "zk://localhost:2181/mesos",
-        "log_level": "warning",
-        "log_file": "/tmp/mesos-cli.log"
+        "profile": "default"
+        "default": {
+            "master": "zk://localhost:2181/mesos",
+            "log_level": "warning",
+            "log_file": "/tmp/mesos-cli.log"
+        }
     }
 
 Note that master accepts all values that mesos normally does, eg:
@@ -97,6 +100,20 @@ Note that master accepts all values that mesos normally does, eg:
     localhost:5050
     zk://localhost:2181/mesos
     file:///path/to/config/above
+
++++++++++
+Profiles
++++++++++
+
+Want to access multiple mesos clusters without changing config? You're in luck!
+
+To change your profile, you can run:
+
+.. code-block:: bash
+
+    mesos config profile new-profile
+
+The old config will be maintained and can be switched back to at any point.
 
 ========
 Commands

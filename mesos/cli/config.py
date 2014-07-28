@@ -23,7 +23,7 @@ parser = cli.parser(
     description="interact with your local cli configuration"
 )
 
-parser.add_argument("key", nargs="?", choices=cfg.DEFAULTS.keys())
+parser.add_argument("key", nargs="?", choices=cfg.DEFAULTS.keys() + ["profile"])
 
 parser.add_argument("value", nargs="?")
 
@@ -32,9 +32,9 @@ def main():
 
     if args.key:
         if args.value:
-            cfg[args.key] = args.value
+            setattr(cfg, args.key, args.value)
             cfg.save()
         else:
-            print cfg[args.key]
+            print getattr(cfg, args.key)
     else:
         print json.dumps(cfg, indent=4)

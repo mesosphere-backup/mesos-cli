@@ -14,12 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 import json
 import mock
 import os
 import sys
+import tempfile
 
+import mesos.cli.cfg
 import mesos.cli.config
 
 from .. import utils
@@ -29,8 +30,46 @@ config_path = os.path.normpath(os.path.join(
 
 class TestConfig(utils.MockState):
 
-    @mock.patch('os.environ', { "mesos.cli_CONFIG": config_path })
+    @mock.patch('os.environ', { "MESOS_CLI_CONFIG": config_path })
+    @utils.patch_args([ "mesos-config" ])
     def test_output(self):
+        mesos.cli.config.cfg = mesos.cli.cfg.Config()
+
         mesos.cli.config.main()
 
-        assert "master" in json.loads(self.stdout)
+        out = json.loads(self.stdout)
+        assert "master" in out["test"]
+
+    @mock.patch('os.environ', { "MESOS_CLI_CONFIG": config_path })
+    @utils.patch_args([
+        "mesos-config",
+        "master"
+    ])
+    def test_get_key(self):
+        mesos.cli.config.cfg = mesos.cli.cfg.Config()
+
+        mesos.cli.config.main()
+
+        assert "zk://localhost:2181/mesos" in self.stdout
+
+    @utils.patch_args([
+        "mesos-config",
+        "master",
+        "zk://localhost:2181/mesos"
+    ])
+    def test_set_key(self):
+        fd, fname = tempfile.mkstemp()
+        with open(fname, "w") as fobj:
+            fobj.write("{}")
+        try:
+            with mock.patch('os.environ', { "MESOS_CLI_CONFIG": fname }) as m:
+                mesos.cli.config.cfg = mesos.cli.cfg.Config()
+
+                mesos.cli.config.main()
+
+                with open(fname, "r") as fobj:
+                    assert "zk://localhost:2181" in json.loads(
+                        fobj.read())["default"]["master"]
+        finally:
+            os.remove(fname)
+
