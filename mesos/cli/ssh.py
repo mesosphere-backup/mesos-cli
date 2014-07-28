@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
+import blessings
 import copy
 import os
 import platform
@@ -36,6 +36,8 @@ parser.add_argument(
 ).completer = cli.task_completer
 
 def main():
+    term = blessings.Terminal()
+
     # There's a security bug in Mavericks wrt. urllib2:
     #     http://bugs.python.org/issue20585
     if platform.system() == "Darwin":
@@ -52,8 +54,8 @@ def main():
         "cd {0} && bash".format(t.directory)
     ]
     if t.directory == "":
-        print "warning: the task no longer exists on the target slave. " + \
-            "Will not enter sandbox"
+        print term.red + "warning: the task no longer exists on the " + \
+            "target slave. Will not enter sandbox" + term.white + "\n\n"
         cmd = cmd[:-1]
 
     log.fn(os.execvp, "ssh", cmd)
