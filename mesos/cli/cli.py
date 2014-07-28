@@ -70,6 +70,8 @@ def cmds(short=False):
     if short:
         cmds = [x.split("-", 1)[-1] for x in cmds]
 
+    cmds = list(cmds)
+    cmds.sort()
     return cmds
 
 def task_completer(prefix, parsed_args, **kwargs):
