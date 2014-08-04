@@ -14,9 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import imp
 import os
 
-import mesos.cli
+mod = imp.load_source('mesos.cli', os.path.join(os.path.dirname(__file__),
+    "mesos", "cli", "__init__.py"))
 
 with open(os.path.join(os.path.dirname(__file__), "README.rst")) as f:
   readme = f.read()
@@ -36,7 +38,7 @@ requires = [
 
 config = {
     'name': 'mesos.cli',
-    'version': mesos.cli.__version__,
+    'version': mod.__version__,
     'description': 'Mesos CLI Tools',
     'long_description': readme,
     'author': 'Thomas Rampelberg',

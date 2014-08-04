@@ -20,7 +20,7 @@ import kazoo.client
 import kazoo.exceptions
 import kazoo.handlers.threading
 import logging
-import mesos.protocol.mesos_pb2
+import mesos.interface.mesos_pb2
 import os
 import re
 import requests
@@ -68,7 +68,7 @@ class MesosMaster(object):
                 log.fatal(
                     "{0} does not have a valid path. Did you forget /mesos?".format(cfg))
 
-            info = mesos.protocol.mesos_pb2.MasterInfo()
+            info = mesos.interface.mesos_pb2.MasterInfo()
             info.ParseFromString(data)
 
             return info.pid.split("@")[-1]
