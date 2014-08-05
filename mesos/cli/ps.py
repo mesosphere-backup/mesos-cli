@@ -43,7 +43,7 @@ def get_memory(x):
 
 def main():
     term = blessings.Terminal()
-    max_pid = term.width - 70
+    max_pid = (term.width or 160) - 70
 
     table_generator = OrderedDict([
         # user_time + system_time
