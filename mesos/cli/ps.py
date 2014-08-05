@@ -50,6 +50,7 @@ def main():
     table_generator = OrderedDict([
         # user_time + system_time
         ("time", lambda x: x.cpu_time),
+        ("state", lambda x: x.state.split("_")[-1][0]),
         # mem_rss
         ("rss", lambda x: util.humanize_bytes(x.rss)),
         # cpus_limit
@@ -59,8 +60,8 @@ def main():
         # executor.name
         ("command", lambda x: x.command),
         ("user", lambda x: x.user),
-        # slave_pid:task_id
-        ("pid", lambda x: str(x).split('@')[-1][:max_pid]),
+        # task_id
+        ("id", lambda x: x.id),
     ])
 
     args = cli.init(parser)

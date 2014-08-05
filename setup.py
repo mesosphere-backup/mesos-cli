@@ -16,9 +16,14 @@
 
 import imp
 import os
+import sys
 
+# Get the version without needing to install `mesos.cli`. Note that this must
+# be deleted from sys.modules for nosetests to run correctly.
 mod = imp.load_source('mesos.cli', os.path.join(os.path.dirname(__file__),
     "mesos", "cli", "__init__.py"))
+version = mod.__version__
+del sys.modules["mesos.cli"]
 
 with open(os.path.join(os.path.dirname(__file__), "README.rst")) as f:
   readme = f.read()
@@ -38,7 +43,7 @@ requires = [
 
 config = {
     'name': 'mesos.cli',
-    'version': mod.__version__,
+    'version': version,
     'description': 'Mesos CLI Tools',
     'long_description': readme,
     'author': 'Thomas Rampelberg',
