@@ -86,7 +86,7 @@ config = {
         'coverage>=3.7.1',
         'mock>=1.0.1',
         'testtools>=0.9.35', # py26
-        'zake>=0.0.20'
+        'zake==0.0.20'
     ],
     'test_suite': 'nose.collector',
     'scripts': [
