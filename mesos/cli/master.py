@@ -68,10 +68,18 @@ class MesosMaster(object):
                 log.fatal(
                     "{0} does not have a valid path. Did you forget /mesos?".format(cfg))
 
-            info = mesos.interface.mesos_pb2.MasterInfo()
-            info.ParseFromString(data)
+            # Old versions of mesos stick a PID into zookeeper instead of the
+            # current MasterInfo. If the protobuf can't be decoded for whatever
+            # reason, assume that it is the old method.
+            val = None
+            try:
+                info = mesos.interface.mesos_pb2.MasterInfo()
+                info.ParseFromString(data)
+                val = info.pid
+            except google.protobuf.message.DecodeError:
+                val = data
 
-            return info.pid.split("@")[-1]
+            return val.split("@")[-1]
 
     def resolve(self, cfg):
         """Resolve the URL to the mesos master.
