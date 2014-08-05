@@ -38,10 +38,8 @@ parser.add_argument(
 )
 
 def get_memory(x):
-    if x.mem_limit == 0:
-        return "0"
-    else:
-        return "{0:.2f}".format((x.rss / (x.mem_limit * 1.0)) * 100)
+    max_mem = x.resources["mem"] * 1024 * 1024 * 1.0
+    return "{0:.2f}".format((x.rss / max_mem) * 100)
 
 def main():
     term = blessings.Terminal()
