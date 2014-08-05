@@ -15,13 +15,12 @@
 # limitations under the License.
 
 
-import datetime
 import os
 
-from . import cli
-from .master import current as master
-from . import slave
-from . import task
+from .. import cli
+from ..master import current as master
+from .. import slave
+from .. import task
 
 parser = cli.parser(
     description="List all the files inside a specific task's sandbox"
@@ -31,36 +30,38 @@ parser.add_argument(
     'task', type=str,
     help="""Name of the task.
 
-    Note that this can be a partial match.
-""").completer = cli.task_completer
+    Note that this can be a partial match."""
+).completer = cli.task_completer
 
 parser.add_argument(
     'path', type=str, nargs="?", default="",
-    help="""Path to view.
-""").completer = cli.file_completer
+    help="""Path to view."""
+).completer = cli.file_completer
 
 parser.add_argument(
     '-q', action='store_true',
     help="Suppresses printing of headers when multiple tasks are being examined"
 )
 
-def format_line(obj, base):
-    human_time = datetime.datetime.fromtimestamp(obj["mtime"]).strftime(
-        "%b %d %H:%M")
-    fmt = "{mode} {nlink: >3} {uid} {gid} {size: >5} {human_time} {fname}"
-    fname = os.path.relpath(obj["path"], base)
-    return fmt.format(human_time=human_time, fname=fname, **obj)
-
 def main():
     args = cli.init(parser)
 
     tlist = master.tasks(args.task)
+    path = args.path
+    if path.endswith("/"):
+        path = path[:-1]
+
     for t in tlist:
+        base = os.path.join(t.directory, path)
+        flist = t.file_list(path)
+
+        def walk_dir(flist):
+            for f in flist:
+                print os.path.relpath(f["path"], base)
+                if f["mode"][0].startswith("d"):
+                    walk_dir(t.file_list(f["path"]))
+
         if len(tlist) > 1 and not args.q:
             cli.header(t)
-
-        p = args.path
-        if p.endswith("/"):
-            p = p[:-1]
-        for f in t.file_list(p):
-            print format_line(f, os.path.join(t.directory, args.path))
+        if len(flist) > 0:
+            walk_dir(flist)

@@ -22,9 +22,9 @@ import gevent.subprocess
 import itertools
 import os
 
-from . import cli
-from .master import current as master
-from . import log
+from .. import cli
+from ..master import current as master
+from .. import log
 
 parser = cli.parser(
     description="upload the specified local file(s) to all slaves"

@@ -14,9 +14,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from . import cli
-from .cfg import current as cfg
-from .master import current as master
+from .. import cli
+from ..cfg import current as cfg
+from ..master import current as master
 
 parser = cli.parser(
     description="return the host/port for the currently leading master."

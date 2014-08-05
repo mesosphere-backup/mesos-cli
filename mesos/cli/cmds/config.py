@@ -14,34 +14,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 import json
-import mock
-import os
-import unittest
 
-import mesos.cli.cmds.state
+from .. import cli
+from ..cfg import current as cfg
 
-from .. import utils
+parser = cli.parser(
+    description="interact with your local cli configuration"
+)
 
-class TestState(utils.MockState):
+parser.add_argument("key", nargs="?", choices=cfg.DEFAULTS.keys() + ["profile"])
 
-    @utils.patch_args([ "mesos-state" ])
-    def test_master(self):
-        mesos.cli.cmds.state.main()
-        assert "version" in json.loads(self.stdout)
+parser.add_argument("value", nargs="?")
 
-    @utils.patch_args([ "mesos-state", "20140619-151434-16842879-5050-1196-0" ])
-    def test_single_slave(self):
-        mesos.cli.cmds.state.main()
+def main():
+    args = cli.init(parser)
 
-        val = json.loads(self.stdout)
-        assert len(val) == 1
-        assert val[0]["id"] == "20140619-151434-16842879-5050-1196-0"
-
-    @utils.patch_args([ "mesos-state", "2" ])
-    def test_partial_match(self):
-        mesos.cli.cmds.state.main()
-
-        val = json.loads(self.stdout)
-        assert len(val) == 2
+    if args.key:
+        if args.value:
+            setattr(cfg, args.key, args.value)
+            cfg.save()
+        else:
+            print getattr(cfg, args.key)
+    else:
+        print json.dumps(cfg, indent=4)

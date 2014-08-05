@@ -21,7 +21,7 @@ import sys
 import tempfile
 
 import mesos.cli.cfg
-import mesos.cli.config
+import mesos.cli.cmds.config
 
 from .. import utils
 
@@ -33,9 +33,9 @@ class TestConfig(utils.MockState):
     @mock.patch('os.environ', { "MESOS_CLI_CONFIG": config_path })
     @utils.patch_args([ "mesos-config" ])
     def test_output(self):
-        mesos.cli.config.cfg = mesos.cli.cfg.Config()
+        mesos.cli.cmds.config.cfg = mesos.cli.cfg.Config()
 
-        mesos.cli.config.main()
+        mesos.cli.cmds.config.main()
 
         out = json.loads(self.stdout)
         assert "master" in out["test"]
@@ -46,9 +46,9 @@ class TestConfig(utils.MockState):
         "master"
     ])
     def test_get_key(self):
-        mesos.cli.config.cfg = mesos.cli.cfg.Config()
+        mesos.cli.cmds.config.cfg = mesos.cli.cfg.Config()
 
-        mesos.cli.config.main()
+        mesos.cli.cmds.config.main()
 
         assert "zk://localhost:2181/mesos" in self.stdout
 
@@ -63,9 +63,9 @@ class TestConfig(utils.MockState):
             fobj.write("{}")
         try:
             with mock.patch('os.environ', { "MESOS_CLI_CONFIG": fname }) as m:
-                mesos.cli.config.cfg = mesos.cli.cfg.Config()
+                mesos.cli.cmds.config.cfg = mesos.cli.cfg.Config()
 
-                mesos.cli.config.main()
+                mesos.cli.cmds.config.main()
 
                 with open(fname, "r") as fobj:
                     assert "zk://localhost:2181" in json.loads(

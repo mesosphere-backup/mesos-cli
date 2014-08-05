@@ -15,18 +15,16 @@
 # limitations under the License.
 
 
-import argcomplete
+import itertools
 import os
-import sys
 
-from . import cli
-from .master import current as master
-from . import slave
-from . import slave_file
-from . import task
+from .. import cli
+from ..master import current as master
+from .. import slave_file
+from .. import task
 
 parser = cli.parser(
-    description="concatenate and print files"
+    description="display first lines of a file"
 )
 
 parser.add_argument(
@@ -35,16 +33,26 @@ parser.add_argument(
 ).completer = cli.task_completer
 
 parser.add_argument(
-    'file', type=str, nargs="*", default=["stdout"],
+    'file', nargs="*", default=["stdout"],
     help="Path to the file inside the task's sandbox."
 ).completer = cli.file_completer
+
+parser.add_argument(
+    '-n', default=10, type=int,
+    help="Number of lines of the file to output."
+)
+
+parser.add_argument(
+    '-q', action='store_true',
+    help="Suppresses printing of headers when multiple files/tasks are being examined"
+)
 
 def main():
     args = cli.init(parser)
 
-    for t in master.tasks(args.task):
-        for f in args.file:
-            fobj = t.file(f)
-            if fobj.exists():
-                for l in fobj:
-                    print l
+    for s, t, fobj, show_header in task.files(args.task, args.file):
+        if not args.q and show_header:
+            cli.header(fobj.name())
+
+        for l in itertools.islice(fobj, args.n):
+            print l

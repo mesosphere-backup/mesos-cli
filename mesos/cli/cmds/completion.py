@@ -19,8 +19,8 @@ import importlib
 import os
 import sys
 
-from . import cli
-from . import log
+from .. import cli
+from .. import log
 
 """Provide tab completions for python subcommands.
 
@@ -43,7 +43,6 @@ def cmd_options(cmd):
     except ImportError:
         return
     if not hasattr(mod, 'parser'):
-        print "Asfd"
         return
     importlib.import_module("argcomplete").autocomplete(
         mod.parser,

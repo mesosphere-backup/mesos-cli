@@ -14,27 +14,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import json
 
-from . import cli
-from .cfg import current as cfg
+from .. import cli
 
-parser = cli.parser(
-    description="interact with your local cli configuration"
-)
+USAGE = """Usage: mesos <command> [OPTIONS]
 
-parser.add_argument("key", nargs="?", choices=cfg.DEFAULTS.keys() + ["profile"])
-
-parser.add_argument("value", nargs="?")
+Available commands:
+\t{cmds}
+"""
 
 def main():
-    args = cli.init(parser)
-
-    if args.key:
-        if args.value:
-            setattr(cfg, args.key, args.value)
-            cfg.save()
-        else:
-            print getattr(cfg, args.key)
-    else:
-        print json.dumps(cfg, indent=4)
+    print USAGE.format(cmds="\n\t".join(cli.cmds(short=True)))

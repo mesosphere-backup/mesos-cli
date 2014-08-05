@@ -17,7 +17,7 @@
 
 import mock
 
-import mesos.cli.ssh
+import mesos.cli.cmds.ssh
 
 from .. import utils
 
@@ -29,7 +29,7 @@ class TestSsh(utils.MockState):
     ])
     def test_sandbox(self):
         with mock.patch("os.execvp") as m:
-            mesos.cli.ssh.main()
+            mesos.cli.cmds.ssh.main()
 
             m.assert_called_with("ssh", [
                 'ssh',
@@ -44,7 +44,7 @@ class TestSsh(utils.MockState):
     ])
     def test_missing(self):
         with mock.patch("os.execvp") as m:
-            mesos.cli.ssh.main()
+            mesos.cli.cmds.ssh.main()
 
             m.assert_called_with("ssh", [
                 'ssh',
@@ -57,6 +57,6 @@ class TestSsh(utils.MockState):
         "a"
     ])
     def test_partial(self):
-        self.assertRaises(SystemExit, mesos.cli.ssh.main)
+        self.assertRaises(SystemExit, mesos.cli.cmds.ssh.main)
 
         assert len(self.lines) == 17

@@ -18,15 +18,15 @@
 import blessings
 import collections
 import prettytable
-import util
 
 try:
     from collections import OrderedDict
 except ImportError:
     from ordereddict import OrderedDict
 
-from . import cli
-from .master import current as master
+from .. import cli
+from ..master import current as master
+from .. import util
 
 parser = cli.parser(
     description="process status"

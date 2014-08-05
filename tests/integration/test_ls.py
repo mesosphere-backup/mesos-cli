@@ -17,7 +17,7 @@
 
 import mock
 
-import mesos.cli.ls
+import mesos.cli.cmds.ls
 
 from .. import utils
 
@@ -29,7 +29,7 @@ class TestLs(utils.MockState):
         "app-15.41fef02d-fcba-11e3-8b67-b6f6cc110ef2"
     ])
     def test_single(self):
-        mesos.cli.ls.main()
+        mesos.cli.cmds.ls.main()
 
         # mode
         assert "-rw-r--r-x" in self.stdout
@@ -50,7 +50,7 @@ class TestLs(utils.MockState):
         "Twisted-14.0.0/"
     ])
     def test_path(self):
-        mesos.cli.ls.main()
+        mesos.cli.cmds.ls.main()
 
         assert len(self.lines) == 12
 
@@ -59,7 +59,7 @@ class TestLs(utils.MockState):
         "app"
     ])
     def test_multiple_tasks(self):
-        mesos.cli.ls.main()
+        mesos.cli.cmds.ls.main()
 
         assert len(self.lines) == 22
 
@@ -69,7 +69,7 @@ class TestLs(utils.MockState):
         "std"
     ])
     def test_partial(self):
-        mesos.cli.ls.main()
+        mesos.cli.cmds.ls.main()
 
         assert len(self.stdout) == 0
 
@@ -79,7 +79,7 @@ class TestLs(utils.MockState):
         "stdout"
     ])
     def test_exact(self):
-        mesos.cli.ls.main()
+        mesos.cli.cmds.ls.main()
 
         assert len(self.stdout) == 0
 
@@ -90,7 +90,7 @@ class TestLs(utils.MockState):
         "std"
     ])
     def test_hide_header(self):
-        mesos.cli.ls.main()
+        mesos.cli.cmds.ls.main()
 
         assert len(self.stdout) == 0
 
@@ -100,6 +100,6 @@ class TestLs(utils.MockState):
         "std"
     ])
     def test_empty_files(self):
-        mesos.cli.ls.main()
+        mesos.cli.cmds.ls.main()
 
         assert len(self.lines) == 16

@@ -54,27 +54,31 @@ config = {
     'classifiers': [ ],
 
     'namespace_packages': [ 'mesos' ],
-    'packages': [ 'mesos', 'mesos.cli' ],
+    'packages': [
+        'mesos',
+        'mesos.cli',
+        'mesos.cli.cmds'
+    ],
     'entry_points': {
         'console_scripts': [
             'mesos = mesos.cli.main:main',
 
             # helpers
-            'mesos-completion = mesos.cli.completion:main',
-            'mesos-config = mesos.cli.config:main',
-            'mesos-resolve = mesos.cli.resolve:main',
-            'mesos-state = mesos.cli.state:main',
+            'mesos-completion = mesos.cli.cmds.completion:main',
+            'mesos-config = mesos.cli.cmds.config:main',
+            'mesos-resolve = mesos.cli.cmds.resolve:main',
+            'mesos-state = mesos.cli.cmds.state:main',
 
             # coreutils
-            'mesos-cat = mesos.cli.cat:main',
-            'mesos-find = mesos.cli.find:main',
-            'mesos-head = mesos.cli.head:main',
-            'mesos-help = mesos.cli.help:main',
-            'mesos-ls = mesos.cli.ls:main',
-            'mesos-ps = mesos.cli.ps:main',
-            'mesos-scp = mesos.cli.scp:main',
-            'mesos-ssh = mesos.cli.ssh:main',
-            'mesos-tail = mesos.cli.tail:main'
+            'mesos-cat = mesos.cli.cmds.cat:main',
+            'mesos-find = mesos.cli.cmds.find:main',
+            'mesos-head = mesos.cli.cmds.head:main',
+            'mesos-help = mesos.cli.cmds.help:main',
+            'mesos-ls = mesos.cli.cmds.ls:main',
+            'mesos-ps = mesos.cli.cmds.ps:main',
+            'mesos-scp = mesos.cli.cmds.scp:main',
+            'mesos-ssh = mesos.cli.cmds.ssh:main',
+            'mesos-tail = mesos.cli.cmds.tail:main'
         ]
     },
     'setup_requires': [

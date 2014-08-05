@@ -17,7 +17,7 @@
 
 import mock
 
-import mesos.cli.find
+import mesos.cli.cmds.find
 
 from .. import utils
 
@@ -29,7 +29,7 @@ class TestFind(utils.MockState):
         "app-15.41fef02d-fcba-11e3-8b67-b6f6cc110ef2"
     ])
     def test_single(self):
-        mesos.cli.find.main()
+        mesos.cli.cmds.find.main()
 
         assert len(self.lines) == 3
 
@@ -39,7 +39,7 @@ class TestFind(utils.MockState):
         "Twisted-14.0.0/twisted/words/xish/"
     ])
     def test_path(self):
-        mesos.cli.find.main()
+        mesos.cli.cmds.find.main()
 
         assert len(self.lines) == 8
 
@@ -48,7 +48,7 @@ class TestFind(utils.MockState):
         "app"
     ])
     def test_multiple_tasks(self):
-        mesos.cli.find.main()
+        mesos.cli.cmds.find.main()
 
         assert len(self.lines) == 1872
 
@@ -58,7 +58,7 @@ class TestFind(utils.MockState):
         "std"
     ])
     def test_partial(self):
-        mesos.cli.find.main()
+        mesos.cli.cmds.find.main()
 
         assert len(self.stdout) == 0
 
@@ -68,7 +68,7 @@ class TestFind(utils.MockState):
         "stdout"
     ])
     def test_exact(self):
-        mesos.cli.find.main()
+        mesos.cli.cmds.find.main()
 
         assert len(self.stdout) == 0
 
@@ -79,7 +79,7 @@ class TestFind(utils.MockState):
         "std"
     ])
     def test_hide_header(self):
-        mesos.cli.find.main()
+        mesos.cli.cmds.find.main()
 
         assert len(self.stdout) == 0
 
@@ -89,6 +89,6 @@ class TestFind(utils.MockState):
         "std"
     ])
     def test_empty_files(self):
-        mesos.cli.find.main()
+        mesos.cli.cmds.find.main()
 
         assert len(self.lines) == 16

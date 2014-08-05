@@ -17,7 +17,7 @@
 
 import mock
 
-import mesos.cli.head
+import mesos.cli.cmds.head
 
 from .. import utils
 
@@ -29,7 +29,7 @@ class TestHead(utils.MockState):
         "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2"
     ])
     def test_single_default(self):
-        mesos.cli.head.main()
+        mesos.cli.cmds.head.main()
 
         assert len(self.lines) == 5
 
@@ -39,7 +39,7 @@ class TestHead(utils.MockState):
         "stderr"
     ])
     def test_single_specific(self):
-        mesos.cli.head.main()
+        mesos.cli.cmds.head.main()
 
         assert len(self.lines) == 8
 
@@ -49,7 +49,7 @@ class TestHead(utils.MockState):
         "st"
     ])
     def test_partial(self):
-        self.assertRaises(SystemExit, mesos.cli.head.main)
+        self.assertRaises(SystemExit, mesos.cli.cmds.head.main)
 
         assert len(self.lines) == 2
 
@@ -58,7 +58,7 @@ class TestHead(utils.MockState):
         "app"
     ])
     def test_multiple_tasks(self):
-        mesos.cli.head.main()
+        mesos.cli.cmds.head.main()
 
         assert len(self.lines) == 11
 
@@ -69,7 +69,7 @@ class TestHead(utils.MockState):
         "stderr"
     ])
     def test_multiple_files(self):
-        mesos.cli.head.main()
+        mesos.cli.cmds.head.main()
 
         assert len(self.lines) == 14
 
@@ -79,7 +79,7 @@ class TestHead(utils.MockState):
         "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2"
     ])
     def test_line_limit(self):
-        mesos.cli.head.main()
+        mesos.cli.cmds.head.main()
 
         assert "Registered" in self.stdout
         assert len(self.lines) == 2
@@ -90,6 +90,6 @@ class TestHead(utils.MockState):
         "app"
     ])
     def test_hide_header(self):
-        mesos.cli.head.main()
+        mesos.cli.cmds.head.main()
 
         assert len(self.lines) == 9

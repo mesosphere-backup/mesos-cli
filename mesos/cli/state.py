@@ -18,8 +18,8 @@
 import argcomplete
 import json
 
-from . import cli
-from .master import current as master
+from .. import cli
+from ..master import current as master
 
 parser = cli.parser(
     description="fetch the json state for either the master or a specific slave"

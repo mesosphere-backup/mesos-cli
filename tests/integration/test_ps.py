@@ -17,7 +17,7 @@
 
 import mock
 
-import mesos.cli.ps
+import mesos.cli.cmds.ps
 
 from .. import utils
 
@@ -28,7 +28,7 @@ class TestPs(utils.MockState):
         "mesos-ps"
     ])
     def test_format(self):
-        mesos.cli.ps.main()
+        mesos.cli.cmds.ps.main()
 
         # Time
         assert "01:23.33" in self.stdout
@@ -52,6 +52,6 @@ class TestPs(utils.MockState):
         "-i"
     ])
     def test_inactive(self):
-        mesos.cli.ps.main()
+        mesos.cli.cmds.ps.main()
 
         assert len(self.lines) == 17
