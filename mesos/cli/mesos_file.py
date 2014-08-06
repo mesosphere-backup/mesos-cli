@@ -19,23 +19,27 @@ import itertools
 import os
 
 from . import exceptions
-from . import slave
 from . import util
 
 CHUNK = 1024
 
-class SlaveFile(object):
+class File(object):
 
-    def __init__(self, s, t, f):
-        self.slave = s
-        self.task = t
-        self.fname = f
-        self._slave_path = os.path.join(self.task.directory, f)
+    def __init__(self, host, task=None, path=None):
+        self.host = host
+        self.task = task
+        self.path = path
+
+        if self.task is None:
+            self._host_path = self.path
+        else:
+            self._host_path = os.path.join(self.task.directory, self.path)
+
         self._offset = 0
 
         # Used during fetch, class level so the dict isn't constantly alloc'd
         self._params = {
-            "path": self._slave_path,
+            "path": self._host_path,
             "offset": -1,
             "length": CHUNK
         }
@@ -52,13 +56,16 @@ class SlaveFile(object):
             yield l
 
     def _fetch(self):
-        resp = self.slave.fetch("/files/read.json", params=self._params)
+        resp = self.host.fetch("/files/read.json", params=self._params)
         if resp.status_code == 404:
             raise exceptions.FileDNE("No such file or directory.")
         return resp.json()
 
     def name(self):
-        return "%s:%s/%s" % (self.slave.pid, self.task.id, self.fname)
+        base = self.host.pid
+        if self.task:
+            base += ":" + self.task.id
+        base += "/" + self.path
 
     def exists(self):
         try:

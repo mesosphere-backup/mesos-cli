@@ -66,6 +66,7 @@ config = {
             # helpers
             'mesos-completion = mesos.cli.cmds.completion:main',
             'mesos-config = mesos.cli.cmds.config:main',
+            'mesos-events = mesos.cli.cmds.events:main',
             'mesos-resolve = mesos.cli.cmds.resolve:main',
             'mesos-state = mesos.cli.cmds.state:main',
 

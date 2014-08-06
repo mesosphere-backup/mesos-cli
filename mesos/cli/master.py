@@ -24,6 +24,7 @@ import mesos.interface.mesos_pb2
 import os
 import re
 import requests
+import requests.exceptions
 import sys
 import urlparse
 
@@ -46,6 +47,13 @@ class MesosMaster(object):
     @util.cached_property()
     def host(self):
         return "http://%s" % (self.resolve(cfg.master),)
+
+    def fetch(self, url, **kwargs):
+        try:
+            return requests.get(urlparse.urljoin(
+                self.host, url), **kwargs)
+        except requests.excption.ConnectionError:
+            log.fatal(MISSING_MASTER.format(self.host))
 
     def _file_resolver(self, cfg):
         return self.resolve(open(cfg[6:], "r+").read().strip())
@@ -99,11 +107,7 @@ class MesosMaster(object):
 
     @util.cached_property(ttl=5)
     def state(self):
-        try:
-            return requests.get(urlparse.urljoin(
-                self.host, "/master/state.json")).json()
-        except requests.exceptions.ConnectionError:
-            log.fatal(MISSING_MASTER.format(self.host))
+        return self.fetch("/master/state.json").json()
 
     @util.memoize
     def slave(self, fltr):

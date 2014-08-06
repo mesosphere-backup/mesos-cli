@@ -22,7 +22,6 @@ import time
 
 from .. import cli
 from ..master import current as master
-from .. import slave_file
 from .. import task
 
 RECHECK = 1

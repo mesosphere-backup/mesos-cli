@@ -20,7 +20,6 @@ import os
 
 from .. import cli
 from ..master import current as master
-from .. import slave_file
 from .. import task
 
 parser = cli.parser(

@@ -23,6 +23,7 @@ import urlparse
 
 from . import exceptions
 from . import log
+from . import mesos_file
 from . import util
 
 class MesosSlave(object):
@@ -74,7 +75,7 @@ class MesosSlave(object):
         return resp.json()
 
     def file(self, task, path):
-        return slave_file.SlaveFile(self, task, path)
+        return mesos_file.File(self, task, path)
 
     @util.cached_property(ttl=1)
     def stats(self):
