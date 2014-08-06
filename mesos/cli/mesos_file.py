@@ -48,6 +48,25 @@ class File(object):
         for l in self._readlines():
             yield l
 
+    def __eq__(x, y):
+        return x.key() == y.key()
+
+    def __hash__(self):
+        return hash(self.key())
+
+    def __repr__(self):
+        return "<open file '{0}', for '{1}'>".format(self.path, self._where)
+
+    def __str__(self):
+        return "{0}:{1}".format(self._where, self.path)
+
+    def key(self):
+        return "{0}:{1}".format(self.host.key(), self._host_path)
+
+    @property
+    def _where(self):
+        return self.task.id if self.task is not None else self.host.key()
+
     def __reversed__(self):
         for i, l in enumerate(self._readlines_reverse()):
             # Don't include the terminator when reading in reverse.
@@ -61,12 +80,6 @@ class File(object):
             raise exceptions.FileDNE("No such file or directory.")
         return resp.json()
 
-    def name(self):
-        base = self.host.pid
-        if self.task:
-            base += ":" + self.task.id
-        base += "/" + self.path
-
     def exists(self):
         try:
             self._fetch()
@@ -74,9 +87,9 @@ class File(object):
         except exceptions.FileDNE:
             return False
 
+    @property
     def size(self):
-        self.last_size = self._fetch()["offset"]
-        return self.last_size
+        return self._fetch()["offset"]
 
     def seek(self, offset, whence=os.SEEK_SET):
         if whence == os.SEEK_SET:
@@ -84,7 +97,7 @@ class File(object):
         elif whence == os.SEEK_CUR:
             self._offset += offset
         elif whence == os.SEEK_END:
-            self._offset = self.size() + offset
+            self._offset = self.size + offset
 
     def tell(self):
         return self._offset
@@ -115,7 +128,7 @@ class File(object):
             yield blob
 
     def _read_reverse(self, size=None):
-        fsize = self.size()
+        fsize = self.size
         if not size:
             size = fsize
 

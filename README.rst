@@ -143,6 +143,16 @@ cat
 
     mesos cat task-id file [file]
 
+------
+events
+------
+
+observe events from the cluster. You will see the events occurring on the master and all slaves in the cluster (including new slaves as they arrive) as they occur.
+
+.. code-block:: bash
+
+    mesos events
+
 ----
 find
 ----

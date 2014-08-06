@@ -51,7 +51,7 @@ def main():
 
     for s, t, fobj, show_header in task.files(args.task, args.file):
         if not args.q and show_header:
-            cli.header(fobj.name())
+            cli.header(fobj)
 
         for l in itertools.islice(fobj, args.n):
             print l

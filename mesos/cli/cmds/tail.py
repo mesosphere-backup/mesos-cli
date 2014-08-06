@@ -62,18 +62,21 @@ def follow(args):
     global last_seen
     for s, t, fobj, show_header in task.files(args.task, args.file, fail=False):
 
-        fobj.seek(files_seen.get(fobj.name(), 0))
-        if fobj.size() == fobj.tell():
-            continue
-
-        if fobj.name() != last_seen and not args.q:
-            cli.header(fobj.name())
+        fobj.seek(files_seen.get(fobj, 0))
+        first = True
 
         for l in fobj:
+            if first and str(log) != last_seen and not args.q:
+                cli.header(fobj)
+
             print l
 
-        files_seen[fobj.name()] = fobj.tell()
-        last_seen = fobj.name()
+            first = False
+
+        files_seen[fobj] = fobj.tell()
+
+        if not first:
+            last_seen = fobj
 
 def main():
     global last_seen
@@ -82,14 +85,14 @@ def main():
     for s, t, fobj, show_header in task.files(args.task, args.file,
             fail=(not args.follow)):
         if not args.q and show_header:
-            cli.header(fobj.name(),)
+            cli.header(fobj,)
 
         lines = list(itertools.islice(reversed(fobj), args.n))
         for l in reversed(lines):
             print l
 
-        files_seen[fobj.name()] = fobj.last_size
-        last_seen = fobj.name()
+        files_seen[fobj] = fobj.last_size
+        last_seen = fobj
 
     if args.follow:
         while 1:

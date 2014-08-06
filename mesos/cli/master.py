@@ -30,6 +30,7 @@ import urlparse
 
 from .cfg import current as cfg
 from . import log
+from . import mesos_file
 from . import slave
 from . import task
 from . import util
@@ -43,6 +44,15 @@ Try running `mesos config master zk://localhost:2181/mesos`. See the README for
 more examples."""
 
 class MesosMaster(object):
+
+    def __str__(self):
+        return self.__repr__()
+
+    def __repr__(self):
+        return "<master: {0}>".format(self.key())
+
+    def key(self):
+        return cfg.master
 
     @util.cached_property()
     def host(self):
@@ -160,5 +170,10 @@ class MesosMaster(object):
         if not active_only:
             keys.append("completed_frameworks")
         return util.merge(self.state, *keys)
+
+    @property
+    @util.memoize
+    def log(self):
+        return mesos_file.File(self, path="/master/log")
 
 current = MesosMaster()
