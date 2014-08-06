@@ -24,11 +24,13 @@ import mesos.interface.mesos_pb2
 import os
 import re
 import requests
+import requests.exceptions
 import sys
 import urlparse
 
 from .cfg import current as cfg
 from . import log
+from . import mesos_file
 from . import slave
 from . import task
 from . import util
@@ -43,9 +45,25 @@ more examples."""
 
 class MesosMaster(object):
 
+    def __str__(self):
+        return self.__repr__()
+
+    def __repr__(self):
+        return "<master: {0}>".format(self.key())
+
+    def key(self):
+        return cfg.master
+
     @util.cached_property()
     def host(self):
         return "http://%s" % (self.resolve(cfg.master),)
+
+    def fetch(self, url, **kwargs):
+        try:
+            return requests.get(urlparse.urljoin(
+                self.host, url), **kwargs)
+        except requests.excption.ConnectionError:
+            log.fatal(MISSING_MASTER.format(self.host))
 
     def _file_resolver(self, cfg):
         return self.resolve(open(cfg[6:], "r+").read().strip())
@@ -99,11 +117,7 @@ class MesosMaster(object):
 
     @util.cached_property(ttl=5)
     def state(self):
-        try:
-            return requests.get(urlparse.urljoin(
-                self.host, "/master/state.json")).json()
-        except requests.exceptions.ConnectionError:
-            log.fatal(MISSING_MASTER.format(self.host))
+        return self.fetch("/master/state.json").json()
 
     @util.memoize
     def slave(self, fltr):
@@ -156,5 +170,10 @@ class MesosMaster(object):
         if not active_only:
             keys.append("completed_frameworks")
         return util.merge(self.state, *keys)
+
+    @property
+    @util.memoize
+    def log(self):
+        return mesos_file.File(self, path="/master/log")
 
 current = MesosMaster()

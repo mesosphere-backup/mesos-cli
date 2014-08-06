@@ -23,7 +23,7 @@ import mesos.cli.exceptions
 
 from .. import utils
 
-@mock.patch("mesos.cli.slave_file.SlaveFile._fetch", utils.sandbox_read)
+@mock.patch("mesos.cli.mesos_file.File._fetch", utils.sandbox_read)
 class TestCat(utils.MockState):
 
     @utils.patch_args([

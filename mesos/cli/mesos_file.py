@@ -19,23 +19,27 @@ import itertools
 import os
 
 from . import exceptions
-from . import slave
 from . import util
 
 CHUNK = 1024
 
-class SlaveFile(object):
+class File(object):
 
-    def __init__(self, s, t, f):
-        self.slave = s
-        self.task = t
-        self.fname = f
-        self._slave_path = os.path.join(self.task.directory, f)
+    def __init__(self, host, task=None, path=None):
+        self.host = host
+        self.task = task
+        self.path = path
+
+        if self.task is None:
+            self._host_path = self.path
+        else:
+            self._host_path = os.path.join(self.task.directory, self.path)
+
         self._offset = 0
 
         # Used during fetch, class level so the dict isn't constantly alloc'd
         self._params = {
-            "path": self._slave_path,
+            "path": self._host_path,
             "offset": -1,
             "length": CHUNK
         }
@@ -43,6 +47,25 @@ class SlaveFile(object):
     def __iter__(self):
         for l in self._readlines():
             yield l
+
+    def __eq__(x, y):
+        return x.key() == y.key()
+
+    def __hash__(self):
+        return hash(self.key())
+
+    def __repr__(self):
+        return "<open file '{0}', for '{1}'>".format(self.path, self._where)
+
+    def __str__(self):
+        return "{0}:{1}".format(self._where, self.path)
+
+    def key(self):
+        return "{0}:{1}".format(self.host.key(), self._host_path)
+
+    @property
+    def _where(self):
+        return self.task.id if self.task is not None else self.host.key()
 
     def __reversed__(self):
         for i, l in enumerate(self._readlines_reverse()):
@@ -52,13 +75,10 @@ class SlaveFile(object):
             yield l
 
     def _fetch(self):
-        resp = self.slave.fetch("/files/read.json", params=self._params)
+        resp = self.host.fetch("/files/read.json", params=self._params)
         if resp.status_code == 404:
             raise exceptions.FileDNE("No such file or directory.")
         return resp.json()
-
-    def name(self):
-        return "%s:%s/%s" % (self.slave.pid, self.task.id, self.fname)
 
     def exists(self):
         try:
@@ -67,9 +87,9 @@ class SlaveFile(object):
         except exceptions.FileDNE:
             return False
 
+    @property
     def size(self):
-        self.last_size = self._fetch()["offset"]
-        return self.last_size
+        return self._fetch()["offset"]
 
     def seek(self, offset, whence=os.SEEK_SET):
         if whence == os.SEEK_SET:
@@ -77,7 +97,7 @@ class SlaveFile(object):
         elif whence == os.SEEK_CUR:
             self._offset += offset
         elif whence == os.SEEK_END:
-            self._offset = self.size() + offset
+            self._offset = self.size + offset
 
     def tell(self):
         return self._offset
@@ -108,7 +128,7 @@ class SlaveFile(object):
             yield blob
 
     def _read_reverse(self, size=None):
-        fsize = self.size()
+        fsize = self.size
         if not size:
             size = fsize
 

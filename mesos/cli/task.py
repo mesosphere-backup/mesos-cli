@@ -24,7 +24,7 @@ import urlparse
 from . import exceptions
 from . import log
 from . import slave
-from . import slave_file
+from . import mesos_file
 from . import util
 
 class Task(dict):
@@ -69,7 +69,7 @@ class Task(dict):
         return self.master.slave(self._meta["slave_id"])
 
     def file(self, path):
-        return slave_file.SlaveFile(self.slave, self, path)
+        return mesos_file.File(self.slave, self, path)
 
     def file_list(self, path):
         return self.slave.file_list(os.path.join(self.directory, path))

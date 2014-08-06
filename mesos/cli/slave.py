@@ -14,15 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 import itertools
 import logging
 import requests
+import requests.exceptions
 import sys
 import urlparse
 
 from . import exceptions
 from . import log
+from . import mesos_file
 from . import util
 
 class MesosSlave(object):
@@ -35,6 +36,15 @@ class MesosSlave(object):
             return self._meta[name]
         raise AttributeError()
 
+    def __str__(self):
+        return self.__repr__()
+
+    def __repr__(self):
+        return "<slave: {0}>".format(self.key())
+
+    def key(self):
+        return self.pid.split('@')[-1]
+
     @property
     def host(self):
         return "http://{}:{}".format(
@@ -45,7 +55,7 @@ class MesosSlave(object):
         try:
             return requests.get(urlparse.urljoin(
                 self.host, url), **kwargs)
-        except requests.excption.ConnectionError:
+        except requests.exceptions.ConnectionError:
             log.fatal("Unable to connect to the slave at {}.".format(self.host))
 
     @util.cached_property(ttl=5)
@@ -74,7 +84,7 @@ class MesosSlave(object):
         return resp.json()
 
     def file(self, task, path):
-        return slave_file.SlaveFile(self, task, path)
+        return mesos_file.File(self, task, path)
 
     @util.cached_property(ttl=1)
     def stats(self):
@@ -88,3 +98,8 @@ class MesosSlave(object):
         eid = self.task_executor(_id)["id"]
         return filter(lambda x: x["executor_id"] == eid,
             self.stats)[0]["statistics"]
+
+    @property
+    @util.memoize
+    def log(self):
+        return mesos_file.File(self, path="/slave/log")
