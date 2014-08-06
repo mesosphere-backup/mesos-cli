@@ -272,9 +272,8 @@ Testing
 
 There are two ways to do testing. If you'd like to just test with your local setup:
 
-    python setup.py nosetests --where tests
+    python setup.py nosetests
 
 For a full virtualenv + specific python versions (py26, py27), you can use tox:
 
-    pip install tox
     tox
