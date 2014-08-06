@@ -1,6 +1,14 @@
 
 # Debugging tasks on mesos
 
+- Nothing's going on! I don't understand!
+
+    You should check out what's going on with your cluster:
+
+        mesos events
+
+    This will output all the events that occurring in your cluster (the leading master and all slaves).
+
 - What is happening with my task?
 
     To get a listing of the running tasks on your mesos cluster:
