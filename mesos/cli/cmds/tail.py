@@ -76,7 +76,7 @@ def follow(args):
         files_seen[fobj] = fobj.tell()
 
         if not first:
-            last_seen = fobj
+            last_seen = str(fobj)
 
 def main():
     global last_seen
@@ -92,7 +92,7 @@ def main():
             print l
 
         files_seen[fobj] = fobj.tell()
-        last_seen = fobj
+        last_seen = str(fobj)
 
     if args.follow:
         while 1:
