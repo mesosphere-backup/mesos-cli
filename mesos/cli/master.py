@@ -62,7 +62,7 @@ class MesosMaster(object):
         try:
             return requests.get(urlparse.urljoin(
                 self.host, url), **kwargs)
-        except requests.excption.ConnectionError:
+        except requests.exceptions.ConnectionError:
             log.fatal(MISSING_MASTER.format(self.host))
 
     def _file_resolver(self, cfg):
