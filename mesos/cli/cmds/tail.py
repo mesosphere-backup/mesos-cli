@@ -66,7 +66,7 @@ def follow(args):
         first = True
 
         for l in fobj:
-            if first and str(log) != last_seen and not args.q:
+            if first and str(fobj) != last_seen and not args.q:
                 cli.header(fobj)
 
             print l
