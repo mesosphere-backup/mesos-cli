@@ -121,7 +121,7 @@ Commands
 
 All commands have their own options and parameters. Make sure you run `mesos [command] --help` to get the potential options.
 
-Most commands take a `task-id` as parameter. This does not need to be an exact match and for commands where it makes sense, can match multiple tasks. Supposed your cluster is running the following tasks:
+Most commands take a `task-id` as parameter. This does not need to be an exact match and for commands where it makes sense, can match multiple tasks. Suppose your cluster is running the following tasks:
 
     hadoop.myjob.12345-1928731
 
@@ -131,9 +131,9 @@ Most commands take a `task-id` as parameter. This does not need to be an exact m
 
     app-20.9845uih-9823hriu-2938u422
 
-- A task-id of app will match both app-10 and app-20.
-- A task-id of myjob will only match the hadoop task.
-- A task-id of 1231234 will only match the rails task.
+- A task-id of `app` will match both app-10 and app-20.
+- A task-id of `myjob` will only match the hadoop task.
+- A task-id of `1231234` will only match the rails task.
 
 ---
 cat
@@ -147,11 +147,11 @@ cat
 events
 ------
 
-observe events from the cluster. You will see the events occurring on the master and all slaves in the cluster (including new slaves as they arrive) as they occur.
-
 .. code-block:: bash
 
     mesos events
+
+observe events from the cluster. You will see the events occurring on the master and all slaves in the cluster (including new slaves as they arrive) as they occur.
 
 ----
 find
@@ -227,13 +227,13 @@ Adding Commands
 
 Commands are all separate scripts. The `mesos` script inspects your path and looks for everything that starts with `mesos-`. To add a new command, just name the script `mesos-new-name` and you'll have a new command. This makes it possible to write new sub-commands in whatever language you'd like.
 
-There are some functions that are nice to have when you're doing a new command. While all of them are available in python via. this package, a subset is available via. existing commands. This allows you to focus on the new functionality you'd like in your command (in the language you're comfortable with).
+There are some utils that are nice to have when you're doing a new command. While all of them are available in python via. this package, a subset is available via. existing commands. This allows you to focus on the new functionality you'd like in your command (in the language you're comfortable with).
 
 ------
 config
 ------
 
-..code-block:: bash
+.. code-block:: bash
 
     mesos config [key] [value]
 
