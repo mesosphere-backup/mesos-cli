@@ -91,7 +91,7 @@ def main():
         for l in reversed(lines):
             print l
 
-        files_seen[fobj] = fobj.last_size
+        files_seen[fobj] = fobj.tell()
         last_seen = fobj
 
     if args.follow:
