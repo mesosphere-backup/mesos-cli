@@ -26,8 +26,6 @@ from ..master import current as master
 
 gevent.monkey.patch_all()
 
-
-
 parser = cli.parser(
     description="upload the specified local file(s) to all slaves"
 )
@@ -42,6 +40,7 @@ parser.add_argument(
     help="Remote path to upload local files to"
 )
 
+
 def upload(slave, src, dst):
     cmd = [
         "scp",
@@ -54,6 +53,7 @@ def upload(slave, src, dst):
     except gevent.subprocess.CalledProcessError, e:
         return (slave, e.returncode)
 
+
 def main():
     args = cli.init(parser)
 
@@ -64,5 +64,6 @@ def main():
     gevent.joinall(jobs)
 
     for slave, src, dst, retcode in [x.value for x in jobs]:
-        print "{0}:{1}\t{2}".format(slave.hostname, os.path.join(dst, src),
+        print "{0}:{1}\t{2}".format(
+            slave.hostname, os.path.join(dst, src),
             "uploaded" if retcode == 0 else "failed")

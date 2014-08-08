@@ -16,7 +16,6 @@
 
 
 import os
-import StringIO
 import sys
 
 import mock
@@ -34,6 +33,7 @@ def generate_env(line):
     env.update(os.environ)
     return env
 
+
 # There are some side effects in completion. To test completers, make sure you
 # use different commands. Otherwise, you'll get what appears to be random
 # failures.
@@ -41,6 +41,7 @@ def generate_env(line):
 class TestCompletion(utils.MockState):
 
     @mock.patch("os.environ", generate_env("mesos "))
+    @mock.patch("mesos.cli.cli.cmds", lambda **kwargs: ["help"])
     def test_cmds(self):
         mesos.cli.cmds.completion.main()
 

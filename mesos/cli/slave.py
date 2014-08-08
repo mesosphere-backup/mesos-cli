@@ -14,9 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import itertools
-import logging
-import sys
 import urlparse
 
 import requests
@@ -55,7 +52,8 @@ class MesosSlave(object):
             return requests.get(urlparse.urljoin(
                 self.host, url), **kwargs)
         except requests.exceptions.ConnectionError:
-            log.fatal("Unable to connect to the slave at {}.".format(self.host))
+            log.fatal("Unable to connect to the slave at {}.".format(
+                self.host))
 
     @util.cached_property(ttl=5)
     def state(self):
@@ -68,9 +66,10 @@ class MesosSlave(object):
     def task_executor(self, task_id):
         for fw in self.frameworks:
             for exc in util.merge(fw, "executors", "completed_executors"):
-                if task_id in map(lambda x: x["id"],
-                        util.merge(exc, "completed_tasks", "tasks",
-                            "queued_tasks")):
+                if task_id in map(
+                        lambda x: x["id"],
+                        util.merge(
+                            exc, "completed_tasks", "tasks", "queued_tasks")):
                     return exc
         raise exceptions.MissingExecutor("No executor has a task by that id")
 
@@ -79,7 +78,7 @@ class MesosSlave(object):
         if path == "":
             return []
 
-        resp = self.fetch("/files/browse.json", params={ "path": path })
+        resp = self.fetch("/files/browse.json", params={"path": path})
         if resp.status_code == 404:
             return []
         return resp.json()
@@ -89,7 +88,6 @@ class MesosSlave(object):
 
     @util.cached_property(ttl=1)
     def stats(self):
-        open("/tmp/slave_statistics.json", "wb").write(self.fetch("/monitor/statistics.json").text)
         return self.fetch("/monitor/statistics.json").json()
 
     def executor_stats(self, _id):
@@ -97,8 +95,10 @@ class MesosSlave(object):
 
     def task_stats(self, _id):
         eid = self.task_executor(_id)["id"]
-        return filter(lambda x: x["executor_id"] == eid,
-            self.stats)[0]["statistics"]
+        return filter(
+            lambda x: x["executor_id"] == eid,
+            self.stats
+        )[0]["statistics"]
 
     @property
     @util.memoize

@@ -22,9 +22,19 @@ import os
 import blessings
 import mesos.cli
 
-from . import exceptions, log
+from . import exceptions
 from .cfg import current as cfg
 from .master import current as master
+
+
+class ArgumentParser(argparse.ArgumentParser):
+
+    def enable_print_header(self):
+        self.add_argument(
+            '-q', action='store_true',
+            help="Suppresses printing of headers when multiple tasks are " +
+                 "being examined"
+        )
 
 
 def init(parser=None):
@@ -37,8 +47,9 @@ def init(parser=None):
 
     return args
 
+
 def parser(**kwargs):
-    p = argparse.ArgumentParser(
+    p = ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         **kwargs
     )
@@ -49,9 +60,11 @@ def parser(**kwargs):
     )
     return p
 
+
 def header(name):
     term = blessings.Terminal()
     print "==>" + term.red + str(name) + term.white + "<=="
+
 
 def cmds(short=False):
     def fltr(cmd):
@@ -75,11 +88,14 @@ def cmds(short=False):
     cmds.sort()
     return cmds
 
+
 def task_completer(prefix, parsed_args, **kwargs):
     return [x.id for x in master.tasks(prefix)]
 
+
 def slave_completer(prefix, parsed_args, **kwargs):
     return [s.id for s in master.slaves(prefix)]
+
 
 def file_completer(prefix, parsed_args, **kwargs):
     files = set([])

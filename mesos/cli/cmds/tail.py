@@ -15,13 +15,10 @@
 # limitations under the License.
 
 
-import functools
 import itertools
-import os
 import time
 
 from .. import cli, task
-from ..master import current as master
 
 RECHECK = 1
 
@@ -49,17 +46,15 @@ parser.add_argument(
     help="Number of lines of the file to tail."
 )
 
-parser.add_argument(
-    '-q', action='store_true',
-    help="Suppresses printing of headers when multiple files/tasks are being examined"
-)
+parser.enable_print_header()
 
 files_seen = {}
 last_seen = None
 
+
 def follow(args):
     global files_seen, last_seen
-    for s, t, fobj, show_header in task.files(args.task, args.file, fail=False):
+    for fobj, show_header in task.files(args.task, args.file, fail=False):
 
         fobj.seek(files_seen.get(fobj, 0))
         first = True
@@ -77,12 +72,13 @@ def follow(args):
         if not first:
             last_seen = str(fobj)
 
+
 def main():
     global files_seen, last_seen
     args = cli.init(parser)
 
-    for s, t, fobj, show_header in task.files(args.task, args.file,
-            fail=(not args.follow)):
+    for fobj, show_header in task.files(
+            args.task, args.file, fail=(not args.follow)):
         if not args.q and show_header:
             cli.header(fobj,)
 

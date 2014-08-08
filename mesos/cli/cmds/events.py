@@ -24,8 +24,6 @@ from ..master import current as master
 
 gevent.monkey.patch_all()
 
-
-
 parser = cli.parser(
     description="observe events from the cluster"
 )
@@ -35,12 +33,10 @@ parser.add_argument(
     help="Sleep approximately N seconds between iterations"
 )
 
-parser.add_argument(
-    '-q', action='store_true',
-    help="Suppresses printing of headers when multiple files/tasks are being examined"
-)
+parser.enable_print_header()
 
 last_seen = None
+
 
 def main():
     args = cli.init(parser)
@@ -55,8 +51,8 @@ def main():
             for l in log:
                 # TODO(thomas) - It is possible for there to be a pause in the
                 # middle of this loop (reading the next block from the remote)
-                # in this case, the header wouln't be printed and the user would
-                # be confused.
+                # in this case, the header wouln't be printed and the user
+                # would be confused.
                 if first and str(log) != last_seen and not args.q:
                     cli.header(log)
 
@@ -77,7 +73,7 @@ def main():
     def find_slaves():
         while True:
             for slave in master.slaves():
-                if not slave.log in active_streams:
+                if slave.log not in active_streams:
                     add_reader(slave.log)
 
             gevent.sleep(args.sleep_interval)

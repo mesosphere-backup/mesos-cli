@@ -23,9 +23,11 @@ parser = cli.parser(
     description="interact with your local cli configuration"
 )
 
-parser.add_argument("key", nargs="?", choices=cfg.DEFAULTS.keys() + ["profile"])
+parser.add_argument(
+    "key", nargs="?", choices=cfg.DEFAULTS.keys() + ["profile"])
 
 parser.add_argument("value", nargs="?")
+
 
 def main():
     args = cli.init(parser)

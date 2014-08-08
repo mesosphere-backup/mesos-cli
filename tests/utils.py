@@ -37,12 +37,14 @@ def get_state(name, parse=True):
         else:
             return val
 
+
 def sandbox_file(path):
     fpath = os.path.normpath(os.path.join(
         os.path.dirname(__file__), "data", "sandbox", os.path.basename(path)))
     if not os.path.exists(fpath):
         raise mesos.cli.exceptions.FileDNE("")
     return open(fpath, "rb")
+
 
 # Emulate the byte fetch interface and replace with reading local files
 def sandbox_read(self):
@@ -65,14 +67,18 @@ def sandbox_read(self):
         }
 
 browse_state = None
+
+
 def file_list(self, path):
     if not globals()["browse_state"]:
         globals()["browse_state"] = get_state("browse.json")
     return globals()["browse_state"].get(path, [])
 
-slave_stats = mock.PropertyMock(return_value=get_state("slave_statistics.json"))
+slave_stats = mock.PropertyMock(
+    return_value=get_state("slave_statistics.json"))
 
 patch_args = functools.partial(mock.patch, "sys.argv")
+
 
 class MockState(testtools.TestCase):
 

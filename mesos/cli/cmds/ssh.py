@@ -14,14 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import copy
 import os
 import platform
-import sys
 
 import blessings
 
-from .. import cli, log, slave, task
+from .. import cli, log
 from ..master import current as master
 
 parser = cli.parser(
@@ -32,6 +30,7 @@ parser.add_argument(
     'task', type=str,
     help="""Name of the task."""
 ).completer = cli.task_completer
+
 
 def main():
     term = blessings.Terminal()

@@ -17,12 +17,12 @@
 
 import functools
 import itertools
-import re
 import time
 
 
 def merge(obj, *keys):
     return itertools.chain(*[obj[k] for k in keys])
+
 
 def iter_until(func, pre=lambda x: False, post=lambda x: False):
     while 1:
@@ -32,6 +32,7 @@ def iter_until(func, pre=lambda x: False, post=lambda x: False):
         yield val
         if post(val):
             break
+
 
 class cached_property(object):
 
@@ -60,6 +61,7 @@ class cached_property(object):
             cache[self.__name__] = (value, now)
         return value
 
+
 def memoize(obj):
     cache = obj.cache = {}
 
@@ -70,6 +72,7 @@ def memoize(obj):
             cache[key] = obj(*args, **kwargs)
         return cache[key]
     return memoizer
+
 
 def humanize_bytes(b):
     abbrevs = (

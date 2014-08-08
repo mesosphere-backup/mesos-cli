@@ -15,8 +15,6 @@
 # limitations under the License.
 
 
-import collections
-
 import blessings
 import prettytable
 
@@ -38,13 +36,14 @@ parser.add_argument(
     help="show inactive tasks as well"
 )
 
+
 def get_memory(x):
     max_mem = x.resources["mem"] * 1024 * 1024 * 1.0
     return "{0:.2f}".format((x.rss / max_mem) * 100)
 
+
 def main():
     term = blessings.Terminal()
-    max_pid = (term.width or 160) - 70
 
     table_generator = OrderedDict([
         # user_time + system_time

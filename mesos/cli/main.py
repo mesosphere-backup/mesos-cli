@@ -30,4 +30,5 @@ def main():
     if cmd in cli.cmds():
         log.fn(os.execvp, cmd, [cmd] + sys.argv[2:])
     else:
-        log.fatal("'{}' is not a valid command (or cannot be found)".format(cmd))
+        log.fatal("'{}' is not a valid command (or cannot be found)".format(
+            cmd))

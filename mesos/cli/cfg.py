@@ -31,7 +31,7 @@ class Config(dict):
 
     cfg_name = ".mesos.json"
 
-    search_path = [ os.path.join(x, cfg_name) for x in [
+    search_path = [os.path.join(x, cfg_name) for x in [
         ".",
         os.path.expanduser("~"),
         "/etc",
@@ -71,7 +71,7 @@ class Config(dict):
         base = self
 
         if k != "profile":
-            if not self._profile_key in self.keys():
+            if self._profile_key not in self.keys():
                 self[self._profile_key] = {}
             base = self._profile
 

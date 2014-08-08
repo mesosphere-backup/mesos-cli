@@ -16,7 +16,6 @@
 
 import json
 import os
-import sys
 import tempfile
 
 import mock
@@ -29,10 +28,11 @@ from .. import utils
 config_path = os.path.normpath(os.path.join(
     os.path.dirname(__file__), "..", "data", "config.json"))
 
+
 class TestConfig(utils.MockState):
 
-    @mock.patch('os.environ', { "MESOS_CLI_CONFIG": config_path })
-    @utils.patch_args([ "mesos-config" ])
+    @mock.patch('os.environ', {"MESOS_CLI_CONFIG": config_path})
+    @utils.patch_args(["mesos-config"])
     def test_output(self):
         mesos.cli.cmds.config.cfg = mesos.cli.cfg.Config()
 
@@ -41,7 +41,7 @@ class TestConfig(utils.MockState):
         out = json.loads(self.stdout)
         assert "master" in out["test"]
 
-    @mock.patch('os.environ', { "MESOS_CLI_CONFIG": config_path })
+    @mock.patch('os.environ', {"MESOS_CLI_CONFIG": config_path})
     @utils.patch_args([
         "mesos-config",
         "master"
@@ -63,7 +63,7 @@ class TestConfig(utils.MockState):
         with open(fname, "w") as fobj:
             fobj.write("{}")
         try:
-            with mock.patch('os.environ', { "MESOS_CLI_CONFIG": fname }) as m:
+            with mock.patch('os.environ', {"MESOS_CLI_CONFIG": fname}):
                 mesos.cli.cmds.config.cfg = mesos.cli.cfg.Config()
 
                 mesos.cli.cmds.config.main()

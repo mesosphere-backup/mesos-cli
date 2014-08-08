@@ -26,6 +26,7 @@ TIMEOUT = 1
 # Helper for testing
 client_class = kazoo.client.KazooClient
 
+
 @contextlib.contextmanager
 def client(*args, **kwargs):
     zk = client_class(*args, **kwargs)

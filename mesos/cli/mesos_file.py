@@ -20,9 +20,10 @@ import os
 
 from . import exceptions, util
 
-CHUNK = 1024
 
 class File(object):
+
+    chunk_size = 1024
 
     def __init__(self, host, task=None, path=None):
         self.host = host
@@ -40,7 +41,7 @@ class File(object):
         self._params = {
             "path": self._host_path,
             "offset": -1,
-            "length": CHUNK
+            "length": self.chunk_size
         }
 
     def __iter__(self):
@@ -102,11 +103,14 @@ class File(object):
         return self._offset
 
     def _length(self, start, size):
-        if size and self.tell() - start + CHUNK > size:
+        if size and self.tell() - start + self.chunk_size > size:
             return size - (self.tell() - start)
-        return CHUNK
+        return self.chunk_size
 
-    def _get_chunk(self, loc, size=CHUNK):
+    def _get_chunk(self, loc, size=None):
+        if size is None:
+            size = self.chunk_size
+
         self.seek(loc, os.SEEK_SET)
         self._params["offset"] = loc
         self._params["length"] = size
@@ -132,8 +136,9 @@ class File(object):
         if not size:
             size = fsize
 
-        blocks = itertools.imap(lambda x: x,
-            xrange(fsize - CHUNK, fsize - size, -CHUNK))
+        blocks = itertools.imap(
+            lambda x: x,
+            xrange(fsize - self.chunk_size, fsize - size, -self.chunk_size))
 
         try:
             while 1:
@@ -141,7 +146,7 @@ class File(object):
         except StopIteration:
             pass
 
-        yield self._get_chunk(fsize - size, size % CHUNK)
+        yield self._get_chunk(fsize - size, size % self.chunk_size)
 
     def read(self, size=None):
         return ''.join(self._read(size))

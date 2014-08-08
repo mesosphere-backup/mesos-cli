@@ -15,12 +15,7 @@
 # limitations under the License.
 
 
-import os
-import sys
-
-import argcomplete
-
-from .. import cli, task
+from .. import cli
 from ..master import current as master
 
 parser = cli.parser(
@@ -36,6 +31,7 @@ parser.add_argument(
     'file', type=str, nargs="*", default=["stdout"],
     help="Path to the file inside the task's sandbox."
 ).completer = cli.file_completer
+
 
 def main():
     args = cli.init(parser)

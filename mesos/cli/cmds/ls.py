@@ -18,7 +18,7 @@
 import datetime
 import os
 
-from .. import cli, slave, task
+from .. import cli
 from ..master import current as master
 
 parser = cli.parser(
@@ -37,10 +37,8 @@ parser.add_argument(
     help="""Path to view.
 """).completer = cli.file_completer
 
-parser.add_argument(
-    '-q', action='store_true',
-    help="Suppresses printing of headers when multiple tasks are being examined"
-)
+parser.enable_print_header()
+
 
 def format_line(obj, base):
     human_time = datetime.datetime.fromtimestamp(obj["mtime"]).strftime(
@@ -48,6 +46,7 @@ def format_line(obj, base):
     fmt = "{mode} {nlink: >3} {uid} {gid} {size: >5} {human_time} {fname}"
     fname = os.path.relpath(obj["path"], base)
     return fmt.format(human_time=human_time, fname=fname, **obj)
+
 
 def main():
     args = cli.init(parser)

@@ -26,6 +26,7 @@ parser.add_argument(
     "master", nargs="?", default=cfg.master
 )
 
+
 def main():
     args = cli.init(parser)
 
