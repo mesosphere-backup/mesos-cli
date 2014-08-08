@@ -47,8 +47,8 @@ class File(object):
         }
 
     def __iter__(self):
-        for l in self._readlines():
-            yield l
+        for line in self._readlines():
+            yield line
 
     def __eq__(self, y):
         return self.key() == y.key()
@@ -70,11 +70,11 @@ class File(object):
         return self.task["id"] if self.task is not None else self.host.key()
 
     def __reversed__(self):
-        for i, l in enumerate(self._readlines_reverse()):
+        for i, line in enumerate(self._readlines_reverse()):
             # Don't include the terminator when reading in reverse.
-            if i == 0 and l == "":
+            if i == 0 and line == "":
                 continue
-            yield l
+            yield line
 
     def _fetch(self):
         resp = self.host.fetch("/files/read.json", params=self._params)
@@ -154,8 +154,8 @@ class File(object):
         return ''.join(self._read(size))
 
     def readline(self, size=None):
-        for l in self._readlines(size):
-            return l
+        for line in self._readlines(size):
+            return line
 
     def _readlines(self, size=None):
         last = ""
@@ -163,8 +163,8 @@ class File(object):
 
             # This is not streaming and assumes small chunk sizes
             blob_lines = (last + blob).split("\n")
-            for l in itertools.islice(blob_lines, 0, len(blob_lines) - 1):
-                yield l
+            for line in itertools.islice(blob_lines, 0, len(blob_lines) - 1):
+                yield line
 
             last = blob_lines[-1]
 
@@ -173,9 +173,9 @@ class File(object):
         for blob in self._read_reverse(size):
 
             blob_lines = (blob + buf).split("\n")
-            for l in itertools.islice(
+            for line in itertools.islice(
                     reversed(blob_lines), 0, len(blob_lines) - 1):
-                yield l
+                yield line
 
             buf = blob_lines[0]
         yield buf

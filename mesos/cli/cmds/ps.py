@@ -76,6 +76,6 @@ def main():
         right_padding_width=1
     )
 
-    for t in MASTER.tasks(active_only=(not args.inactive)):
-        tb.add_row([fn(t) for fn in table_generator.values()])
+    for task in MASTER.tasks(active_only=(not args.inactive)):
+        tb.add_row([fn(task) for fn in table_generator.values()])
     print(tb)

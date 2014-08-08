@@ -54,12 +54,12 @@ def main():
     args = cli.init(parser)
 
     tlist = MASTER.tasks(args.task)
-    for t in tlist:
+    for task in tlist:
         if len(tlist) > 1 and not args.q:
-            cli.header(t)
+            cli.header(task)
 
         p = args.path
         if p.endswith("/"):
             p = p[:-1]
-        for f in t.file_list(p):
-            print(format_line(f, os.path.join(t.directory, args.path)))
+        for fobj in task.file_list(p):
+            print(format_line(fobj, os.path.join(task.directory, args.path)))

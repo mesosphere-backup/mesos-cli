@@ -53,9 +53,9 @@ class Config(object):
         return json.dumps(self.__items, indent=4)
 
     def _config_file(self):
-        for p in self.search_path:
-            if os.path.exists(p):
-                return p
+        for path in self.search_path:
+            if os.path.exists(path):
+                return path
 
         # default to creating a user level config file
         return self._default_config_location

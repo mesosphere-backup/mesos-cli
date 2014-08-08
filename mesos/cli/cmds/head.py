@@ -50,5 +50,5 @@ def main():
         if not args.q and show_header:
             cli.header(fobj)
 
-        for l in itertools.islice(fobj, args.n):
-            print(l)
+        for line in itertools.islice(fobj, args.n):
+            print(line)

@@ -61,11 +61,11 @@ def follow(args):
         fobj.seek(files_seen.get(fobj, 0))
         first = True
 
-        for l in fobj:
+        for line in fobj:
             if first and str(fobj) != last_seen and not args.q:
                 cli.header(fobj)
 
-            print(l)
+            print(line)
 
             first = False
 
@@ -85,8 +85,8 @@ def main():
             cli.header(fobj,)
 
         lines = list(itertools.islice(reversed(fobj), args.n))
-        for l in reversed(lines):
-            print(l)
+        for line in reversed(lines):
+            print(line)
 
         files_seen[fobj] = fobj.tell()
         last_seen = str(fobj)

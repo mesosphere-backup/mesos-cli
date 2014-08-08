@@ -38,9 +38,9 @@ parser.add_argument(
 def main():
     args = cli.init(parser)
 
-    for t in MASTER.tasks(args.task):
-        for f in args.file:
-            fobj = t.file(f)
+    for task in MASTER.tasks(args.task):
+        for fname in args.file:
+            fobj = task.file(fname)
             if fobj.exists():
-                for l in fobj:
-                    print(l)
+                for line in fobj:
+                    print(line)

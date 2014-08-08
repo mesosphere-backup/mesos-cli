@@ -50,7 +50,7 @@ def main():
         global last_seen
         while True:
             first = True
-            for l in log:
+            for line in log:
                 # TODO(thomas) - It is possible for there to be a pause in the
                 # middle of this loop (reading the next block from the remote)
                 # in this case, the header wouln't be printed and the user
@@ -58,7 +58,7 @@ def main():
                 if first and str(log) != last_seen and not args.q:
                     cli.header(log)
 
-                print(l)
+                print(line)
 
                 first = False
 

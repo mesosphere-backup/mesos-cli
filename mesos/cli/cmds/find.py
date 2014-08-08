@@ -49,17 +49,17 @@ def main():
     if path.endswith("/"):
         path = path[:-1]
 
-    for t in tlist:
-        base = os.path.join(t.directory, path)
-        flist = t.file_list(path)
+    for task in tlist:
+        base = os.path.join(task.directory, path)
+        flist = task.file_list(path)
 
         def walk_dir(flist):
-            for f in flist:
-                print(os.path.relpath(f["path"], base))
-                if f["mode"][0].startswith("d"):
-                    walk_dir(t.file_list(f["path"]))
+            for file_meta in flist:
+                print(os.path.relpath(file_meta["path"], base))
+                if file_meta["mode"][0].startswith("d"):
+                    walk_dir(task.file_list(file_meta["path"]))
 
         if len(tlist) > 1 and not args.q:
-            cli.header(t)
+            cli.header(task)
         if len(flist) > 0:
             walk_dir(flist)

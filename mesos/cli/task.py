@@ -116,9 +116,9 @@ def files(fltr, flist, fail=True):
     mult = len(tlist) > 1 or len(flist) > 1
     dne = True
 
-    for t in tlist:
-        for f in flist:
-            fobj = t.file(f)
+    for task in tlist:
+        for fname in flist:
+            fobj = task.file(fname)
             if fobj.exists():
                 dne = False
                 yield (fobj, mult)

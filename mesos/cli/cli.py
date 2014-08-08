@@ -86,9 +86,7 @@ def cmds(short=False):
     if short:
         cmds = [x.split("-", 1)[-1] for x in cmds]
 
-    cmds = list(cmds)
-    cmds.sort()
-    return cmds
+    return sorted(cmds)
 
 
 def task_completer(prefix, parsed_args, **kwargs):
@@ -107,14 +105,14 @@ def file_completer(prefix, parsed_args, **kwargs):
         base = split[0]
     pattern = split[-1]
 
-    for t in MASTER.tasks(parsed_args.task):
+    for task in MASTER.tasks(parsed_args.task):
         # It is possible for the master to have completed tasks that no longer
         # have files and/or executors
         try:
-            for f in t.file_list(base):
-                rel = os.path.relpath(f["path"], t.directory)
+            for file_meta in task.file_list(base):
+                rel = os.path.relpath(file_meta["path"], task.directory)
                 if rel.rsplit("/", 1)[-1].startswith(pattern):
-                    if f["mode"].startswith("d"):
+                    if file_meta["mode"].startswith("d"):
                         rel += "/"
                     files.add(rel)
         except exceptions.MissingExecutor:
