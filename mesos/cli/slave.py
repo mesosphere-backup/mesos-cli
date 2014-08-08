@@ -70,7 +70,8 @@ class MesosSlave(object):
         for fw in self.frameworks:
             for exc in util.merge(fw, "executors", "completed_executors"):
                 if task_id in map(lambda x: x["id"],
-                        util.merge(exc, "tasks", "completed_tasks")):
+                        util.merge(exc, "completed_tasks", "tasks",
+                            "queued_tasks")):
                     return exc
         raise exceptions.MissingExecutor("No executor has a task by that id")
 
