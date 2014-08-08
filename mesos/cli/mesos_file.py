@@ -108,6 +108,7 @@ class File(object):
         return CHUNK
 
     def _get_chunk(self, loc, size=CHUNK):
+        self.seek(loc, os.SEEK_SET)
         self._params["offset"] = loc
         self._params["length"] = size
 
@@ -125,7 +126,6 @@ class File(object):
         post = lambda x: size and (self.tell() - start) >= size
 
         for blob in util.iter_until(fn, pre, post):
-            self._offset += len(blob)
             yield blob
 
     def _read_reverse(self, size=None):

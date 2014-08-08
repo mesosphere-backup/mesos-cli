@@ -59,7 +59,7 @@ files_seen = {}
 last_seen = None
 
 def follow(args):
-    global last_seen
+    global files_seen, last_seen
     for s, t, fobj, show_header in task.files(args.task, args.file, fail=False):
 
         fobj.seek(files_seen.get(fobj, 0))
@@ -79,7 +79,7 @@ def follow(args):
             last_seen = str(fobj)
 
 def main():
-    global last_seen
+    global files_seen, last_seen
     args = cli.init(parser)
 
     for s, t, fobj, show_header in task.files(args.task, args.file,
