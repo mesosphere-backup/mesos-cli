@@ -39,28 +39,32 @@ parser.add_argument(
 )
 
 
-def upload(slave, src, dst):
-    cmd = [
-        "scp",
-        "-pr",
-        src,
-        "{0}:{1}".format(slave["hostname"], dst)
-    ]
-    try:
-        return (slave, src, dst, log.fn(gevent.subprocess.check_call, cmd))
-    except gevent.subprocess.CalledProcessError, e:
-        return (slave, e.returncode)
-
-
 def main():
     args = cli.init(parser)
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-        for slave in MASTER.slaves():
-            for fname in args.file:
-                executor.submit(upload, slave, fname, args.remote_path)
+    def upload(slave, src):
+        cmd = [
+            "scp",
+            "-pr",
+            src,
+            "{0}:{1}".format(slave["hostname"], args.remote_path)
+        ]
+        try:
+            return (slave, src, log.fn(gevent.subprocess.check_call, cmd))
+        except gevent.subprocess.CalledProcessError, e:
+            return (slave, e.returncode)
 
-        for
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        file_tuples = lambda slave: [(slave, fname) for fname in args.file]
+
+        upload_jobs = executor.map(itertoosl.chain(
+            *[file_tuples(slave) for slave in MASTER.slaves()]))
+
+        for slave, src, retcode in upload_jobs:
+            print("{0}:{1}\t{2}".format(
+                slave["hostname"], os.path.join(args.remote_path, src),
+                "uploaded" if retcode == 0 else "failed"))
+
 
     # jobs = list(itertools.chain(
     #     *[[gevent.spawn(upload, s, f, args.remote_path) for f in args.file]
