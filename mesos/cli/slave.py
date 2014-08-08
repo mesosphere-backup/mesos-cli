@@ -35,9 +35,6 @@ class MesosSlave(object):
     def __str__(self):
         return self.key()
 
-    def __repr__(self):
-        return "<slave: {0}>".format(self.key())
-
     def key(self):
         return self["pid"].split('@')[-1]
 

@@ -35,9 +35,6 @@ class Task(object):
     def __str__(self):
         return "{0}:{1}".format(self.slave, self["id"])
 
-    def __repr__(self):
-        return "<task: {0}, on {1}>".format(self["id"], self.slave)
-
     def __getitem__(self, name):
         return self.__items[name]
 

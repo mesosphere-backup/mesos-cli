@@ -49,9 +49,6 @@ MULTIPLE_SLAVES = "There are multiple slaves with that id. Please choose one: "
 class MesosMaster(object):
 
     def __str__(self):
-        return self.__repr__()
-
-    def __repr__(self):
         return "<master: {0}>".format(self.key())
 
     def key(self):
