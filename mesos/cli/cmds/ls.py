@@ -21,7 +21,7 @@ import datetime
 import os
 
 from .. import cli
-from ..master import current as master
+from ..master import CURRENT as MASTER
 
 parser = cli.parser(
     description="List all the files inside a specific task's sandbox"
@@ -53,7 +53,7 @@ def format_line(obj, base):
 def main():
     args = cli.init(parser)
 
-    tlist = master.tasks(args.task)
+    tlist = MASTER.tasks(args.task)
     for t in tlist:
         if len(tlist) > 1 and not args.q:
             cli.header(t)

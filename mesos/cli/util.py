@@ -36,7 +36,7 @@ def iter_until(func, pre=lambda x: False, post=lambda x: False):
             break
 
 
-class cached_property(object):
+class CachedProperty(object):
 
     def __init__(self, ttl=300):
         self.ttl = ttl

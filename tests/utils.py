@@ -84,7 +84,7 @@ patch_args = functools.partial(mock.patch, "sys.argv")
 
 class MockState(testtools.TestCase):
 
-    def setUp(self):
+    def setUp(self):  # noqa
         super(MockState, self).setUp()
         self.mock(
             "mesos.cli.master.MesosMaster.state",

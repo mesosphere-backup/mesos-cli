@@ -25,8 +25,8 @@ import blessings
 import mesos.cli
 
 from . import exceptions
-from .cfg import current as cfg
-from .master import current as master
+from .cfg import CURRENT as CFG
+from .master import CURRENT as MASTER
 
 
 class ArgumentParser(argparse.ArgumentParser):
@@ -43,8 +43,8 @@ def init(parser=None):
     args = parser.parse_args() if parser else None
 
     logging.basicConfig(
-        level=getattr(logging, cfg["log_level"].upper()),
-        filename=cfg["log_file"]
+        level=getattr(logging, CFG["log_level"].upper()),
+        filename=CFG["log_file"]
     )
 
     return args
@@ -92,11 +92,11 @@ def cmds(short=False):
 
 
 def task_completer(prefix, parsed_args, **kwargs):
-    return [x["id"] for x in master.tasks(prefix)]
+    return [x["id"] for x in MASTER.tasks(prefix)]
 
 
 def slave_completer(prefix, parsed_args, **kwargs):
-    return [s["id"] for s in master.slaves(prefix)]
+    return [s["id"] for s in MASTER.slaves(prefix)]
 
 
 def file_completer(prefix, parsed_args, **kwargs):
@@ -107,7 +107,7 @@ def file_completer(prefix, parsed_args, **kwargs):
         base = split[0]
     pattern = split[-1]
 
-    for t in master.tasks(parsed_args.task):
+    for t in MASTER.tasks(parsed_args.task):
         # It is possible for the master to have completed tasks that no longer
         # have files and/or executors
         try:

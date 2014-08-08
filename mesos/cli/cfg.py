@@ -105,4 +105,4 @@ class Config(object):
         with open(self._get_path(), "wb") as f:
             f.write(str(self))
 
-current = Config()
+CURRENT = Config()

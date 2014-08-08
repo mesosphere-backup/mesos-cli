@@ -24,7 +24,7 @@ import gevent.monkey
 import gevent.subprocess
 
 from .. import cli, log
-from ..master import current as master
+from ..master import CURRENT as MASTER
 
 gevent.monkey.patch_all()
 
@@ -61,7 +61,7 @@ def main():
 
     jobs = list(itertools.chain(
         *[[gevent.spawn(upload, s, f, args.remote_path) for f in args.file]
-            for s in master.slaves()]))
+            for s in MASTER.slaves()]))
 
     gevent.joinall(jobs)
 

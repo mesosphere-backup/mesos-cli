@@ -22,7 +22,7 @@ import platform
 import blessings
 
 from .. import cli, log
-from ..master import current as master
+from ..master import CURRENT as MASTER
 
 parser = cli.parser(
     description="SSH into the sandbox of a specific task"
@@ -44,7 +44,7 @@ def main():
 
     args = cli.init(parser)
 
-    t = master.task(args.task)
+    t = MASTER.task(args.task)
 
     cmd = [
         "ssh",

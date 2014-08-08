@@ -17,19 +17,19 @@
 from __future__ import absolute_import, print_function
 
 from .. import cli
-from ..cfg import current as cfg
-from ..master import current as master
+from ..cfg import CURRENT as CFG
+from ..master import CURRENT as MASTER
 
 parser = cli.parser(
     description="return the host/port for the currently leading master."
 )
 
 parser.add_argument(
-    "master", nargs="?", default=cfg["master"]
+    "master", nargs="?", default=CFG["master"]
 )
 
 
 def main():
     args = cli.init(parser)
 
-    print(master.resolve(args.master))
+    print(MASTER.resolve(args.master))

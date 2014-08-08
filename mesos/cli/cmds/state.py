@@ -20,7 +20,7 @@ from __future__ import absolute_import, print_function
 import json
 
 from .. import cli
-from ..master import current as master
+from ..master import CURRENT as MASTER
 
 parser = cli.parser(
     description="fetch the json state for either the master or a specific " +
@@ -37,7 +37,7 @@ def main():
     args = cli.init(parser)
 
     if not args.slave:
-        print(json.dumps(master.state, indent=4))
+        print(json.dumps(MASTER.state, indent=4))
     else:
         print(json.dumps(
-            [s.state for s in master.slaves(args.slave)], indent=4))
+            [s.state for s in MASTER.slaves(args.slave)], indent=4))

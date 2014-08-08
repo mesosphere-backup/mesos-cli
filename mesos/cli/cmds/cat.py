@@ -18,7 +18,7 @@
 from __future__ import absolute_import, print_function
 
 from .. import cli
-from ..master import current as master
+from ..master import CURRENT as MASTER
 
 parser = cli.parser(
     description="concatenate and print files"
@@ -38,7 +38,7 @@ parser.add_argument(
 def main():
     args = cli.init(parser)
 
-    for t in master.tasks(args.task):
+    for t in MASTER.tasks(args.task):
         for f in args.file:
             fobj = t.file(f)
             if fobj.exists():

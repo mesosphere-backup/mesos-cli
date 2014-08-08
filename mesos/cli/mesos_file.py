@@ -50,8 +50,8 @@ class File(object):
         for l in self._readlines():
             yield l
 
-    def __eq__(x, y):
-        return x.key() == y.key()
+    def __eq__(self, y):
+        return self.key() == y.key()
 
     def __hash__(self):
         return hash(self.key())

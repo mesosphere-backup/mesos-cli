@@ -36,7 +36,7 @@ class TestConfig(utils.MockState):
     @mock.patch('os.environ', {"MESOS_CLI_CONFIG": config_path})
     @utils.patch_args(["mesos-config"])
     def test_output(self):
-        mesos.cli.cmds.config.cfg = mesos.cli.cfg.Config()
+        mesos.cli.cmds.config.CFG = mesos.cli.cfg.Config()
 
         mesos.cli.cmds.config.main()
 
@@ -49,7 +49,7 @@ class TestConfig(utils.MockState):
         "master"
     ])
     def test_get_key(self):
-        mesos.cli.cmds.config.cfg = mesos.cli.cfg.Config()
+        mesos.cli.cmds.config.CFG = mesos.cli.cfg.Config()
 
         mesos.cli.cmds.config.main()
 
@@ -66,7 +66,7 @@ class TestConfig(utils.MockState):
             fobj.write("{}")
         try:
             with mock.patch('os.environ', {"MESOS_CLI_CONFIG": fname}):
-                mesos.cli.cmds.config.cfg = mesos.cli.cfg.Config()
+                mesos.cli.cmds.config.CFG = mesos.cli.cfg.Config()
 
                 mesos.cli.cmds.config.main()
 

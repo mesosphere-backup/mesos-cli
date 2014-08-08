@@ -47,18 +47,16 @@ class Task(object):
 
     @property
     def framework(self):
-        # Preventing circular imports
-        from .master import current as master
-        return master.framework(self["framework_id"])
+        return self.master.framework(self["framework_id"])
 
-    @util.cached_property()
+    @util.CachedProperty()
     def directory(self):
         try:
             return self.executor["directory"]
         except exceptions.MissingExecutor:
             return ""
 
-    @util.cached_property()
+    @util.CachedProperty()
     def slave(self):
         return self.master.slave(self["slave_id"])
 
@@ -112,9 +110,9 @@ class Task(object):
 
 def files(fltr, flist, fail=True):
     # Preventing circular imports
-    from .master import current as master
+    from .master import CURRENT as MASTER
 
-    tlist = master.tasks(fltr)
+    tlist = MASTER.tasks(fltr)
     mult = len(tlist) > 1 or len(flist) > 1
     dne = True
 

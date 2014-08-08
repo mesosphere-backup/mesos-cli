@@ -32,7 +32,7 @@ import kazoo.handlers.threading
 import mesos.interface.mesos_pb2
 
 from . import log, mesos_file, slave, task, util, zookeeper
-from .cfg import current as cfg
+from .cfg import CURRENT as CFG
 
 ZOOKEEPER_TIMEOUT = 1
 
@@ -55,11 +55,11 @@ class MesosMaster(object):
         return "<master: {0}>".format(self.key())
 
     def key(self):
-        return cfg["master"]
+        return CFG["master"]
 
-    @util.cached_property()
+    @util.CachedProperty()
     def host(self):
-        return "http://%s" % (self.resolve(cfg["master"]),)
+        return "http://%s" % (self.resolve(CFG["master"]),)
 
     def fetch(self, url, **kwargs):
         try:
@@ -117,7 +117,7 @@ class MesosMaster(object):
         else:
             return cfg
 
-    @util.cached_property(ttl=5)
+    @util.CachedProperty(ttl=5)
     def state(self):
         return self.fetch("/master/state.json").json()
 
@@ -185,4 +185,4 @@ class MesosMaster(object):
     def log(self):
         return mesos_file.File(self, path="/master/log")
 
-current = MesosMaster()
+CURRENT = MesosMaster()

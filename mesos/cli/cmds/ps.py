@@ -21,7 +21,7 @@ import blessings
 import prettytable
 
 from .. import cli, util
-from ..master import current as master
+from ..master import CURRENT as MASTER
 
 try:
     from collections import OrderedDict
@@ -76,6 +76,6 @@ def main():
         right_padding_width=1
     )
 
-    for t in master.tasks(active_only=(not args.inactive)):
+    for t in MASTER.tasks(active_only=(not args.inactive)):
         tb.add_row([fn(t) for fn in table_generator.values()])
     print(tb)

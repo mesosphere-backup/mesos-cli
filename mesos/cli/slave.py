@@ -55,7 +55,7 @@ class MesosSlave(object):
             log.fatal("Unable to connect to the slave at {}.".format(
                 self.host))
 
-    @util.cached_property(ttl=5)
+    @util.CachedProperty(ttl=5)
     def state(self):
         return self.fetch("/slave(1)/state.json").json()
 
@@ -86,7 +86,7 @@ class MesosSlave(object):
     def file(self, task, path):
         return mesos_file.File(self, task, path)
 
-    @util.cached_property(ttl=1)
+    @util.CachedProperty(ttl=1)
     def stats(self):
         return self.fetch("/monitor/statistics.json").json()
 

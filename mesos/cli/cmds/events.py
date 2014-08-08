@@ -22,7 +22,7 @@ import gevent
 import gevent.monkey
 
 from .. import cli
-from ..master import current as master
+from ..master import CURRENT as MASTER
 
 gevent.monkey.patch_all()
 
@@ -74,12 +74,12 @@ def main():
 
     def find_slaves():
         while True:
-            for slave in master.slaves():
+            for slave in MASTER.slaves():
                 if slave.log not in active_streams:
                     add_reader(slave.log)
 
             gevent.sleep(args.sleep_interval)
 
-    add_reader(master.log)
+    add_reader(MASTER.log)
     jobs.append(gevent.spawn(find_slaves))
     gevent.joinall(jobs)

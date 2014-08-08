@@ -31,7 +31,7 @@ master_file = os.path.normpath(os.path.join(
 
 class TestResolve(utils.MockState):
 
-    def setUp(self):
+    def setUp(self):  # noqa
         super(utils.MockState, self).setUp()
 
         self.init_zk()

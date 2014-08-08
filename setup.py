@@ -95,6 +95,7 @@ config = {
         'coverage>=3.7.1',
         'flake8>=2.2.2',
         'mock>=1.0.1',
+        'pep8-naming>=0.2.2',
         'testtools>=0.9.35',  # py26
         'zake==0.0.20'
     ],

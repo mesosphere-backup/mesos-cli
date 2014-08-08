@@ -20,7 +20,7 @@ from __future__ import absolute_import, print_function
 import os
 
 from .. import cli
-from ..master import current as master
+from ..master import CURRENT as MASTER
 
 parser = cli.parser(
     description="List all the files inside a specific task's sandbox"
@@ -44,7 +44,7 @@ parser.enable_print_header()
 def main():
     args = cli.init(parser)
 
-    tlist = master.tasks(args.task)
+    tlist = MASTER.tasks(args.task)
     path = args.path
     if path.endswith("/"):
         path = path[:-1]

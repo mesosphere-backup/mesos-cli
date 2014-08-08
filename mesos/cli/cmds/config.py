@@ -17,14 +17,14 @@
 from __future__ import absolute_import, print_function
 
 from .. import cli
-from ..cfg import current as cfg
+from ..cfg import CURRENT as CFG
 
 parser = cli.parser(
     description="interact with your local cli configuration"
 )
 
 parser.add_argument(
-    "key", nargs="?", choices=cfg.DEFAULTS.keys() + ["profile"])
+    "key", nargs="?", choices=CFG.DEFAULTS.keys() + ["profile"])
 
 parser.add_argument("value", nargs="?")
 
@@ -34,9 +34,9 @@ def main():
 
     if args.key:
         if args.value:
-            cfg[args.key] = args.value
-            cfg.save()
+            CFG[args.key] = args.value
+            CFG.save()
         else:
-            print(cfg[args.key])
+            print(CFG[args.key])
     else:
-        print(cfg)
+        print(CFG)
