@@ -17,7 +17,6 @@
 
 from __future__ import absolute_import, print_function
 
-import itertools
 import os
 
 from . import exceptions, util
@@ -138,15 +137,14 @@ class File(object):
         if not size:
             size = fsize
 
-        blocks = itertools.imap(
-            lambda x: x,
-            xrange(fsize - self.chunk_size, fsize - size, -self.chunk_size))
+        def next_block():
+            current = fsize
+            while (current - self.chunk_size) > (fsize - size):
+                current -= self.chunk_size
+                yield current
 
-        try:
-            while 1:
-                yield self._get_chunk(blocks.next())
-        except StopIteration:
-            pass
+        for pos in next_block():
+            yield self._get_chunk(pos)
 
         yield self._get_chunk(fsize - size, size % self.chunk_size)
 
@@ -163,7 +161,7 @@ class File(object):
 
             # This is not streaming and assumes small chunk sizes
             blob_lines = (last + blob).split("\n")
-            for line in itertools.islice(blob_lines, 0, len(blob_lines) - 1):
+            for line in blob_lines[:len(blob_lines) - 1]:
                 yield line
 
             last = blob_lines[-1]
@@ -173,8 +171,7 @@ class File(object):
         for blob in self._read_reverse(size):
 
             blob_lines = (blob + buf).split("\n")
-            for line in itertools.islice(
-                    reversed(blob_lines), 0, len(blob_lines) - 1):
+            for line in reversed(blob_lines[1:]):
                 yield line
 
             buf = blob_lines[0]

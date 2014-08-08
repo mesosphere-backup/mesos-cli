@@ -34,7 +34,7 @@ class TestPs(utils.MockState):
         mesos.cli.cmds.ps.main()
 
         # Time
-        assert "01:23.33" in self.stdout
+        assert "0:01:23" in self.stdout
         # RSS
         assert "10.46 MB" in self.stdout
         # CPU

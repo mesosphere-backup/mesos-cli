@@ -60,8 +60,7 @@ class MesosMaster(object):
 
     def fetch(self, url, **kwargs):
         try:
-            return requests.get(urlparse.urljoin(
-                self.host, url), **kwargs)
+            return requests.get(urlparse.urljoin(self.host, url), **kwargs)
         except requests.exceptions.ConnectionError:
             log.fatal(MISSING_MASTER.format(self.host))
 
@@ -74,14 +73,18 @@ class MesosMaster(object):
 
         with zookeeper.client(hosts=hosts, read_only=True) as zk:
             try:
-                leader = sorted(
-                    [[int(x.split("_")[-1]), x]
-                        for x in zk.get_children(path) if re.search("\d+", x)],
-                    key=lambda x: x[0])
+                def master_id(key):
+                    return int(key.split("_")[-1])
+
+                def get_masters():
+                    return [x for x in zk.get_children(path)
+                            if re.search("\d+", x)]
+
+                leader = sorted(get_masters(), key=lambda x: master_id(x))
 
                 if len(leader) == 0:
                     log.fatal("cannot find any masters at {0}".format(cfg,))
-                data, stat = zk.get(os.path.join(path, leader[0][1]))
+                data, stat = zk.get(os.path.join(path, leader[0]))
             except kazoo.exceptions.NoNodeError:
                 log.fatal(INVALID_PATH.format(cfg))
 
@@ -107,9 +110,9 @@ class MesosMaster(object):
             - zk://username:password@host1:port1/path
             - file:///path/to/file (where file contains one of the above)
         """
-        if cfg[:3] == "zk:":
+        if cfg.startswith("zk:"):
             return self._zookeeper_resolver(cfg)
-        elif cfg[:5] == "file:":
+        elif cfg.startswith("file:"):
             return self._file_resolver(cfg)
         else:
             return cfg
@@ -126,17 +129,17 @@ class MesosMaster(object):
             log.fatal("Cannot find a slave by that name.")
 
         elif len(lst) > 1:
-            result = MULTIPLE_SLAVES
-            for s in lst:
-                result += "\n\t{0}".format(s.id)
-            log.fatal(result)
+            result = [MULTIPLE_SLAVES]
+            result += ['\t{0}'.format(slave.id) for slave in lst]
+            log.fatal('\n'.join(result))
 
         return lst[0]
 
     def slaves(self, fltr=""):
-        return map(
+        return list(map(
             lambda x: slave.MesosSlave(x),
-            itertools.ifilter(lambda x: fltr in x["id"], self.state["slaves"]))
+            itertools.ifilter(
+                lambda x: fltr in x["id"], self.state["slaves"])))
 
     def _task_list(self, active_only=False):
         keys = ["tasks"]
@@ -160,16 +163,16 @@ class MesosMaster(object):
 
     # XXX - need to filter on task state as well as id
     def tasks(self, fltr="", active_only=False):
-        return map(
+        return list(map(
             lambda x: task.Task(self, x),
             itertools.ifilter(
                 lambda x: fltr in x["id"],
-                self._task_list(active_only)))
+                self._task_list(active_only))))
 
     def framework(self, fwid):
-        return filter(
+        return list(filter(
             lambda x: x["id"] == fwid,
-            self.frameworks())[0]
+            self.frameworks()))[0]
 
     def frameworks(self, active_only=False):
         keys = ["frameworks"]

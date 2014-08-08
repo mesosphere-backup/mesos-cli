@@ -63,10 +63,10 @@ class MesosSlave(object):
     def task_executor(self, task_id):
         for fw in self.frameworks:
             for exc in util.merge(fw, "executors", "completed_executors"):
-                if task_id in map(
+                if task_id in list(map(
                         lambda x: x["id"],
                         util.merge(
-                            exc, "completed_tasks", "tasks", "queued_tasks")):
+                            exc, "completed_tasks", "tasks", "queued_tasks"))):
                     return exc
         raise exceptions.MissingExecutor("No executor has a task by that id")
 
@@ -88,14 +88,14 @@ class MesosSlave(object):
         return self.fetch("/monitor/statistics.json").json()
 
     def executor_stats(self, _id):
-        return filter(lambda x: x["executor_id"])
+        return list(filter(lambda x: x["executor_id"]))
 
     def task_stats(self, _id):
         eid = self.task_executor(_id)["id"]
-        return filter(
+        return list(filter(
             lambda x: x["executor_id"] == eid,
             self.stats
-        )[0]["statistics"]
+        ))[0]["statistics"]
 
     @property
     @util.memoize

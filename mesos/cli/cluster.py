@@ -17,38 +17,21 @@
 
 from __future__ import absolute_import, print_function
 
-import itertools
-
-from .. import cli, cluster
-
-parser = cli.parser(
-    description="display first lines of a file"
-)
-
-parser.add_argument(
-    'task',
-    help="ID of the task. May match multiple tasks (or all)"
-).completer = cli.task_completer
-
-parser.add_argument(
-    'file', nargs="*", default=["stdout"],
-    help="Path to the file inside the task's sandbox."
-).completer = cli.file_completer
-
-parser.add_argument(
-    '-n', default=10, type=int,
-    help="Number of lines of the file to output."
-)
-
-parser.enable_print_header()
+from . import log
+from .master import CURRENT as MASTER
 
 
-def main():
-    args = cli.init(parser)
+def files(fltr, flist, fail=True):
+    tlist = MASTER.tasks(fltr)
+    mult = len(tlist) > 1 or len(flist) > 1
+    dne = True
 
-    for fobj, show_header in cluster.files(args.task, args.file):
-        if not args.q and show_header:
-            cli.header(fobj)
+    for task in tlist:
+        for fname in flist:
+            fobj = task.file(fname)
+            if fobj.exists():
+                dne = False
+                yield (fobj, mult)
 
-        for line in itertools.islice(fobj, args.n):
-            print(line)
+    if dne and fail:
+        log.fatal("No such task has the requested file or directory")

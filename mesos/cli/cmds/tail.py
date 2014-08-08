@@ -20,7 +20,7 @@ from __future__ import absolute_import, print_function
 import itertools
 import time
 
-from .. import cli, task
+from .. import cli, cluster
 
 RECHECK = 1
 
@@ -56,7 +56,7 @@ last_seen = None
 
 def follow(args):
     global files_seen, last_seen
-    for fobj, show_header in task.files(args.task, args.file, fail=False):
+    for fobj, show_header in cluster.files(args.task, args.file, fail=False):
 
         fobj.seek(files_seen.get(fobj, 0))
         first = True
@@ -79,7 +79,7 @@ def main():
     global files_seen, last_seen
     args = cli.init(parser)
 
-    for fobj, show_header in task.files(
+    for fobj, show_header in cluster.files(
             args.task, args.file, fail=(not args.follow)):
         if not args.q and show_header:
             cli.header(fobj,)

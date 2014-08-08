@@ -21,7 +21,7 @@ import datetime
 import os
 import re
 
-from . import exceptions, log, mesos_file, util
+from . import exceptions, mesos_file, util
 
 
 class Task(object):
@@ -76,7 +76,7 @@ class Task(object):
         secs = st.get("cpus_user_time_secs", 0) + \
             st.get("cpus_system_time_secs", 0)
         # timedelta has a resolution of .000000 while mesos only keeps .00
-        return str(datetime.timedelta(seconds=secs))[:-4]
+        return str(datetime.timedelta(seconds=secs)).rsplit(".", 1)[0]
 
     @property
     def cpu_limit(self):
@@ -103,22 +103,3 @@ class Task(object):
     @property
     def user(self):
         return self.framework["user"]
-
-
-def files(fltr, flist, fail=True):
-    # Preventing circular imports
-    from .master import CURRENT as MASTER
-
-    tlist = MASTER.tasks(fltr)
-    mult = len(tlist) > 1 or len(flist) > 1
-    dne = True
-
-    for task in tlist:
-        for fname in flist:
-            fobj = task.file(fname)
-            if fobj.exists():
-                dne = False
-                yield (fobj, mult)
-
-    if dne and fail:
-        log.fatal("No such task has the requested file or directory")
