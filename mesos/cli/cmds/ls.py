@@ -20,25 +20,15 @@ from __future__ import absolute_import, print_function
 import datetime
 import os
 
-from .. import cli, completion_helpers
+from .. import cli
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
     description="List all the files inside a specific task's sandbox"
 )
 
-parser.add_argument(
-    'task', type=str,
-    help="""Name of the task.
-
-    Note that this can be a partial match.
-""").completer = completion_helpers.task
-
-parser.add_argument(
-    'path', type=str, nargs="?", default="",
-    help="""Path to view.
-""").completer = completion_helpers.file
-
+parser.task_argument()
+parser.path_argument()
 parser.enable_print_header()
 
 

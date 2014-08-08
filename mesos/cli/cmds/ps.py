@@ -80,4 +80,9 @@ def main():
 
     for task in MASTER.tasks(active_only=(not args.inactive)):
         tb.add_row([fn(task) for fn in table_generator.values()])
-    print(tb)
+
+    if tb.rowcount == 0:
+        print("===>{0}You have no tasks for that filter{1}<===".format(
+            term.red, term.white))
+    else:
+        print(tb)

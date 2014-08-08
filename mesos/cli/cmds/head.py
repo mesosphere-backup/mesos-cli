@@ -19,21 +19,14 @@ from __future__ import absolute_import, print_function
 
 import itertools
 
-from .. import cli, cluster, completion_helpers
+from .. import cli, cluster
 
 parser = cli.parser(
     description="display first lines of a file"
 )
 
-parser.add_argument(
-    'task',
-    help="ID of the task. May match multiple tasks (or all)"
-).completer = completion_helpers.task
-
-parser.add_argument(
-    'file', nargs="*", default=["stdout"],
-    help="Path to the file inside the task's sandbox."
-).completer = completion_helpers.file
+parser.task_argument()
+parser.file_argument()
 
 parser.add_argument(
     '-n', default=10, type=int,

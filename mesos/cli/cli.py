@@ -26,16 +26,7 @@ import blessings
 import mesos.cli
 
 from .cfg import CURRENT as CFG
-
-
-class ArgumentParser(argparse.ArgumentParser):
-
-    def enable_print_header(self):
-        self.add_argument(
-            '-q', action='store_true',
-            help="Suppresses printing of headers when multiple tasks are " +
-                 "being examined"
-        )
+from .parser import ArgumentParser
 
 
 def init(parser=None):
@@ -50,16 +41,16 @@ def init(parser=None):
 
 
 def parser(**kwargs):
-    p = ArgumentParser(
+    parser_inst = ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         **kwargs
     )
 
-    p.add_argument(
+    parser_inst.add_argument(
         "-v", "--version",
         action="version", version="%(prog)s {0}".format(mesos.cli.__version__)
     )
-    return p
+    return parser_inst
 
 
 def handle_signals(fn):
