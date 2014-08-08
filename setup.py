@@ -20,22 +20,24 @@ import sys
 
 # Get the version without needing to install `mesos.cli`. Note that this must
 # be deleted from sys.modules for nosetests to run correctly.
-mod = imp.load_source('mesos.cli', os.path.join(os.path.dirname(__file__),
-    "mesos", "cli", "__init__.py"))
+mod = imp.load_source(
+    'mesos.cli',
+    os.path.join(os.path.dirname(__file__), "mesos", "cli", "__init__.py")
+)
 version = mod.__version__
 del sys.modules["mesos.cli"]
 
 with open(os.path.join(os.path.dirname(__file__), "README.rst")) as f:
-  readme = f.read()
+    readme = f.read()
 
 requires = [
     "argcomplete>=0.8.0",
     "blessings>=1.5.1",
     "gevent>=1.0.1",
-    "importlib>=1.0.3", # py26
+    "importlib>=1.0.3",  # py26
     "kazoo>=2.0",
     "mesos.interface>=0.20.0",
-    "ordereddict>=1.1", # py26
+    "ordereddict>=1.1",  # py26
     "prettytable>=0.7.2",
     "protobuf>=2.5.0,<3",
     "requests>=2.2.1"
@@ -51,9 +53,9 @@ config = {
     'url': 'http://pypi.python.org/pypi/mesos.cli',
     'license': 'Apache 2.0',
     'keywords': 'mesos',
-    'classifiers': [ ],
+    'classifiers': [],
 
-    'namespace_packages': [ 'mesos' ],
+    'namespace_packages': ['mesos'],
     'packages': [
         'mesos',
         'mesos.cli',
@@ -89,8 +91,9 @@ config = {
     'install_requires': requires,
     'tests_require': [
         'coverage>=3.7.1',
+        'flake8>=2.2.2',
         'mock>=1.0.1',
-        'testtools>=0.9.35', # py26
+        'testtools>=0.9.35',  # py26
         'zake==0.0.20'
     ],
     'test_suite': 'nose.collector',

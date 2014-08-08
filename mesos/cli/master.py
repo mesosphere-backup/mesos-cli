@@ -16,32 +16,33 @@
 
 
 import itertools
+import os
+import re
+import urlparse
+
+import requests
+import requests.exceptions
+
+import google.protobuf.message
 import kazoo.client
 import kazoo.exceptions
 import kazoo.handlers.threading
-import logging
 import mesos.interface.mesos_pb2
-import os
-import re
-import requests
-import requests.exceptions
-import sys
-import urlparse
 
+from . import log, mesos_file, slave, task, util, zookeeper
 from .cfg import current as cfg
-from . import log
-from . import mesos_file
-from . import slave
-from . import task
-from . import util
-from . import zookeeper
 
 ZOOKEEPER_TIMEOUT = 1
+
+INVALID_PATH = "{0} does not have a valid path. Did you forget /mesos?"
 
 MISSING_MASTER = """unable to connect to a master at {0}.
 
 Try running `mesos config master zk://localhost:2181/mesos`. See the README for
 more examples."""
+
+MULTIPLE_SLAVES = "There are multiple slaves with that id. Please choose one: "
+
 
 class MesosMaster(object):
 
@@ -83,8 +84,7 @@ class MesosMaster(object):
                     log.fatal("cannot find any masters at {0}".format(cfg,))
                 data, stat = zk.get(os.path.join(path, leader[0][1]))
             except kazoo.exceptions.NoNodeError:
-                log.fatal(
-                    "{0} does not have a valid path. Did you forget /mesos?".format(cfg))
+                log.fatal(INVALID_PATH.format(cfg))
 
             # Old versions of mesos stick a PID into zookeeper instead of the
             # current MasterInfo. If the protobuf can't be decoded for whatever
@@ -127,7 +127,7 @@ class MesosMaster(object):
             log.fatal("Cannot find a slave by that name.")
 
         elif len(lst) > 1:
-            result = "There are multiple slaves with that id. Please choose one: "
+            result = MULTIPLE_SLAVES
             for s in lst:
                 result += "\n\t{0}".format(s.id)
             log.fatal(result)
@@ -135,8 +135,16 @@ class MesosMaster(object):
         return lst[0]
 
     def slaves(self, fltr=""):
-        return map(lambda x: slave.MesosSlave(x),
+        return map(
+            lambda x: slave.MesosSlave(x),
             itertools.ifilter(lambda x: fltr in x["id"], self.state["slaves"]))
+
+    def _task_list(self, active_only=False):
+        keys = ["tasks"]
+        if not active_only:
+            keys.append("completed_tasks")
+        return itertools.chain(
+            *[util.merge(x, *keys) for x in self.frameworks(active_only)])
 
     def task(self, fltr):
         lst = self.tasks(fltr)
@@ -153,20 +161,19 @@ class MesosMaster(object):
 
     # XXX - need to filter on task state as well as id
     def tasks(self, fltr="", active_only=False):
-        keys = [ "tasks" ]
-        if not active_only:
-            keys.append("completed_tasks")
-        return map(lambda x: task.Task(self, x),
-            itertools.ifilter(lambda x: fltr in x["id"],
-                itertools.chain(*[util.merge(x, *keys) for x in
-                    self.frameworks(active_only)])))
+        return map(
+            lambda x: task.Task(self, x),
+            itertools.ifilter(
+                lambda x: fltr in x["id"],
+                self._task_list(active_only)))
 
     def framework(self, fwid):
-        return filter(lambda x: x["id"] == fwid,
+        return filter(
+            lambda x: x["id"] == fwid,
             self.frameworks())[0]
 
     def frameworks(self, active_only=False):
-        keys = [ "frameworks" ]
+        keys = ["frameworks"]
         if not active_only:
             keys.append("completed_frameworks")
         return util.merge(self.state, *keys)

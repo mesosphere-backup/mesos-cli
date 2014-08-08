@@ -15,18 +15,17 @@
 # limitations under the License.
 
 
-import mock
 import os
-import sys
-import zake.fake_client
-import zake.fake_storage
 
 import mesos.cli.cmds.resolve
+import zake.fake_client
+import zake.fake_storage
 
 from .. import utils
 
 master_file = os.path.normpath(os.path.join(
     os.path.dirname(__file__), "..", "data", "master-host"))
+
 
 class TestResolve(utils.MockState):
 
@@ -42,26 +41,28 @@ class TestResolve(utils.MockState):
         self.addCleanup(self.zk.stop)
 
         zk = zake.fake_client.FakeClient(storage=self.storage)
-        self.mock("mesos.cli.zookeeper.client_class",
+        self.mock(
+            "mesos.cli.zookeeper.client_class",
             lambda *args, **kwargs: zk)
 
-        self.zk.create("/mesos/info_0000000008",
+        self.zk.create(
+            "/mesos/info_0000000008",
             utils.get_state("master.pb", parse=False),
             makepath=True)
 
-    @utils.patch_args([ "mesos-resolve", "localhost:5050" ])
+    @utils.patch_args(["mesos-resolve", "localhost:5050"])
     def test_tcp(self):
         mesos.cli.cmds.resolve.main()
 
         assert self.stdout == "localhost:5050\n"
 
-    @utils.patch_args([ "mesos-resolve", "zk://localhost:5050/mesos" ])
+    @utils.patch_args(["mesos-resolve", "zk://localhost:5050/mesos"])
     def test_zk(self):
         mesos.cli.cmds.resolve.main()
 
         assert self.stdout == "10.141.141.10:5050\n"
 
-    @utils.patch_args([ "mesos-resolve", "file:///" + master_file ])
+    @utils.patch_args(["mesos-resolve", "file:///" + master_file])
     def test_file(self):
         mesos.cli.cmds.resolve.main()
 

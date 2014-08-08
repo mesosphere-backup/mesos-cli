@@ -15,13 +15,8 @@
 # limitations under the License.
 
 
-import argcomplete
-import os
-import sys
-
 from .. import cli
 from ..master import current as master
-from .. import task
 
 parser = cli.parser(
     description="concatenate and print files"
@@ -36,6 +31,7 @@ parser.add_argument(
     'file', type=str, nargs="*", default=["stdout"],
     help="Path to the file inside the task's sandbox."
 ).completer = cli.file_completer
+
 
 def main():
     args = cli.init(parser)

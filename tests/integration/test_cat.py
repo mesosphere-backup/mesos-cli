@@ -16,12 +16,12 @@
 
 
 import mock
-import os
 
 import mesos.cli.cmds.cat
 import mesos.cli.exceptions
 
 from .. import utils
+
 
 @mock.patch("mesos.cli.mesos_file.File._fetch", utils.sandbox_read)
 class TestCat(utils.MockState):

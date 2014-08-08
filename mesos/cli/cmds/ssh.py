@@ -14,17 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import blessings
-import copy
 import os
 import platform
-import sys
 
-from .. import cli
+import blessings
+
+from .. import cli, log
 from ..master import current as master
-from .. import log
-from .. import slave
-from .. import task
 
 parser = cli.parser(
     description="SSH into the sandbox of a specific task"
@@ -34,6 +30,7 @@ parser.add_argument(
     'task', type=str,
     help="""Name of the task."""
 ).completer = cli.task_completer
+
 
 def main():
     term = blessings.Terminal()

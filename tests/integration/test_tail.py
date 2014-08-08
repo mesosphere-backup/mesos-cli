@@ -21,6 +21,7 @@ import mesos.cli.cmds.tail
 
 from .. import utils
 
+
 @mock.patch("mesos.cli.mesos_file.File._fetch", utils.sandbox_read)
 class TestTail(utils.MockState):
 

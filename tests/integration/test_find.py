@@ -21,6 +21,7 @@ import mesos.cli.cmds.find
 
 from .. import utils
 
+
 @mock.patch("mesos.cli.slave.MesosSlave.file_list", utils.file_list)
 class TestFind(utils.MockState):
 

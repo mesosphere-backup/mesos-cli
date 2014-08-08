@@ -20,7 +20,6 @@ import os
 import sys
 
 from .. import cli
-from .. import log
 
 """Provide tab completions for python subcommands.
 
@@ -29,12 +28,15 @@ To debug, add `_ARC_DEBUG` to your env.
 
 EXIT = os._exit
 
+
 def complete_cmd(name=""):
     print "\n".join([x for x in cli.cmds(short=True) if x.startswith(name)])
 
+
 def cmd_options(cmd):
     os.environ["_ARGCOMPLETE_IFS"] = "\n"
-    os.environ["_ARGCOMPLETE_WORDBREAKS"]= os.environ.get("COMP_WORDBREAKS", "")
+    os.environ["_ARGCOMPLETE_WORDBREAKS"] = os.environ.get(
+        "COMP_WORDBREAKS", "")
     os.environ["_ARGCOMPLETE"] = "2"
 
     try:
@@ -50,8 +52,9 @@ def cmd_options(cmd):
         exit_method=EXIT
     )
 
+
 def main():
-    args = cli.init()
+    cli.init()
 
     cmdline = os.environ.get('COMP_LINE') or \
         os.environ.get('COMMAND_LINE') or ''

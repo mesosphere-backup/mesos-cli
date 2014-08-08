@@ -18,14 +18,9 @@
 import datetime
 import os
 import re
-import requests
-import urlparse
 
-from . import exceptions
-from . import log
-from . import slave
-from . import mesos_file
-from . import util
+from . import exceptions, log, mesos_file, util
+
 
 class Task(dict):
 
@@ -115,6 +110,7 @@ class Task(dict):
     def user(self):
         return self.framework["user"]
 
+
 def files(fltr, flist, fail=True):
     # Preventing circular imports
     from .master import current as master
@@ -128,7 +124,7 @@ def files(fltr, flist, fail=True):
             fobj = t.file(f)
             if fobj.exists():
                 dne = False
-                yield (t.slave, t, fobj, mult)
+                yield (fobj, mult)
 
     if dne and fail:
         log.fatal("No such task has the requested file or directory")

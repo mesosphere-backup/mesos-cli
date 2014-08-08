@@ -21,6 +21,7 @@ import mesos.cli.cmds.scp
 
 from .. import utils
 
+
 class TestScp(utils.MockState):
 
     @utils.patch_args([
@@ -33,7 +34,7 @@ class TestScp(utils.MockState):
             mesos.cli.cmds.scp.main()
 
             m.assert_called_with(
-                [ "scp", "-pr", "stdout", "10.141.141.10:/tmp" ])
+                ["scp", "-pr", "stdout", "10.141.141.10:/tmp"])
             assert len(self.lines) == 3
             assert "uploaded" in self.stdout
 
@@ -49,5 +50,3 @@ class TestScp(utils.MockState):
 
             assert len(self.lines) == 5
             assert "uploaded" in self.stdout
-
-

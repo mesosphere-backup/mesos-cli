@@ -16,17 +16,16 @@
 
 
 import blessings
-import collections
 import prettytable
+
+from .. import cli, util
+from ..master import current as master
 
 try:
     from collections import OrderedDict
 except ImportError:
     from ordereddict import OrderedDict
 
-from .. import cli
-from ..master import current as master
-from .. import util
 
 parser = cli.parser(
     description="process status"
@@ -37,13 +36,14 @@ parser.add_argument(
     help="show inactive tasks as well"
 )
 
+
 def get_memory(x):
     max_mem = x.resources["mem"] * 1024 * 1024 * 1.0
     return "{0:.2f}".format((x.rss / max_mem) * 100)
 
+
 def main():
     term = blessings.Terminal()
-    max_pid = (term.width or 160) - 70
 
     table_generator = OrderedDict([
         # user_time + system_time

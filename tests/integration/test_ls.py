@@ -21,6 +21,7 @@ import mesos.cli.cmds.ls
 
 from .. import utils
 
+
 @mock.patch("mesos.cli.slave.MesosSlave.file_list", utils.file_list)
 class TestLs(utils.MockState):
 
@@ -39,7 +40,7 @@ class TestLs(utils.MockState):
         assert "231" in self.stdout
         # date
         assert "Jun 25 15:44" in self.stdout
-        #name
+        # name
         assert "stdout" in self.stdout
 
         assert len(self.lines) == 3
