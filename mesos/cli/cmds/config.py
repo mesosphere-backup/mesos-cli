@@ -16,8 +16,6 @@
 
 from __future__ import absolute_import, print_function
 
-import json
-
 from .. import cli
 from ..cfg import current as cfg
 
@@ -36,9 +34,9 @@ def main():
 
     if args.key:
         if args.value:
-            setattr(cfg, args.key, args.value)
+            cfg[args.key] = args.value
             cfg.save()
         else:
-            print(getattr(cfg, args.key))
+            print(cfg[args.key])
     else:
-        print(json.dumps(cfg, indent=4))
+        print(cfg)

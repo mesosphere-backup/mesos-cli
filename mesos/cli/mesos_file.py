@@ -67,7 +67,7 @@ class File(object):
 
     @property
     def _where(self):
-        return self.task.id if self.task is not None else self.host.key()
+        return self.task["id"] if self.task is not None else self.host.key()
 
     def __reversed__(self):
         for i, l in enumerate(self._readlines_reverse()):

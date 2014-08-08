@@ -24,35 +24,32 @@ import re
 from . import exceptions, log, mesos_file, util
 
 
-class Task(dict):
+class Task(object):
 
     cmd_re = re.compile("\(Command: (.+)\)")
 
-    def __init__(self, master, meta):
+    def __init__(self, master, items):
         self.master = master
-        self._meta = meta
+        self.__items = items
 
     def __str__(self):
-        return "{0}:{1}".format(
-            self.slave.pid.split('@')[-1].split(':')[0], self.id)
+        return "{0}:{1}".format(self.slave, self["id"])
 
     def __repr__(self):
-        return self.__str__()
+        return "<task: {0}, on {1}>".format(self["id"], self.slave)
 
-    def __getattr__(self, name):
-        if name in self._meta:
-            return self._meta[name]
-        raise AttributeError()
+    def __getitem__(self, name):
+        return self.__items[name]
 
     @property
     def executor(self):
-        return self.slave.task_executor(self.id)
+        return self.slave.task_executor(self["id"])
 
     @property
     def framework(self):
         # Preventing circular imports
         from .master import current as master
-        return master.framework(self.framework_id)
+        return master.framework(self["framework_id"])
 
     @util.cached_property()
     def directory(self):
@@ -63,7 +60,7 @@ class Task(dict):
 
     @util.cached_property()
     def slave(self):
-        return self.master.slave(self._meta["slave_id"])
+        return self.master.slave(self["slave_id"])
 
     def file(self, path):
         return mesos_file.File(self.slave, self, path)
@@ -74,7 +71,7 @@ class Task(dict):
     @property
     def stats(self):
         try:
-            return self.slave.task_stats(self.id)
+            return self.slave.task_stats(self["id"])
         except exceptions.MissingExecutor:
             return {}
 

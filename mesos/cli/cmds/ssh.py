@@ -49,7 +49,7 @@ def main():
     cmd = [
         "ssh",
         "-t",
-        t.slave.hostname,
+        t.slave["hostname"],
         "cd {0} && bash".format(t.directory)
     ]
     if t.directory == "":

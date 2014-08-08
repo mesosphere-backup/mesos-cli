@@ -26,28 +26,26 @@ from . import exceptions, log, mesos_file, util
 
 class MesosSlave(object):
 
-    def __init__(self, meta):
-        self._meta = meta
+    def __init__(self, items):
+        self.__items = items
 
-    def __getattr__(self, name):
-        if name in self._meta:
-            return self._meta[name]
-        raise AttributeError()
+    def __getitem__(self, name):
+        return self.__items[name]
 
     def __str__(self):
-        return self.__repr__()
+        return self.key()
 
     def __repr__(self):
         return "<slave: {0}>".format(self.key())
 
     def key(self):
-        return self.pid.split('@')[-1]
+        return self["pid"].split('@')[-1]
 
     @property
     def host(self):
         return "http://{}:{}".format(
-            self.hostname,
-            self.pid.split(":")[-1])
+            self["hostname"],
+            self["pid"].split(":")[-1])
 
     def fetch(self, url, **kwargs):
         try:

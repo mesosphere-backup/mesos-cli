@@ -25,7 +25,7 @@ parser = cli.parser(
 )
 
 parser.add_argument(
-    "master", nargs="?", default=cfg.master
+    "master", nargs="?", default=cfg["master"]
 )
 
 

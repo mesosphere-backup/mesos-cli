@@ -43,8 +43,8 @@ def init(parser=None):
     args = parser.parse_args() if parser else None
 
     logging.basicConfig(
-        level=getattr(logging, cfg.log_level.upper()),
-        filename=cfg.log_file
+        level=getattr(logging, cfg["log_level"].upper()),
+        filename=cfg["log_file"]
     )
 
     return args
@@ -92,11 +92,11 @@ def cmds(short=False):
 
 
 def task_completer(prefix, parsed_args, **kwargs):
-    return [x.id for x in master.tasks(prefix)]
+    return [x["id"] for x in master.tasks(prefix)]
 
 
 def slave_completer(prefix, parsed_args, **kwargs):
-    return [s.id for s in master.slaves(prefix)]
+    return [s["id"] for s in master.slaves(prefix)]
 
 
 def file_completer(prefix, parsed_args, **kwargs):

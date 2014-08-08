@@ -55,11 +55,11 @@ class MesosMaster(object):
         return "<master: {0}>".format(self.key())
 
     def key(self):
-        return cfg.master
+        return cfg["master"]
 
     @util.cached_property()
     def host(self):
-        return "http://%s" % (self.resolve(cfg.master),)
+        return "http://%s" % (self.resolve(cfg["master"]),)
 
     def fetch(self, url, **kwargs):
         try:
@@ -156,7 +156,7 @@ class MesosMaster(object):
 
         elif len(lst) > 1:
             msg = ["There are multiple tasks with that id. Please choose one:"]
-            msg += ["\t{0}".format(t.id) for t in lst]
+            msg += ["\t{0}".format(t["id"]) for t in lst]
             log.fatal("\n".join(msg))
 
         return lst[0]

@@ -40,7 +40,7 @@ parser.add_argument(
 
 
 def get_memory(x):
-    max_mem = x.resources["mem"] * 1024 * 1024 * 1.0
+    max_mem = x["resources"]["mem"] * 1024 * 1024 * 1.0
     return "{0:.2f}".format((x.rss / max_mem) * 100)
 
 
@@ -50,7 +50,7 @@ def main():
     table_generator = OrderedDict([
         # user_time + system_time
         ("time", lambda x: x.cpu_time),
-        ("state", lambda x: x.state.split("_")[-1][0]),
+        ("state", lambda x: x["state"].split("_")[-1][0]),
         # mem_rss
         ("rss", lambda x: util.humanize_bytes(x.rss)),
         # cpus_limit
@@ -61,7 +61,7 @@ def main():
         ("command", lambda x: x.command),
         ("user", lambda x: x.user),
         # task_id
-        ("id", lambda x: x.id),
+        ("id", lambda x: x["id"]),
     ])
 
     args = cli.init(parser)

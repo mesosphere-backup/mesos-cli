@@ -48,7 +48,7 @@ def upload(slave, src, dst):
         "scp",
         "-pr",
         src,
-        "{0}:{1}".format(slave.hostname, dst)
+        "{0}:{1}".format(slave["hostname"], dst)
     ]
     try:
         return (slave, src, dst, log.fn(gevent.subprocess.check_call, cmd))
@@ -67,5 +67,5 @@ def main():
 
     for slave, src, dst, retcode in [x.value for x in jobs]:
         print("{0}:{1}\t{2}".format(
-            slave.hostname, os.path.join(dst, src),
+            slave["hostname"], os.path.join(dst, src),
             "uploaded" if retcode == 0 else "failed"))
