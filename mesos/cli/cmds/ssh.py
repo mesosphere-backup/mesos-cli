@@ -21,7 +21,7 @@ import platform
 
 import blessings
 
-from .. import cli, log
+from .. import cli, completion_helpers, log
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
@@ -31,7 +31,7 @@ parser = cli.parser(
 parser.add_argument(
     'task', type=str,
     help="""Name of the task."""
-).completer = cli.task_completer
+).completer = completion_helpers.task
 
 
 def main():

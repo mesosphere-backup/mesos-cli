@@ -19,7 +19,7 @@ from __future__ import absolute_import, print_function
 
 import os
 
-from .. import cli
+from .. import cli, completion_helpers
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
@@ -31,12 +31,12 @@ parser.add_argument(
     help="""Name of the task.
 
     Note that this can be a partial match."""
-).completer = cli.task_completer
+).completer = completion_helpers.task
 
 parser.add_argument(
     'path', type=str, nargs="?", default="",
     help="""Path to view."""
-).completer = cli.file_completer
+).completer = completion_helpers.file
 
 parser.enable_print_header()
 

@@ -14,3 +14,4 @@ fix-isort:
 clean:
 	rm -rf *.egg
 	rm -rf .tox
+	rm -rf build

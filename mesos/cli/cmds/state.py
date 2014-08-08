@@ -19,7 +19,7 @@ from __future__ import absolute_import, print_function
 
 import json
 
-from .. import cli
+from .. import cli, completion_helpers
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
@@ -30,7 +30,7 @@ parser = cli.parser(
 parser.add_argument(
     "slave", nargs="?",
     help="ID of the slave. May match multiple slaves (or all)"
-).completer = cli.slave_completer
+).completer = completion_helpers.slave
 
 
 def main():

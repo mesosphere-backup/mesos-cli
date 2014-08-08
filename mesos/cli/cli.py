@@ -24,9 +24,7 @@ import os
 import blessings
 import mesos.cli
 
-from . import exceptions
 from .cfg import CURRENT as CFG
-from .master import CURRENT as MASTER
 
 
 class ArgumentParser(argparse.ArgumentParser):
@@ -87,34 +85,3 @@ def cmds(short=False):
         cmds = [x.split("-", 1)[-1] for x in cmds]
 
     return sorted(cmds)
-
-
-def task_completer(prefix, parsed_args, **kwargs):
-    return [x["id"] for x in MASTER.tasks(prefix)]
-
-
-def slave_completer(prefix, parsed_args, **kwargs):
-    return [s["id"] for s in MASTER.slaves(prefix)]
-
-
-def file_completer(prefix, parsed_args, **kwargs):
-    files = set([])
-    split = prefix.rsplit("/", 1)
-    base = ""
-    if len(split) == 2:
-        base = split[0]
-    pattern = split[-1]
-
-    for task in MASTER.tasks(parsed_args.task):
-        # It is possible for the master to have completed tasks that no longer
-        # have files and/or executors
-        try:
-            for file_meta in task.file_list(base):
-                rel = os.path.relpath(file_meta["path"], task.directory)
-                if rel.rsplit("/", 1)[-1].startswith(pattern):
-                    if file_meta["mode"].startswith("d"):
-                        rel += "/"
-                    files.add(rel)
-        except exceptions.MissingExecutor:
-            pass
-    return files

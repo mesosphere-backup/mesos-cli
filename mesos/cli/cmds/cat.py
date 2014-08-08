@@ -17,7 +17,7 @@
 
 from __future__ import absolute_import, print_function
 
-from .. import cli
+from .. import cli, completion_helpers
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
@@ -27,12 +27,12 @@ parser = cli.parser(
 parser.add_argument(
     'task',
     help="ID of the task. May match multiple tasks (or all)"
-).completer = cli.task_completer
+).completer = completion_helpers.task
 
 parser.add_argument(
     'file', type=str, nargs="*", default=["stdout"],
     help="Path to the file inside the task's sandbox."
-).completer = cli.file_completer
+).completer = completion_helpers.file
 
 
 def main():
