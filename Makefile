@@ -15,3 +15,4 @@ clean:
 	rm -rf *.egg
 	rm -rf .tox
 	rm -rf build
+	find . -name "*.pyc" -delete
