@@ -79,14 +79,14 @@ class File(object):
     def _fetch(self):
         resp = self.host.fetch("/files/read.json", params=self._params)
         if resp.status_code == 404:
-            raise exceptions.FileDNE("No such file or directory.")
+            raise exceptions.FileDoesNotExist("No such file or directory.")
         return resp.json()
 
     def exists(self):
         try:
             self._fetch()
             return True
-        except exceptions.FileDNE:
+        except exceptions.FileDoesNotExist:
             return False
 
     @property

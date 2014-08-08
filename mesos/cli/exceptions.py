@@ -18,9 +18,13 @@ from __future__ import absolute_import, print_function
 # limitations under the License.
 
 
-class FileDNE(Exception):
+class MesosCLIException(Exception):
     pass
 
 
-class MissingExecutor(Exception):
+class FileDoesNotExist(MesosCLIException):
+    pass
+
+
+class MissingExecutor(MesosCLIException):
     pass

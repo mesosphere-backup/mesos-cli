@@ -44,7 +44,7 @@ def sandbox_file(path):
     fpath = os.path.normpath(os.path.join(
         os.path.dirname(__file__), "data", "sandbox", os.path.basename(path)))
     if not os.path.exists(fpath):
-        raise mesos.cli.exceptions.FileDNE("")
+        raise mesos.cli.exceptions.FileDoesNotExist("")
     return open(fpath, "rb")
 
 
@@ -52,7 +52,7 @@ def sandbox_file(path):
 def sandbox_read(self):
     # This is an invalid path and the file does not exist.
     if not self._params["path"].startswith("/tmp/mesos"):
-        raise mesos.cli.exceptions.FileDNE("")
+        raise mesos.cli.exceptions.FileDoesNotExist("")
 
     with sandbox_file(self._params["path"]) as fobj:
         if self._params["offset"] == -1:
