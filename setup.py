@@ -35,7 +35,7 @@ with open(os.path.join(os.path.dirname(__file__), "README.rst")) as f:
 requires = [
     "argcomplete>=0.8.0",
     "blessings>=1.5.1",
-    "gevent>=1.0.1",
+    "futures>=2.1.6",
     "importlib>=1.0.3",  # py26
     "kazoo>=2.0",
     "mesos.interface>=0.20.0",
@@ -94,6 +94,7 @@ config = {
     'tests_require': [
         'coverage>=3.7.1',
         'flake8>=2.2.2',
+        'isort>=3.9.0',
         'mock>=1.0.1',
         'pep8-naming>=0.2.2',
         'testtools>=0.9.35',  # py26

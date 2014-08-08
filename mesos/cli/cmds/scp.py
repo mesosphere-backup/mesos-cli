@@ -19,14 +19,12 @@ from __future__ import absolute_import, print_function
 
 import itertools
 import os
+import subprocess
 
-import gevent.monkey
-import gevent.subprocess
+import concurrent.futures
 
 from .. import cli, log
 from ..master import CURRENT as MASTER
-
-gevent.monkey.patch_all()
 
 parser = cli.parser(
     description="upload the specified local file(s) to all slaves"
@@ -43,29 +41,28 @@ parser.add_argument(
 )
 
 
-def upload(slave, src, dst):
-    cmd = [
-        "scp",
-        "-pr",
-        src,
-        "{0}:{1}".format(slave["hostname"], dst)
-    ]
-    try:
-        return (slave, src, dst, log.fn(gevent.subprocess.check_call, cmd))
-    except gevent.subprocess.CalledProcessError, e:
-        return (slave, e.returncode)
-
-
 def main():
     args = cli.init(parser)
 
-    jobs = list(itertools.chain(
-        *[[gevent.spawn(upload, s, f, args.remote_path) for f in args.file]
-            for s in MASTER.slaves()]))
+    def upload((slave, src)):
+        cmd = [
+            "scp",
+            "-pr",
+            src,
+            "{0}:{1}".format(slave["hostname"], args.remote_path)
+        ]
+        try:
+            return (slave, src, log.fn(subprocess.check_call, cmd))
+        except subprocess.CalledProcessError, e:
+            return (slave, e.returncode)
 
-    gevent.joinall(jobs)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        file_tuples = lambda slave: [(slave, fname) for fname in args.file]
 
-    for slave, src, dst, retcode in [x.value for x in jobs]:
-        print("{0}:{1}\t{2}".format(
-            slave["hostname"], os.path.join(dst, src),
-            "uploaded" if retcode == 0 else "failed"))
+        upload_jobs = executor.map(upload, itertools.chain(
+            *[file_tuples(slave) for slave in MASTER.slaves()]))
+
+        for slave, src, retcode in upload_jobs:
+            print("{0}:{1}\t{2}".format(
+                slave["hostname"], os.path.join(args.remote_path, src),
+                "uploaded" if retcode == 0 else "failed"))

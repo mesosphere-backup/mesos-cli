@@ -17,38 +17,27 @@
 
 from __future__ import absolute_import, print_function
 
+import os
+import re
+
 import mock
 
-import mesos.cli.cmds.scp
+import mesos.cli.cmds.events
 
 from .. import utils
 
 
-class TestScp(utils.MockState):
+@mock.patch("mesos.cli.mesos_file.File._fetch", utils.sandbox_read)
+class TestEvents(utils.MockState):
 
     @utils.patch_args([
-        "mesos-scp",
-        "stdout",
-        "/tmp"
+        "mesos-events",
+        "--sleep-interval=0.1"
     ])
-    def test_single(self):
-        with mock.patch("subprocess.check_call", return_value=0) as m:
-            mesos.cli.cmds.scp.main()
+    @mock.patch("mesos.cli.cmds.events.FOLLOW", False)
+    @mock.patch("mesos.cli.cmds.events.POSITION", os.SEEK_SET)
+    def test_stream(self):
+        mesos.cli.cmds.events.main()
 
-            m.assert_called_with(
-                ["scp", "-pr", "stdout", "10.141.141.10:/tmp"])
-            assert len(self.lines) == 3
-            assert "uploaded" in self.stdout
-
-    @utils.patch_args([
-        "mesos-scp",
-        "stdout",
-        "stderr",
-        "/tmp"
-    ])
-    def test_multiple(self):
-        with mock.patch("subprocess.check_call", return_value=0):
-            mesos.cli.cmds.scp.main()
-
-            assert len(self.lines) == 5
-            assert "uploaded" in self.stdout
+        assert len(re.findall("/slave/log", self.stdout)) == 2
+        assert len(re.findall("/master/log", self.stdout)) == 1

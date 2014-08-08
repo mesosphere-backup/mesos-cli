@@ -22,13 +22,13 @@ import os
 import re
 import urlparse
 
+import kazoo.client
+import kazoo.exceptions
+import kazoo.handlers.threading
 import requests
 import requests.exceptions
 
 import google.protobuf.message
-import kazoo.client
-import kazoo.exceptions
-import kazoo.handlers.threading
 import mesos.interface.mesos_pb2
 
 from . import log, mesos_file, slave, task, util, zookeeper
