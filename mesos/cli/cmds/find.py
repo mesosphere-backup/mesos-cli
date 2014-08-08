@@ -15,6 +15,8 @@
 # limitations under the License.
 
 
+from __future__ import absolute_import, print_function
+
 import os
 
 from .. import cli
@@ -53,7 +55,7 @@ def main():
 
         def walk_dir(flist):
             for f in flist:
-                print os.path.relpath(f["path"], base)
+                print(os.path.relpath(f["path"], base))
                 if f["mode"][0].startswith("d"):
                     walk_dir(t.file_list(f["path"]))
 

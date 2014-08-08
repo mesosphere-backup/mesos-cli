@@ -15,6 +15,8 @@
 # limitations under the License.
 
 
+from __future__ import absolute_import, print_function
+
 import importlib
 import os
 import sys
@@ -30,7 +32,7 @@ EXIT = os._exit
 
 
 def complete_cmd(name=""):
-    print "\n".join([x for x in cli.cmds(short=True) if x.startswith(name)])
+    print("\n".join([x for x in cli.cmds(short=True) if x.startswith(name)]))
 
 
 def cmd_options(cmd):

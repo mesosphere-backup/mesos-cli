@@ -15,6 +15,8 @@
 # limitations under the License.
 
 
+from __future__ import absolute_import, print_function
+
 import itertools
 import os
 
@@ -64,6 +66,6 @@ def main():
     gevent.joinall(jobs)
 
     for slave, src, dst, retcode in [x.value for x in jobs]:
-        print "{0}:{1}\t{2}".format(
+        print("{0}:{1}\t{2}".format(
             slave.hostname, os.path.join(dst, src),
-            "uploaded" if retcode == 0 else "failed")
+            "uploaded" if retcode == 0 else "failed"))

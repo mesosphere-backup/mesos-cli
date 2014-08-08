@@ -15,6 +15,8 @@
 # limitations under the License.
 
 
+from __future__ import absolute_import, print_function
+
 import argparse
 import logging
 import os
@@ -63,7 +65,7 @@ def parser(**kwargs):
 
 def header(name):
     term = blessings.Terminal()
-    print "==>" + term.red + str(name) + term.white + "<=="
+    print("==>" + term.red + str(name) + term.white + "<==")
 
 
 def cmds(short=False):

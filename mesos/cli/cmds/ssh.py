@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import absolute_import, print_function
+
 import os
 import platform
 
@@ -51,8 +53,8 @@ def main():
         "cd {0} && bash".format(t.directory)
     ]
     if t.directory == "":
-        print term.red + "warning: the task no longer exists on the " + \
-            "target slave. Will not enter sandbox" + term.white + "\n\n"
+        print(term.red + "warning: the task no longer exists on the " +
+              "target slave. Will not enter sandbox" + term.white + "\n\n")
         cmd = cmd[:-1]
 
     log.fn(os.execvp, "ssh", cmd)

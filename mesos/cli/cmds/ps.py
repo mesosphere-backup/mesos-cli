@@ -15,6 +15,8 @@
 # limitations under the License.
 
 
+from __future__ import absolute_import, print_function
+
 import blessings
 import prettytable
 
@@ -76,4 +78,4 @@ def main():
 
     for t in master.tasks(active_only=(not args.inactive)):
         tb.add_row([fn(t) for fn in table_generator.values()])
-    print tb
+    print(tb)

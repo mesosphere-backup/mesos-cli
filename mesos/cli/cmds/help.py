@@ -15,6 +15,8 @@
 # limitations under the License.
 
 
+from __future__ import absolute_import, print_function
+
 from .. import cli
 
 
@@ -26,4 +28,4 @@ Available commands:
 
 
 def main():
-    print USAGE.format(cmds="\n\t".join(cli.cmds(short=True)))
+    print(USAGE.format(cmds="\n\t".join(cli.cmds(short=True))))

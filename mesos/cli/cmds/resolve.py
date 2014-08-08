@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import absolute_import, print_function
+
 from .. import cli
 from ..cfg import current as cfg
 from ..master import current as master
@@ -30,4 +32,4 @@ parser.add_argument(
 def main():
     args = cli.init(parser)
 
-    print master.resolve(args.master)
+    print(master.resolve(args.master))

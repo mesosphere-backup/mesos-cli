@@ -15,6 +15,8 @@
 # limitations under the License.
 
 
+from __future__ import absolute_import, print_function
+
 from .. import cli
 from ..master import current as master
 
@@ -41,4 +43,4 @@ def main():
             fobj = t.file(f)
             if fobj.exists():
                 for l in fobj:
-                    print l
+                    print(l)

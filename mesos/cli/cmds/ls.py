@@ -15,6 +15,8 @@
 # limitations under the License.
 
 
+from __future__ import absolute_import, print_function
+
 import datetime
 import os
 
@@ -60,4 +62,4 @@ def main():
         if p.endswith("/"):
             p = p[:-1]
         for f in t.file_list(p):
-            print format_line(f, os.path.join(t.directory, args.path))
+            print(format_line(f, os.path.join(t.directory, args.path)))

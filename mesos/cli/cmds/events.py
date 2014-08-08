@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import absolute_import, print_function
+
 import os
 
 import gevent
@@ -56,7 +58,7 @@ def main():
                 if first and str(log) != last_seen and not args.q:
                     cli.header(log)
 
-                print l
+                print(l)
 
                 first = False
 

@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import absolute_import, print_function
+
 import json
 
 from .. import cli
@@ -37,6 +39,6 @@ def main():
             setattr(cfg, args.key, args.value)
             cfg.save()
         else:
-            print getattr(cfg, args.key)
+            print(getattr(cfg, args.key))
     else:
-        print json.dumps(cfg, indent=4)
+        print(json.dumps(cfg, indent=4))

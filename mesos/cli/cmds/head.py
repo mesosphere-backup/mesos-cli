@@ -15,6 +15,8 @@
 # limitations under the License.
 
 
+from __future__ import absolute_import, print_function
+
 import itertools
 
 from .. import cli, task
@@ -49,4 +51,4 @@ def main():
             cli.header(fobj)
 
         for l in itertools.islice(fobj, args.n):
-            print l
+            print(l)

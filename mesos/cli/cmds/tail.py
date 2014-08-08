@@ -15,6 +15,8 @@
 # limitations under the License.
 
 
+from __future__ import absolute_import, print_function
+
 import itertools
 import time
 
@@ -63,7 +65,7 @@ def follow(args):
             if first and str(fobj) != last_seen and not args.q:
                 cli.header(fobj)
 
-            print l
+            print(l)
 
             first = False
 
@@ -84,7 +86,7 @@ def main():
 
         lines = list(itertools.islice(reversed(fobj), args.n))
         for l in reversed(lines):
-            print l
+            print(l)
 
         files_seen[fobj] = fobj.tell()
         last_seen = str(fobj)
