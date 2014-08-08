@@ -17,16 +17,12 @@
 
 from __future__ import absolute_import, print_function
 
+import concurrent.futures
 import itertools
 import os
 
-import gevent.monkey
-import gevent.subprocess
-
 from .. import cli, log
 from ..master import CURRENT as MASTER
-
-gevent.monkey.patch_all()
 
 parser = cli.parser(
     description="upload the specified local file(s) to all slaves"
@@ -59,13 +55,20 @@ def upload(slave, src, dst):
 def main():
     args = cli.init(parser)
 
-    jobs = list(itertools.chain(
-        *[[gevent.spawn(upload, s, f, args.remote_path) for f in args.file]
-            for s in MASTER.slaves()]))
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        for slave in MASTER.slaves():
+            for fname in args.file:
+                executor.submit(upload, slave, fname, args.remote_path)
 
-    gevent.joinall(jobs)
+        for
 
-    for slave, src, dst, retcode in [x.value for x in jobs]:
-        print("{0}:{1}\t{2}".format(
-            slave["hostname"], os.path.join(dst, src),
-            "uploaded" if retcode == 0 else "failed"))
+    # jobs = list(itertools.chain(
+    #     *[[gevent.spawn(upload, s, f, args.remote_path) for f in args.file]
+    #         for s in MASTER.slaves()]))
+
+    # gevent.joinall(jobs)
+
+    # for slave, src, dst, retcode in [x.value for x in jobs]:
+    #     print("{0}:{1}\t{2}".format(
+    #         slave["hostname"], os.path.join(dst, src),
+    #         "uploaded" if retcode == 0 else "failed"))
