@@ -50,34 +50,11 @@ parser.add_argument(
 
 parser.enable_print_header()
 
-files_seen = {}
-last_seen = None
-
-
-def follow(args):
-    global files_seen, last_seen
-    for fobj, show_header in cluster.files(args.task, args.file, fail=False):
-
-        fobj.seek(files_seen.get(fobj, 0))
-        first = True
-
-        for line in fobj:
-            if first and str(fobj) != last_seen and not args.q:
-                cli.header(fobj)
-
-            print(line)
-
-            first = False
-
-        files_seen[fobj] = fobj.tell()
-
-        if not first:
-            last_seen = str(fobj)
-
 
 def main():
-    global files_seen, last_seen
     args = cli.init(parser)
+
+    files_seen = {}
 
     for fobj, show_header in cluster.files(
             args.task, args.file, fail=(not args.follow)):
@@ -89,9 +66,15 @@ def main():
             print(line)
 
         files_seen[fobj] = fobj.tell()
-        last_seen = str(fobj)
+
+    def follow():
+        for fobj, show_header in cluster.files(
+                args.task, args.file, fail=False):
+
+            fobj.seek(files_seen.get(fobj, 0))
+            cli.output_file(fobj, args.q)
 
     if args.follow:
-        while 1:
-            follow(args)
+        while True:
+            follow()
             time.sleep(RECHECK)

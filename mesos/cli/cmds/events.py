@@ -35,8 +35,6 @@ parser.add_argument(
 
 parser.enable_print_header()
 
-last_seen = None
-
 # Testing helpers
 FOLLOW = True
 POSITION = os.SEEK_END
@@ -52,24 +50,8 @@ def main():
         jobs = set()
 
         def read_log(log, sleep=args.sleep_interval):
-            global last_seen
             time.sleep(sleep)
-            first = True
-            for line in log:
-                # TODO(thomasr) - It is possible for there to be a pause in
-                # the middle of this loop (reading the next block from the
-                # remote) in this case, the header wouln't be printed and the
-                # user would be confused.
-                if first and str(log) != last_seen and not args.q:
-                    cli.header(log)
-
-                print(line)
-
-                first = False
-
-            if not first:
-                last_seen = str(log)
-
+            cli.output_file(log, args.q)
             return log
 
         def add_reader(log):

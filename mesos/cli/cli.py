@@ -85,3 +85,24 @@ def cmds(short=False):
         cmds = [x.split("-", 1)[-1] for x in cmds]
 
     return sorted(cmds)
+
+last_seen = None
+
+
+def output_file(fobj, show_header=True):
+    global last_seen
+    first = True
+    for line in fobj:
+        # TODO(thomasr) - It is possible for there to be a pause in
+        # the middle of this loop (reading the next block from the
+        # remote) in this case, the header wouln't be printed and the
+        # user would be confused.
+        if first and str(fobj) != last_seen and not show_header:
+            header(fobj)
+
+        print(line)
+
+        first = False
+
+    if not first:
+        last_seen = str(fobj)
