@@ -17,21 +17,19 @@
 from __future__ import absolute_import, print_function
 
 import os
+import time
 
-import gevent
-import gevent.monkey
+import concurrent.futures
 
 from .. import cli
 from ..master import CURRENT as MASTER
-
-gevent.monkey.patch_all()
 
 parser = cli.parser(
     description="observe events from the cluster"
 )
 
 parser.add_argument(
-    '-s', '--sleep-interval', type=int, default=10,
+    '-s', '--sleep-interval', type=float, default=5,
     help="Sleep approximately N seconds between iterations"
 )
 
@@ -39,22 +37,29 @@ parser.enable_print_header()
 
 last_seen = None
 
+# Testing helpers
+FOLLOW = True
+POSITION = os.SEEK_END
 
+
+# TODO(thomasr) - Should operate identical to tail, output the last couple
+# lines before beginning to follow.
 def main():
     args = cli.init(parser)
 
-    active_streams = set()
-    jobs = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        active_streams = set()
+        jobs = set()
 
-    def read_log(log):
-        global last_seen
-        while True:
+        def read_log(log, sleep=args.sleep_interval):
+            global last_seen
+            time.sleep(sleep)
             first = True
             for line in log:
-                # TODO(thomas) - It is possible for there to be a pause in the
-                # middle of this loop (reading the next block from the remote)
-                # in this case, the header wouln't be printed and the user
-                # would be confused.
+                # TODO(thomasr) - It is possible for there to be a pause in
+                # the middle of this loop (reading the next block from the
+                # remote) in this case, the header wouln't be printed and the
+                # user would be confused.
                 if first and str(log) != last_seen and not args.q:
                     cli.header(log)
 
@@ -65,21 +70,25 @@ def main():
             if not first:
                 last_seen = str(log)
 
-            gevent.sleep(args.sleep_interval)
+            return log
 
-    def add_reader(log):
-        log.seek(0, os.SEEK_END)
-        active_streams.add(log)
-        jobs.append(gevent.spawn(read_log, log))
+        def add_reader(log):
+            log.seek(0, POSITION)
+            active_streams.add(log)
+            jobs.add(executor.submit(read_log, log, 0))
 
-    def find_slaves():
-        while True:
+        def find_slaves():
             for slave in MASTER.slaves():
                 if slave.log not in active_streams:
                     add_reader(slave.log)
 
-            gevent.sleep(args.sleep_interval)
+        add_reader(MASTER.log)
+        while True:
+            done, jobs = concurrent.futures.wait(
+                jobs, return_when=concurrent.futures.FIRST_COMPLETED)
+            for job in done:
+                jobs.add(executor.submit(read_log, job.result()))
+            find_slaves()
 
-    add_reader(MASTER.log)
-    jobs.append(gevent.spawn(find_slaves))
-    gevent.joinall(jobs)
+            if not FOLLOW:
+                break

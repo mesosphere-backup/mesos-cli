@@ -94,6 +94,7 @@ config = {
     'tests_require': [
         'coverage>=3.7.1',
         'flake8>=2.2.2',
+        'isort>=3.9.0',
         'mock>=1.0.1',
         'pep8-naming>=0.2.2',
         'testtools>=0.9.35',  # py26

@@ -23,10 +23,10 @@ import os
 import sys
 
 import mock
+import testtools
 
 import mesos.cli
 import mesos.cli.exceptions
-import testtools
 
 
 def get_state(name, parse=True):
@@ -51,7 +51,8 @@ def sandbox_file(path):
 # Emulate the byte fetch interface and replace with reading local files
 def sandbox_read(self):
     # This is an invalid path and the file does not exist.
-    if not self._params["path"].startswith("/tmp/mesos"):
+    if self._params["path"] not in ["/master/log", "/slave/log"] and \
+            not self._params["path"].startswith("/tmp/mesos"):
         raise mesos.cli.exceptions.FileDoesNotExist("")
 
     with sandbox_file(self._params["path"]) as fobj:

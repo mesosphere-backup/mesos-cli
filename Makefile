@@ -6,6 +6,10 @@ test:
 	isort mesos/**/*.py tests/**/*.py -c
 	flake8 tests
 
+.PHONY: fix-isort
+fix-isort:
+	isort -rc .
+
 .PHONY: clean
 clean:
 	rm -rf *.egg
