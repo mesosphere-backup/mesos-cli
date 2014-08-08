@@ -50,11 +50,12 @@ parser.add_argument(
 
 parser.enable_print_header()
 
+files_seen = {}
+
 
 def main():
+    global files_seen
     args = cli.init(parser)
-
-    files_seen = {}
 
     for fobj, show_header in cluster.files(
             args.task, args.file, fail=(not args.follow)):
@@ -68,11 +69,13 @@ def main():
         files_seen[fobj] = fobj.tell()
 
     def follow():
+        global files_seen
         for fobj, show_header in cluster.files(
                 args.task, args.file, fail=False):
 
             fobj.seek(files_seen.get(fobj, 0))
             cli.output_file(fobj, args.q)
+            files_seen[fobj] = fobj.tell()
 
     if args.follow:
         while True:
