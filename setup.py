@@ -42,7 +42,7 @@ requires = [
     "ordereddict>=1.1",  # py26
     "prettytable>=0.7.2",
     "protobuf>=2.5.0,<3",
-    "requests>=2.2.1"
+    "requests>=2.3.0"
 ]
 
 config = {

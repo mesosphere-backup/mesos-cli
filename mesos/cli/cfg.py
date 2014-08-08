@@ -33,6 +33,8 @@ class Config(dict):
 
     cfg_name = ".mesos.json"
 
+    _default_config_location = os.path.join(os.path.expanduser("~"), cfg_name)
+
     search_path = [os.path.join(x, cfg_name) for x in [
         ".",
         os.path.expanduser("~"),
@@ -50,7 +52,7 @@ class Config(dict):
                 return p
 
         # default to creating a user level config file
-        return self.search_path[1]
+        return self._default_config_location
 
     def _get_path(self):
         return os.environ.get(
