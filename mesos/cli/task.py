@@ -18,14 +18,12 @@
 import datetime
 import os
 import re
-import requests
 import urlparse
 
-from . import exceptions
-from . import log
-from . import slave
-from . import mesos_file
-from . import util
+import requests
+
+from . import exceptions, log, mesos_file, slave, util
+
 
 class Task(dict):
 

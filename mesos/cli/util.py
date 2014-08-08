@@ -20,6 +20,7 @@ import itertools
 import re
 import time
 
+
 def merge(obj, *keys):
     return itertools.chain(*[obj[k] for k in keys])
 

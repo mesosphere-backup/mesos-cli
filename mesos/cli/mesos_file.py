@@ -18,8 +18,7 @@
 import itertools
 import os
 
-from . import exceptions
-from . import util
+from . import exceptions, util
 
 CHUNK = 1024
 

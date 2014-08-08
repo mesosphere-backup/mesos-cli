@@ -15,13 +15,13 @@
 # limitations under the License.
 
 
-import argcomplete
 import os
 import sys
 
-from .. import cli
+import argcomplete
+
+from .. import cli, task
 from ..master import current as master
-from .. import task
 
 parser = cli.parser(
     description="concatenate and print files"

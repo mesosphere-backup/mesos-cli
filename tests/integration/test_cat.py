@@ -15,13 +15,15 @@
 # limitations under the License.
 
 
-import mock
 import os
+
+import mock
 
 import mesos.cli.cmds.cat
 import mesos.cli.exceptions
 
 from .. import utils
+
 
 @mock.patch("mesos.cli.mesos_file.File._fetch", utils.sandbox_read)
 class TestCat(utils.MockState):

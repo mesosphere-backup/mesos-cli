@@ -14,17 +14,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import blessings
 import copy
 import os
 import platform
 import sys
 
-from .. import cli
+import blessings
+
+from .. import cli, log, slave, task
 from ..master import current as master
-from .. import log
-from .. import slave
-from .. import task
 
 parser = cli.parser(
     description="SSH into the sandbox of a specific task"

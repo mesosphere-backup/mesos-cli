@@ -21,6 +21,7 @@ import mesos.cli.cmds.head
 
 from .. import utils
 
+
 @mock.patch("mesos.cli.mesos_file.File._fetch", utils.sandbox_read)
 class TestHead(utils.MockState):
 

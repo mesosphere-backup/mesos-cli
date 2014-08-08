@@ -16,15 +16,16 @@
 
 
 import argparse
-import blessings
 import logging
 import os
 
+import blessings
 import mesos.cli
+
+from . import exceptions, log
 from .cfg import current as cfg
 from .master import current as master
-from . import exceptions
-from . import log
+
 
 def init(parser=None):
     args = parser.parse_args() if parser else None

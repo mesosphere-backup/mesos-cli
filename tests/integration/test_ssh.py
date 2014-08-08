@@ -21,6 +21,7 @@ import mesos.cli.cmds.ssh
 
 from .. import utils
 
+
 class TestSsh(utils.MockState):
 
     @utils.patch_args([

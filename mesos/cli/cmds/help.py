@@ -17,6 +17,7 @@
 
 from .. import cli
 
+
 USAGE = """Usage: mesos <command> [OPTIONS]
 
 Available commands:

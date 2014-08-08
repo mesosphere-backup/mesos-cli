@@ -18,8 +18,8 @@
 import os
 import sys
 
-from . import cli
-from . import log
+from . import cli, log
+
 
 def main():
     if len(sys.argv) == 1:

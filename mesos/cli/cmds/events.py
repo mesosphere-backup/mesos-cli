@@ -14,14 +14,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import gevent.monkey
-gevent.monkey.patch_all()
+import os
 
 import gevent
-import os
+import gevent.monkey
 
 from .. import cli
 from ..master import current as master
+
+gevent.monkey.patch_all()
+
+
 
 parser = cli.parser(
     description="observe events from the cluster"

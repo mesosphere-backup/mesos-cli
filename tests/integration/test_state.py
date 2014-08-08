@@ -16,13 +16,15 @@
 
 
 import json
-import mock
 import os
 import unittest
+
+import mock
 
 import mesos.cli.cmds.state
 
 from .. import utils
+
 
 class TestState(utils.MockState):
 

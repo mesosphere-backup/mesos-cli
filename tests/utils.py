@@ -17,13 +17,15 @@
 
 import functools
 import json
-import mock
 import os
 import sys
-import testtools
+
+import mock
 
 import mesos.cli
 import mesos.cli.exceptions
+import testtools
+
 
 def get_state(name, parse=True):
     path = os.path.normpath(os.path.join(

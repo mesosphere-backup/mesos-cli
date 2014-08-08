@@ -15,14 +15,16 @@
 # limitations under the License.
 
 
-import mock
 import os
 import StringIO
 import sys
 
+import mock
+
 import mesos.cli.cmds.completion
 
 from .. import utils
+
 
 def generate_env(line):
     env = {

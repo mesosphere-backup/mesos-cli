@@ -89,6 +89,7 @@ config = {
     'install_requires': requires,
     'tests_require': [
         'coverage>=3.7.1',
+        'flake8>=2.2.2',
         'mock>=1.0.1',
         'testtools>=0.9.35', # py26
         'zake==0.0.20'

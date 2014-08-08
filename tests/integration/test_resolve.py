@@ -15,13 +15,14 @@
 # limitations under the License.
 
 
-import mock
 import os
 import sys
-import zake.fake_client
-import zake.fake_storage
+
+import mock
 
 import mesos.cli.cmds.resolve
+import zake.fake_client
+import zake.fake_storage
 
 from .. import utils
 

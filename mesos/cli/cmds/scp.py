@@ -15,16 +15,18 @@
 # limitations under the License.
 
 
-import gevent.monkey
-gevent.monkey.patch_all()
-
-import gevent.subprocess
 import itertools
 import os
 
-from .. import cli
+import gevent.monkey
+import gevent.subprocess
+
+from .. import cli, log
 from ..master import current as master
-from .. import log
+
+gevent.monkey.patch_all()
+
+
 
 parser = cli.parser(
     description="upload the specified local file(s) to all slaves"

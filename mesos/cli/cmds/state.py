@@ -15,8 +15,9 @@
 # limitations under the License.
 
 
-import argcomplete
 import json
+
+import argcomplete
 
 from .. import cli
 from ..master import current as master

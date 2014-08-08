@@ -18,10 +18,8 @@
 import datetime
 import os
 
-from .. import cli
+from .. import cli, slave, task
 from ..master import current as master
-from .. import slave
-from .. import task
 
 parser = cli.parser(
     description="List all the files inside a specific task's sandbox"

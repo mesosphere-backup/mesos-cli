@@ -1,7 +1,8 @@
 
 .PHONY: test
 test:
-	python setup.py nosetests
+	isort mesos/**/*.py tests/**/*.py -c
+	python setup.py flake8 nosetests --where tests
 
 .PHONY: clean
 clean:

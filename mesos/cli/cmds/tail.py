@@ -20,9 +20,8 @@ import itertools
 import os
 import time
 
-from .. import cli
+from .. import cli, task
 from ..master import current as master
-from .. import task
 
 RECHECK = 1
 

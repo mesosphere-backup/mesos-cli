@@ -16,15 +16,14 @@
 
 import itertools
 import logging
-import requests
-import requests.exceptions
 import sys
 import urlparse
 
-from . import exceptions
-from . import log
-from . import mesos_file
-from . import util
+import requests
+import requests.exceptions
+
+from . import exceptions, log, mesos_file, util
+
 
 class MesosSlave(object):
 

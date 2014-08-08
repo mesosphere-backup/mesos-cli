@@ -16,25 +16,22 @@
 
 
 import itertools
-import kazoo.client
-import kazoo.exceptions
-import kazoo.handlers.threading
 import logging
-import mesos.interface.mesos_pb2
 import os
 import re
-import requests
-import requests.exceptions
 import sys
 import urlparse
 
+import requests
+import requests.exceptions
+
+import kazoo.client
+import kazoo.exceptions
+import kazoo.handlers.threading
+import mesos.interface.mesos_pb2
+
+from . import log, mesos_file, slave, task, util, zookeeper
 from .cfg import current as cfg
-from . import log
-from . import mesos_file
-from . import slave
-from . import task
-from . import util
-from . import zookeeper
 
 ZOOKEEPER_TIMEOUT = 1
 

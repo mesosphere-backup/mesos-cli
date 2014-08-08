@@ -15,10 +15,11 @@
 # limitations under the License.
 
 import json
-import mock
 import os
 import sys
 import tempfile
+
+import mock
 
 import mesos.cli.cfg
 import mesos.cli.cmds.config
@@ -72,4 +73,3 @@ class TestConfig(utils.MockState):
                         fobj.read())["default"]["master"]
         finally:
             os.remove(fname)
-

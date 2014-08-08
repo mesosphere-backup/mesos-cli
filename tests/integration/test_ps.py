@@ -21,6 +21,7 @@ import mesos.cli.cmds.ps
 
 from .. import utils
 
+
 @mock.patch("mesos.cli.slave.MesosSlave.stats", utils.slave_stats)
 class TestPs(utils.MockState):
 

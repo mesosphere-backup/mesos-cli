@@ -19,8 +19,7 @@ import importlib
 import os
 import sys
 
-from .. import cli
-from .. import log
+from .. import cli, log
 
 """Provide tab completions for python subcommands.
 

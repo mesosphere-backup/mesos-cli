@@ -18,9 +18,8 @@
 import itertools
 import os
 
-from .. import cli
+from .. import cli, task
 from ..master import current as master
-from .. import task
 
 parser = cli.parser(
     description="display first lines of a file"
