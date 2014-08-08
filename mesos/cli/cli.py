@@ -18,6 +18,7 @@
 from __future__ import absolute_import, print_function
 
 import argparse
+import functools
 import logging
 import os
 
@@ -59,6 +60,17 @@ def parser(**kwargs):
         action="version", version="%(prog)s {0}".format(mesos.cli.__version__)
     )
     return p
+
+
+def handle_signals(fn):
+    @functools.wraps(fn)
+    def wrapper(*args, **kwargs):
+        try:
+            return fn(*args, **kwargs)
+        except KeyboardInterrupt:
+            if CFG["debug"] == "true":
+                raise
+    return wrapper
 
 
 def header(name):

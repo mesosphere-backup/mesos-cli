@@ -29,6 +29,7 @@ parser.add_argument(
 )
 
 
+@cli.handle_signals
 def main():
     args = cli.init(parser)
 

@@ -33,6 +33,7 @@ parser.add_argument(
 ).completer = completion_helpers.slave
 
 
+@cli.handle_signals
 def main():
     args = cli.init(parser)
 

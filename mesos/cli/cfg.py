@@ -26,9 +26,10 @@ class Config(object):
     _default_profile = "default"
 
     DEFAULTS = {
-        "master": "localhost:5050",
+        "debug": "false",
+        "log_file": None,
         "log_level": "warning",
-        "log_file": None
+        "master": "localhost:5050"
     }
 
     cfg_name = ".mesos.json"

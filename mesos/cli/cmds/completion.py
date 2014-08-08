@@ -55,6 +55,7 @@ def cmd_options(cmd):
     )
 
 
+@cli.handle_signals
 def main():
     cli.init()
 

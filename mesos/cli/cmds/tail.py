@@ -53,6 +53,7 @@ parser.enable_print_header()
 files_seen = {}
 
 
+@cli.handle_signals
 def main():
     global files_seen
     args = cli.init(parser)

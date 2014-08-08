@@ -34,6 +34,7 @@ parser.add_argument(
 ).completer = completion_helpers.task
 
 
+@cli.handle_signals
 def main():
     term = blessings.Terminal()
 

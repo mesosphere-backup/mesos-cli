@@ -45,6 +45,7 @@ def get_memory(x):
     return "{0:.2f}".format((x.rss / max_mem) * 100)
 
 
+@cli.handle_signals
 def main():
     term = blessings.Terminal()
 

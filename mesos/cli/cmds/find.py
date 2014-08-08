@@ -41,6 +41,7 @@ parser.add_argument(
 parser.enable_print_header()
 
 
+@cli.handle_signals
 def main():
     args = cli.init(parser)
 

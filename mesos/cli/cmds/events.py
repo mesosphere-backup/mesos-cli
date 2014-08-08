@@ -42,6 +42,7 @@ POSITION = os.SEEK_END
 
 # TODO(thomasr) - Should operate identical to tail, output the last couple
 # lines before beginning to follow.
+@cli.handle_signals
 def main():
     args = cli.init(parser)
 

@@ -27,5 +27,6 @@ Available commands:
 """
 
 
+@cli.handle_signals
 def main():
     print(USAGE.format(cmds="\n\t".join(cli.cmds(short=True))))

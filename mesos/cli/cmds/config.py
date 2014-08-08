@@ -29,6 +29,7 @@ parser.add_argument(
 parser.add_argument("value", nargs="?")
 
 
+@cli.handle_signals
 def main():
     args = cli.init(parser)
 
