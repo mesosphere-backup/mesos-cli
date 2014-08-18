@@ -92,10 +92,16 @@ class MesosSlave(object):
 
     def task_stats(self, _id):
         eid = self.task_executor(_id)["id"]
-        return list(filter(
+        stats = list(filter(
             lambda x: x["executor_id"] == eid,
             self.stats
-        ))[0]["statistics"]
+        ))
+
+        # Tasks that are not yet in a RUNNING state have no stats.
+        if len(stats) == 0:
+            return {}
+        else:
+            return stats[0]["statistics"]
 
     @property
     @util.memoize
