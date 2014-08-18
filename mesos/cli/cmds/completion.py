@@ -55,6 +55,11 @@ def cmd_options(cmd):
     )
 
 
+def usage():
+    print("""Please look at the README for instructions on setting command
+completion up for your shell.""")
+
+
 @cli.handle_signals
 def main():
     cli.init()
@@ -65,7 +70,9 @@ def main():
 
     words = cmdline[:cmdpoint].split()
 
-    if len(words) == 1:
+    if len(words) == 0:
+        return usage()
+    elif len(words) == 1:
         return complete_cmd()
     elif len(words) == 2:
         if cmdline[-1] == " ":
