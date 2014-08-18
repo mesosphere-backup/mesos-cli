@@ -61,6 +61,8 @@ def main():
             print(line)
 
         files_seen[fobj] = fobj.tell()
+        if len(lines) > 0:
+            cli.last_seen = str(fobj)
 
     def follow():
         global files_seen
