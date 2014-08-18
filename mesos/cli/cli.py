@@ -66,7 +66,7 @@ def handle_signals(fn):
 
 def header(name):
     term = blessings.Terminal()
-    print("==>" + term.red + str(name) + term.white + "<==")
+    print("==>" + term.red(str(name)) + "<==")
 
 
 def cmds(short=False):
