@@ -23,6 +23,11 @@ import sys
 from . import cli, log
 
 
+FAILURE_MESSAGE = """'{}' is not a valid command (or cannot be found)
+
+To see a list of commands, run `mesos help`."""
+
+
 def main():
     if len(sys.argv) == 1:
         cmd = "mesos-help"
@@ -32,5 +37,4 @@ def main():
     if cmd in cli.cmds():
         log.fn(os.execvp, cmd, [cmd] + sys.argv[2:])
     else:
-        log.fatal("'{}' is not a valid command (or cannot be found)".format(
-            cmd))
+        log.fatal(FAILURE_MESSAGE.format(cmd))
