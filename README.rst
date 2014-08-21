@@ -85,7 +85,7 @@ If you're using a non-local master, you'll need to configure where the master sh
 .. code-block:: json
 
     {
-        "profile": "default"
+        "profile": "default",
         "default": {
             "master": "zk://localhost:2181/mesos",
             "log_level": "warning",
