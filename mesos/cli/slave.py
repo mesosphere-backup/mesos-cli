@@ -21,7 +21,7 @@ import urlparse
 import requests
 import requests.exceptions
 
-from . import exceptions, log, mesos_file, util
+from . import exceptions, mesos_file, util
 
 
 class MesosSlave(object):
@@ -49,8 +49,9 @@ class MesosSlave(object):
             return requests.get(urlparse.urljoin(
                 self.host, url), **kwargs)
         except requests.exceptions.ConnectionError:
-            log.fatal("Unable to connect to the slave at {}.".format(
-                self.host))
+            raise exceptions.SlaveDoesNotExist(
+                "Unable to connect to the slave at {0}".format(
+                    self.host))
 
     @util.CachedProperty(ttl=5)
     def state(self):

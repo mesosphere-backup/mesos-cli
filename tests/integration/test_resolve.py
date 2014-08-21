@@ -19,10 +19,9 @@ from __future__ import absolute_import, print_function
 
 import os
 
+import mesos.cli.cmds.resolve
 import zake.fake_client
 import zake.fake_storage
-
-import mesos.cli.cmds.resolve
 
 from .. import utils
 

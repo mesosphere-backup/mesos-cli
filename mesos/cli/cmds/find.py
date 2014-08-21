@@ -19,7 +19,7 @@ from __future__ import absolute_import, print_function
 
 import os
 
-from .. import cli, completion_helpers
+from .. import cli, completion_helpers, exceptions
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
@@ -51,8 +51,11 @@ def main():
         path = path[:-1]
 
     for task in tlist:
-        base = os.path.join(task.directory, path)
-        flist = task.file_list(path)
+        try:
+            base = os.path.join(task.directory, path)
+            flist = task.file_list(path)
+        except exceptions.SlaveDoesNotExist:
+            continue
 
         def walk_dir(flist):
             for file_meta in flist:

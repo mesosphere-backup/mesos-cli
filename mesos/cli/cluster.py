@@ -17,8 +17,10 @@
 
 from __future__ import absolute_import, print_function
 
-from . import log
+from . import cli, exceptions, log
 from .master import CURRENT as MASTER
+
+missing_slave = set([])
 
 
 def files(fltr, flist, fail=True):
@@ -28,7 +30,18 @@ def files(fltr, flist, fail=True):
 
     for task in tlist:
         for fname in flist:
-            fobj = task.file(fname)
+
+            try:
+                fobj = task.file(fname)
+            except exceptions.SlaveDoesNotExist:
+                if task["id"] not in missing_slave:
+                    cli.header("{0}:{1}".format(
+                        task["id"], fname))
+                    print("Slave no longer exists.")
+
+                missing_slave.add(task["id"])
+                break
+
             if fobj.exists():
                 dne = False
                 yield (fobj, mult)

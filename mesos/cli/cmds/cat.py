@@ -17,8 +17,7 @@
 
 from __future__ import absolute_import, print_function
 
-from .. import cli
-from ..master import CURRENT as MASTER
+from .. import cli, cluster
 
 parser = cli.parser(
     description="concatenate and print files"
@@ -32,9 +31,6 @@ parser.file_argument()
 def main():
     args = cli.init(parser)
 
-    for task in MASTER.tasks(args.task):
-        for fname in args.file:
-            fobj = task.file(fname)
-            if fobj.exists():
-                for line in fobj:
-                    print(line)
+    for fobj, show_header in cluster.files(args.task, args.file):
+        for line in fobj:
+            print(line)

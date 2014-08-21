@@ -28,3 +28,7 @@ class FileDoesNotExist(MesosCLIException):
 
 class MissingExecutor(MesosCLIException):
     pass
+
+
+class SlaveDoesNotExist(MesosCLIException):
+    pass

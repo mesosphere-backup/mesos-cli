@@ -20,10 +20,9 @@ import json
 import os
 import tempfile
 
-import mock
-
 import mesos.cli.cfg
 import mesos.cli.cmds.config
+import mock
 
 from .. import utils
 

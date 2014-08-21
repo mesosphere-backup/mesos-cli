@@ -23,16 +23,15 @@ import os
 import re
 import urlparse
 
+import google.protobuf.message
 import kazoo.client
 import kazoo.exceptions
 import kazoo.handlers.threading
+import mesos.interface.mesos_pb2
 import requests
 import requests.exceptions
 
-import google.protobuf.message
-import mesos.interface.mesos_pb2
-
-from . import log, mesos_file, slave, task, util, zookeeper
+from . import exceptions, log, mesos_file, slave, task, util, zookeeper
 from .cfg import CURRENT as CFG
 
 ZOOKEEPER_TIMEOUT = 1
@@ -126,8 +125,11 @@ class MesosMaster(object):
     def slave(self, fltr):
         lst = self.slaves(fltr)
 
+        log.debug("master.slave({0})".format(fltr))
+
         if len(lst) == 0:
-            log.fatal("Cannot find a slave by that name.")
+            raise exceptions.SlaveDoesNotExist(
+                "Slave {0} no longer exists.".format(fltr))
 
         elif len(lst) > 1:
             result = [MULTIPLE_SLAVES]
