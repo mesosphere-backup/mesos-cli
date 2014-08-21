@@ -53,7 +53,7 @@ class File(object):
         return self.key() == y.key()
 
     def __hash__(self):
-        return hash(self.key())
+        return hash(self.__str__())
 
     def __repr__(self):
         return "<open file '{0}', for '{1}'>".format(self.path, self._where)

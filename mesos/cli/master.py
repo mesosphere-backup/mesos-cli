@@ -17,6 +17,7 @@
 
 from __future__ import absolute_import, print_function
 
+import fnmatch
 import itertools
 import os
 import re
@@ -166,7 +167,7 @@ class MesosMaster(object):
         return list(map(
             lambda x: task.Task(self, x),
             itertools.ifilter(
-                lambda x: fltr in x["id"],
+                lambda x: fltr in x["id"] or fnmatch.fnmatch(x["id"], fltr),
                 self._task_list(active_only))))
 
     def framework(self, fwid):
