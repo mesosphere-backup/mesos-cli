@@ -31,7 +31,7 @@ class ArgumentParser(argparse.ArgumentParser):
 
     def task_argument(self):
         self.add_argument(
-            'task',
+            'task', type=str,
             help="ID of the task. May match multiple tasks (or all)"
         ).completer = completion_helpers.task
 
