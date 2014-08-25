@@ -20,7 +20,7 @@ from __future__ import absolute_import, print_function
 import datetime
 import os
 
-from .. import cli
+from .. import cli, exceptions
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
@@ -52,5 +52,10 @@ def main():
         p = args.path
         if p.endswith("/"):
             p = p[:-1]
-        for fobj in task.file_list(p):
-            print(format_line(fobj, os.path.join(task.directory, args.path)))
+
+        try:
+            for fobj in task.file_list(p):
+                print(format_line(
+                    fobj, os.path.join(task.directory, args.path)))
+        except exceptions.SlaveDoesNotExist:
+            continue

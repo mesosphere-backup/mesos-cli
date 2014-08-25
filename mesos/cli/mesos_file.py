@@ -87,6 +87,8 @@ class File(object):
             return True
         except exceptions.FileDoesNotExist:
             return False
+        except exceptions.SlaveDoesNotExist:
+            return False
 
     @property
     def size(self):

@@ -17,11 +17,10 @@
 
 from __future__ import absolute_import, print_function
 
+import blessings
 import prettytable
 
-import blessings
-
-from .. import cli, util
+from .. import cli, exceptions, util
 from ..master import CURRENT as MASTER
 
 try:
@@ -79,7 +78,10 @@ def main():
     )
 
     for task in MASTER.tasks(active_only=(not args.inactive)):
-        tb.add_row([fn(task) for fn in table_generator.values()])
+        try:
+            tb.add_row([fn(task) for fn in table_generator.values()])
+        except exceptions.SlaveDoesNotExist:
+            continue
 
     if tb.rowcount == 0:
         print("===>{0}You have no tasks for that filter{1}<===".format(

@@ -17,10 +17,9 @@
 
 from __future__ import absolute_import, print_function
 
-import mock
-
 import mesos.cli.cmds.cat
 import mesos.cli.exceptions
+import mock
 
 from .. import utils
 
@@ -53,9 +52,9 @@ class TestCat(utils.MockState):
         "st"
     ])
     def test_partial(self):
-        mesos.cli.cmds.cat.main()
+        self.assertRaises(SystemExit, mesos.cli.cmds.cat.main)
 
-        assert len(self.stdout) == 0
+        assert "No such task" in self.stdout
 
     @utils.patch_args([
         "mesos-cat",
@@ -83,6 +82,6 @@ class TestCat(utils.MockState):
         "stdout"
     ])
     def test_missing(self):
-        mesos.cli.cmds.cat.main()
+        self.assertRaises(SystemExit, mesos.cli.cmds.cat.main)
 
-        assert len(self.stdout) == 0
+        assert "No such task" in self.stdout
