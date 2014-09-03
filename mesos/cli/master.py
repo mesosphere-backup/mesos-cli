@@ -56,7 +56,7 @@ class MesosMaster(object):
 
     @util.CachedProperty()
     def host(self):
-        return "http://%s" % (self.resolve(CFG["master"]),)
+        return "{0}://{1}".format(CFG["scheme"], self.resolve(CFG["master"]))
 
     def fetch(self, url, **kwargs):
         try:

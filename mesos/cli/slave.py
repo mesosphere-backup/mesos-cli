@@ -22,6 +22,7 @@ import requests
 import requests.exceptions
 
 from . import exceptions, mesos_file, util
+from .cfg import CURRENT as CFG
 
 
 class MesosSlave(object):
@@ -40,7 +41,8 @@ class MesosSlave(object):
 
     @property
     def host(self):
-        return "http://{}:{}".format(
+        return "{0}://{1}:{2}".format(
+            CFG["scheme"],
             self["hostname"],
             self["pid"].split(":")[-1])
 
@@ -50,8 +52,7 @@ class MesosSlave(object):
                 self.host, url), **kwargs)
         except requests.exceptions.ConnectionError:
             raise exceptions.SlaveDoesNotExist(
-                "Unable to connect to the slave at {0}".format(
-                    self.host))
+                "Unable to connect to the slave at {0}".format(self.host))
 
     @util.CachedProperty(ttl=5)
     def state(self):

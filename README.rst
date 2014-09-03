@@ -121,6 +121,33 @@ To change your profile, you can run:
 
 The old config will be maintained and can be switched back to at any point.
 
++++++++++++++++
+Config Options
++++++++++++++++
+
+.. code-block:: json
+
+    {
+        // Show stack traces on keyboard interrupt
+        "debug": "false",
+
+        // Path to where you'd like the log file
+        "log_file": None,
+
+        // Log level to use.
+        "log_level": "warning",
+
+        // Location of your master, this can be any of the values that mesos
+        // supports which includes the following:
+        //     localhost:5050
+        //     zk://localhost:2181/mesos
+        //     file:///path/to/config
+        "master": "localhost:5050",
+
+        // Scheme to use when connecting to mesos, can be either http or https
+        "scheme": "http"
+    }
+
 ========
 Commands
 ========

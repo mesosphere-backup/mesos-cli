@@ -29,7 +29,8 @@ class Config(object):
         "debug": "false",
         "log_file": None,
         "log_level": "warning",
-        "master": "localhost:5050"
+        "master": "localhost:5050",
+        "scheme": "http"
     }
 
     cfg_name = ".mesos.json"
