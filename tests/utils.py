@@ -22,10 +22,11 @@ import json
 import os
 import sys
 
-import mesos.cli
-import mesos.cli.exceptions
 import mock
 import testtools
+
+import mesos.cli
+import mesos.cli.exceptions
 
 
 def get_state(name, parse=True):

@@ -27,9 +27,10 @@ import google.protobuf.message
 import kazoo.client
 import kazoo.exceptions
 import kazoo.handlers.threading
-import mesos.interface.mesos_pb2
 import requests
 import requests.exceptions
+
+import mesos.interface.mesos_pb2
 
 from . import exceptions, log, mesos_file, slave, task, util, zookeeper
 from .cfg import CURRENT as CFG

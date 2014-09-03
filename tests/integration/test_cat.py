@@ -17,9 +17,10 @@
 
 from __future__ import absolute_import, print_function
 
+import mock
+
 import mesos.cli.cmds.cat
 import mesos.cli.exceptions
-import mock
 
 from .. import utils
 

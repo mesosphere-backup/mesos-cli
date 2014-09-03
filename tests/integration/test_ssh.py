@@ -19,8 +19,9 @@ from __future__ import absolute_import, print_function
 
 import os
 
-import mesos.cli.cmds.ssh
 import mock
+
+import mesos.cli.cmds.ssh
 
 from .. import utils
 

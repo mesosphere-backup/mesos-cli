@@ -23,6 +23,7 @@ import logging
 import os
 
 import blessings
+
 import mesos.cli
 
 from .cfg import CURRENT as CFG

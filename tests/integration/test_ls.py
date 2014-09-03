@@ -17,8 +17,9 @@
 
 from __future__ import absolute_import, print_function
 
-import mesos.cli.cmds.ls
 import mock
+
+import mesos.cli.cmds.ls
 
 from .. import utils
 

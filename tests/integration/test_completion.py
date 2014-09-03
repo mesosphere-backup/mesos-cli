@@ -20,8 +20,9 @@ from __future__ import absolute_import, print_function
 import os
 import sys
 
-import mesos.cli.cmds.completion
 import mock
+
+import mesos.cli.cmds.completion
 
 from .. import utils
 
