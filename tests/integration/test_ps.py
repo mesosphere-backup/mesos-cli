@@ -27,9 +27,7 @@ from .. import utils
 @mock.patch("mesos.cli.slave.MesosSlave.stats", utils.slave_stats)
 class TestPs(utils.MockState):
 
-    @utils.patch_args([
-        "mesos-ps"
-    ])
+    @utils.patch_args(["mesos-ps"])
     def test_format(self):
         mesos.cli.cmds.ps.main()
 
@@ -50,11 +48,14 @@ class TestPs(utils.MockState):
 
         assert len(self.lines) == 4
 
-    @utils.patch_args([
-        "mesos-ps",
-        "-i"
-    ])
+    @utils.patch_args(["mesos-ps", "-i"])
     def test_inactive(self):
         mesos.cli.cmds.ps.main()
 
         assert len(self.lines) == 17
+
+    @utils.patch_args(["mesos-ps", "foo"])
+    def test_filter(self):
+        mesos.cli.cmds.ps.main()
+
+        assert "no tasks" in self.stdout

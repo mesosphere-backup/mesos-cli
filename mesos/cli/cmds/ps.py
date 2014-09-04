@@ -38,6 +38,8 @@ parser.add_argument(
     help="show inactive tasks as well"
 )
 
+parser.task_argument(optional=True)
+
 
 def get_memory(x):
     max_mem = x["resources"]["mem"] * 1024 * 1024 * 1.0
@@ -77,7 +79,7 @@ def main():
         right_padding_width=1
     )
 
-    for task in MASTER.tasks(active_only=(not args.inactive)):
+    for task in MASTER.tasks(active_only=(not args.inactive), fltr=args.task):
         try:
             tb.add_row([fn(task) for fn in table_generator.values()])
         except exceptions.SlaveDoesNotExist:
