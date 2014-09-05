@@ -65,4 +65,6 @@ def by_fn(keyfn, fn, items):
 def by_slave(fn, tasks):
     """Execute a function against tasks partitioned by slave."""
 
-    return by_fn(lambda x: x.slave["id"], fn, tasks)
+    keyfn = lambda x: x.slave["id"]
+    tasks = sorted(tasks, key=keyfn)
+    return by_fn(keyfn, fn, tasks)
