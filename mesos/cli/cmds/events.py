@@ -21,7 +21,7 @@ import time
 
 import concurrent.futures
 
-from .. import cli
+from .. import cli, parallel
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
@@ -46,7 +46,7 @@ POSITION = os.SEEK_END
 def main():
     args = cli.init(parser)
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+    with parallel.execute() as executor:
         active_streams = set()
         jobs = set()
 

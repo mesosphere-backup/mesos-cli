@@ -59,6 +59,7 @@ class MesosMaster(object):
     def host(self):
         return "{0}://{1}".format(CFG["scheme"], self.resolve(CFG["master"]))
 
+    @log.duration
     def fetch(self, url, **kwargs):
         try:
             return requests.get(urlparse.urljoin(self.host, url), **kwargs)
@@ -102,6 +103,7 @@ class MesosMaster(object):
 
             return val.split("@")[-1]
 
+    @log.duration
     def resolve(self, cfg):
         """Resolve the URL to the mesos master.
 

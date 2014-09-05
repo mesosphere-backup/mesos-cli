@@ -21,7 +21,7 @@ import urlparse
 import requests
 import requests.exceptions
 
-from . import exceptions, mesos_file, util
+from . import exceptions, log, mesos_file, util
 from .cfg import CURRENT as CFG
 
 
@@ -46,6 +46,7 @@ class MesosSlave(object):
             self["hostname"],
             self["pid"].split(":")[-1])
 
+    @log.duration
     def fetch(self, url, **kwargs):
         try:
             return requests.get(urlparse.urljoin(

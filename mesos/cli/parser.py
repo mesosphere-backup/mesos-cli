@@ -29,11 +29,16 @@ class ArgumentParser(argparse.ArgumentParser):
                  "being examined"
         )
 
-    def task_argument(self):
-        self.add_argument(
-            'task', type=str,
-            help="ID of the task. May match multiple tasks (or all)"
-        ).completer = completion_helpers.task
+    def task_argument(self, optional=False):
+        kwargs = {
+            "default": "",
+            "type": str,
+            "help": "ID of the task. May match multiple tasks (or all)"
+        }
+        if optional:
+            kwargs["nargs"] = "?"
+
+        self.add_argument('task', **kwargs).completer = completion_helpers.task
 
     def file_argument(self):
         self.add_argument(
