@@ -50,7 +50,7 @@ class MesosSlave(object):
     def fetch(self, url, **kwargs):
         try:
             return requests.get(urlparse.urljoin(
-                self.host, url), **kwargs)
+                self.host, url), timeout=CFG["response_timeout"], **kwargs)
         except requests.exceptions.ConnectionError:
             raise exceptions.SlaveDoesNotExist(
                 "Unable to connect to the slave at {0}".format(self.host))

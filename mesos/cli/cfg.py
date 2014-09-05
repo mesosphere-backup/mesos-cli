@@ -31,7 +31,8 @@ class Config(object):
         "log_level": "warning",
         "master": "localhost:5050",
         "max_workers": 5,
-        "scheme": "http"
+        "scheme": "http",
+        "response_timeout": 5
     }
 
     cfg_name = ".mesos.json"

@@ -62,7 +62,10 @@ class MesosMaster(object):
     @log.duration
     def fetch(self, url, **kwargs):
         try:
-            return requests.get(urlparse.urljoin(self.host, url), **kwargs)
+            return requests.get(
+                urlparse.urljoin(self.host, url),
+                timeout=CFG["response_timeout"],
+                **kwargs)
         except requests.exceptions.ConnectionError:
             log.fatal(MISSING_MASTER.format(self.host))
 

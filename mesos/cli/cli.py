@@ -33,10 +33,14 @@ from .parser import ArgumentParser
 def init(parser=None):
     args = parser.parse_args() if parser else None
 
+    log_level = getattr(logging, CFG["log_level"].upper())
     logging.basicConfig(
-        level=getattr(logging, CFG["log_level"].upper()),
+        level=log_level,
         filename=CFG["log_file"]
     )
+
+    if CFG["debug"]:
+        debug_requests()
 
     return args
 
@@ -110,3 +114,12 @@ def output_file(fobj, show_header=True):
 
     if not first:
         last_seen = str(fobj)
+
+
+def debug_requests():
+    try:
+        import http.client as http_client
+    except ImportError:
+        # Python 2
+        import httplib as http_client
+    http_client.HTTPConnection.debuglevel = 1
