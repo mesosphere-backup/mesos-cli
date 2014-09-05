@@ -30,6 +30,7 @@ class Config(object):
         "log_file": None,
         "log_level": "warning",
         "master": "localhost:5050",
+        "max_workers": 5,
         "scheme": "http"
     }
 

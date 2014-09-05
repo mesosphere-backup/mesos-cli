@@ -20,7 +20,7 @@ from __future__ import absolute_import, print_function
 import blessings
 import prettytable
 
-from .. import cli, exceptions, util
+from .. import cli, exceptions, parallel, util
 from ..master import CURRENT as MASTER
 
 try:
@@ -79,11 +79,17 @@ def main():
         right_padding_width=1
     )
 
-    for task in MASTER.tasks(active_only=(not args.inactive), fltr=args.task):
+    def format_row(task):
         try:
-            tb.add_row([fn(task) for fn in table_generator.values()])
+            return [fn(task) for fn in table_generator.values()]
         except exceptions.SlaveDoesNotExist:
-            continue
+            return None
+
+    for row in parallel.by_slave(
+            format_row,
+            MASTER.tasks(active_only=(not args.inactive), fltr=args.task)):
+        if row:
+            tb.add_row(row)
 
     if tb.rowcount == 0:
         print("===>{0}You have no tasks for that filter{1}<===".format(
