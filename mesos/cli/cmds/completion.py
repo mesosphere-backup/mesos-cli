@@ -28,7 +28,7 @@ from .. import cli
 To debug, add `_ARC_DEBUG` to your env.
 """
 
-EXIT = os._exit
+EXIT = sys.exit
 
 
 def complete_cmd(name=""):
@@ -46,8 +46,10 @@ def cmd_options(cmd):
             ".{0}".format(cmd), package="mesos.cli.cmds")
     except ImportError:
         return
+
     if not hasattr(mod, 'parser'):
         return
+
     importlib.import_module("argcomplete").autocomplete(
         mod.parser,
         output_stream=sys.stdout,
