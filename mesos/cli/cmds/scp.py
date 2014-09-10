@@ -21,9 +21,7 @@ import itertools
 import os
 import subprocess
 
-import concurrent.futures
-
-from .. import cli, log
+from .. import cli, log, parallel
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
@@ -55,7 +53,7 @@ def main(args):
         except subprocess.CalledProcessError, e:
             return (slave, e.returncode)
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+    with parallel.execute() as executor:
         file_tuples = lambda slave: [(slave, fname) for fname in args.file]
 
         upload_jobs = executor.map(upload, itertools.chain(
