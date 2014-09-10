@@ -46,7 +46,7 @@ def init(parser=None):
                 filename=CFG["log_file"]
             )
 
-            if CFG["debug"]:
+            if CFG["debug"] == "true":
                 debug_requests()
 
             return fn(cmd_args, *args, **kwargs)
