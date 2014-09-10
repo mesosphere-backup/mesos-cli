@@ -41,10 +41,8 @@ parser.add_argument(
 )
 
 
-@cli.handle_signals
-def main():
-    args = cli.init(parser)
-
+@cli.init(parser)
+def main(args):
     def upload((slave, src)):
         cmd = [
             "scp",

@@ -34,8 +34,8 @@ parser.add_argument(
 ).completer = completion_helpers.task
 
 
-@cli.handle_signals
-def main():
+@cli.init(parser)
+def main(args):
     term = blessings.Terminal()
 
     # There's a security bug in Mavericks wrt. urllib2:
@@ -43,17 +43,15 @@ def main():
     if platform.system() == "Darwin":
         os.environ["no_proxy"] = "*"
 
-    args = cli.init(parser)
-
-    t = MASTER.task(args.task)
+    task = MASTER.task(args.task)
 
     cmd = [
         "ssh",
         "-t",
-        t.slave["hostname"],
-        "cd {0} && bash".format(t.directory)
+        task.slave["hostname"],
+        "cd {0} && bash".format(task.directory)
     ]
-    if t.directory == "":
+    if task.directory == "":
         print(term.red + "warning: the task no longer exists on the " +
               "target slave. Will not enter sandbox" + term.white + "\n\n")
         cmd = cmd[:-1]

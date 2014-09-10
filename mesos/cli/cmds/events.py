@@ -42,10 +42,8 @@ POSITION = os.SEEK_END
 
 # TODO(thomasr) - Should operate identical to tail, output the last couple
 # lines before beginning to follow.
-@cli.handle_signals
-def main():
-    args = cli.init(parser)
-
+@cli.init(parser)
+def main(args):
     with parallel.execute() as executor:
         active_streams = set()
         jobs = set()

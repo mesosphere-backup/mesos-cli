@@ -41,10 +41,8 @@ parser.add_argument(
 parser.enable_print_header()
 
 
-@cli.handle_signals
-def main():
-    args = cli.init(parser)
-
+@cli.init(parser)
+def main(args):
     tlist = MASTER.tasks(args.task)
     path = args.path
     if path.endswith("/"):

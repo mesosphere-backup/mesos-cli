@@ -27,10 +27,8 @@ parser.task_argument()
 parser.file_argument()
 
 
-@cli.handle_signals
-def main():
-    args = cli.init(parser)
-
+@cli.init(parser)
+def main(args):
     for fobj, show_header in cluster.files(args.task, args.file):
         for line in fobj:
             print(line)

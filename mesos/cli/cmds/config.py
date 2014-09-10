@@ -29,10 +29,8 @@ parser.add_argument(
 parser.add_argument("value", nargs="?")
 
 
-@cli.handle_signals
-def main():
-    args = cli.init(parser)
-
+@cli.init(parser)
+def main(args):
     if args.key:
         if args.value:
             CFG[args.key] = args.value

@@ -46,8 +46,8 @@ def get_memory(x):
     return "{0:.2f}".format((x.rss / max_mem) * 100)
 
 
-@cli.handle_signals
-def main():
+@cli.init(parser)
+def main(args):
     term = blessings.Terminal()
 
     table_generator = OrderedDict([
@@ -66,8 +66,6 @@ def main():
         # task_id
         ("id", lambda x: x["id"]),
     ])
-
-    args = cli.init(parser)
 
     tb = prettytable.PrettyTable(
         [x.upper() for x in table_generator.keys()],

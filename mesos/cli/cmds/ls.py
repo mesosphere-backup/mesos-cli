@@ -40,10 +40,8 @@ def format_line(obj, base):
     return fmt.format(human_time=human_time, fname=fname, **obj)
 
 
-@cli.handle_signals
-def main():
-    args = cli.init(parser)
-
+@cli.init(parser)
+def main(args):
     tlist = MASTER.tasks(args.task)
     for task in tlist:
         if len(tlist) > 1 and not args.q:

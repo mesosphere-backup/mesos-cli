@@ -46,10 +46,9 @@ parser.enable_print_header()
 files_seen = {}
 
 
-@cli.handle_signals
-def main():
+@cli.init(parser)
+def main(args):
     global files_seen
-    args = cli.init(parser)
 
     for fobj, show_header in cluster.files(
             args.task, args.file, fail=(not args.follow)):

@@ -33,10 +33,8 @@ parser.add_argument(
 ).completer = completion_helpers.slave
 
 
-@cli.handle_signals
-def main():
-    args = cli.init(parser)
-
+@cli.init(parser)
+def main(args):
     if not args.slave:
         print(json.dumps(MASTER.state, indent=4))
     else:

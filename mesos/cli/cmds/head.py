@@ -36,10 +36,8 @@ parser.add_argument(
 parser.enable_print_header()
 
 
-@cli.handle_signals
-def main():
-    args = cli.init(parser)
-
+@cli.init(parser)
+def main(args):
     for fobj, show_header in cluster.files(args.task, args.file):
         if not args.q and show_header:
             cli.header(fobj)

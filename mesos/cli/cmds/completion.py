@@ -60,10 +60,8 @@ def usage():
 completion up for your shell.""")
 
 
-@cli.handle_signals
-def main():
-    cli.init()
-
+@cli.init()
+def main(args):
     cmdline = os.environ.get('COMP_LINE') or \
         os.environ.get('COMMAND_LINE') or ''
     cmdpoint = int(os.environ.get('COMP_POINT') or len(cmdline))

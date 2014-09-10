@@ -26,23 +26,32 @@ import blessings
 
 import mesos.cli
 
+from . import log
 from .cfg import CURRENT as CFG
 from .parser import ArgumentParser
 
 
 def init(parser=None):
-    args = parser.parse_args() if parser else None
 
-    log_level = getattr(logging, CFG["log_level"].upper())
-    logging.basicConfig(
-        level=log_level,
-        filename=CFG["log_file"]
-    )
+    def decorator(fn):
+        @handle_signals
+        @log.duration
+        @functools.wraps(fn)
+        def wrapper(*args, **kwargs):
+            cmd_args = parser.parse_args() if parser else None
 
-    if CFG["debug"]:
-        debug_requests()
+            log_level = getattr(logging, CFG["log_level"].upper())
+            logging.basicConfig(
+                level=log_level,
+                filename=CFG["log_file"]
+            )
 
-    return args
+            if CFG["debug"]:
+                debug_requests()
+
+            return fn(cmd_args, *args, **kwargs)
+        return wrapper
+    return decorator
 
 
 def parser(**kwargs):
