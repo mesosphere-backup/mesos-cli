@@ -32,3 +32,7 @@ class MissingExecutor(MesosCLIException):
 
 class SlaveDoesNotExist(MesosCLIException):
     pass
+
+
+class SkipResult(MesosCLIException):
+    pass

@@ -50,7 +50,7 @@ def main(args):
 
         def read_log(log, sleep=args.sleep_interval):
             time.sleep(sleep)
-            cli.output_file(log, args.q)
+            cli.output_file(log, not args.q)
             return log
 
         def add_reader(log):

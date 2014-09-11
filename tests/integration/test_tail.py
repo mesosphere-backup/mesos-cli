@@ -17,6 +17,8 @@
 
 from __future__ import absolute_import, print_function
 
+import re
+
 import mock
 
 import mesos.cli.cmds.tail
@@ -34,7 +36,7 @@ class TestTail(utils.MockState):
     def test_single_default(self):
         mesos.cli.cmds.tail.main()
 
-        assert len(self.lines) == 5
+        assert len(self.lines) == 6
 
     @utils.patch_args([
         "mesos-tail",
@@ -44,7 +46,7 @@ class TestTail(utils.MockState):
     def test_single_specific(self):
         mesos.cli.cmds.tail.main()
 
-        assert len(self.lines) == 8
+        assert len(self.lines) == 9
 
     @utils.patch_args([
         "mesos-tail",
@@ -74,6 +76,7 @@ class TestTail(utils.MockState):
     def test_multiple_files(self):
         mesos.cli.cmds.tail.main()
 
+        assert len(re.findall("==>", self.stdout)) == 2
         assert len(self.lines) == 14
 
     @utils.patch_args([
@@ -85,7 +88,7 @@ class TestTail(utils.MockState):
         mesos.cli.cmds.tail.main()
 
         assert "Forked" in self.stdout
-        assert len(self.lines) == 2
+        assert len(self.lines) == 3
 
     @utils.patch_args([
         "mesos-tail",

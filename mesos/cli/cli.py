@@ -106,23 +106,27 @@ def cmds(short=False):
 last_seen = None
 
 
-def output_file(fobj, show_header=True):
+def output_file(seq, show_header=True, key=None):
     global last_seen
+
+    if not key:
+        key = str(seq)
+
     first = True
-    for line in fobj:
+    for line in seq:
+        if first and key != last_seen and show_header:
+            header(key)
+
         # TODO(thomasr) - It is possible for there to be a pause in
         # the middle of this loop (reading the next block from the
         # remote) in this case, the header wouln't be printed and the
         # user would be confused.
-        if first and str(fobj) != last_seen and not show_header:
-            header(fobj)
-
         print(line)
 
         first = False
 
     if not first:
-        last_seen = str(fobj)
+        last_seen = key
 
 
 def debug_requests():
