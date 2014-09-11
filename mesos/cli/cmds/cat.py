@@ -29,8 +29,8 @@ parser.file_argument()
 
 @cli.init(parser)
 def main(args):
-    for (fname, lines, show_header) in cluster.files(
-            lambda fobj, h: (str(fobj), list(fobj), h),
+    for (fname, lines) in cluster.files(
+            lambda fobj: (str(fobj), list(fobj)),
             args.task,
             args.file):
         cli.output_file(lines, False, key=fname)

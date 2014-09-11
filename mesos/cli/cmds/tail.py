@@ -54,13 +54,13 @@ def until_end(fobj):
     return list(fobj)
 
 
-def read_file(fn, fobj, show_header):
+def read_file(fn, fobj):
     global files_seen
 
     lines = fn(fobj)
     files_seen[fobj] = fobj.tell()
 
-    return (str(fobj), lines, show_header)
+    return (str(fobj), lines)
 
 
 @cli.init(parser)
@@ -70,13 +70,13 @@ def main(args):
         return reversed(list(itertools.islice(reversed(fobj), args.n)))
 
     def output(fn):
-        for (fname, lines, show_header) in cluster.files(
+        for (fname, lines) in cluster.files(
                 functools.partial(read_file, fn),
                 args.task,
                 args.file,
                 fail=(not args.follow)):
             cli.output_file(
-                lines, (not args.q and show_header), key=fname)
+                lines, not args.q, key=fname)
 
     output(last_lines)
 

@@ -36,7 +36,7 @@ class TestTail(utils.MockState):
     def test_single_default(self):
         mesos.cli.cmds.tail.main()
 
-        assert len(self.lines) == 5
+        assert len(self.lines) == 6
 
     @utils.patch_args([
         "mesos-tail",
@@ -46,7 +46,7 @@ class TestTail(utils.MockState):
     def test_single_specific(self):
         mesos.cli.cmds.tail.main()
 
-        assert len(self.lines) == 8
+        assert len(self.lines) == 9
 
     @utils.patch_args([
         "mesos-tail",
@@ -88,7 +88,7 @@ class TestTail(utils.MockState):
         mesos.cli.cmds.tail.main()
 
         assert "Forked" in self.stdout
-        assert len(self.lines) == 2
+        assert len(self.lines) == 3
 
     @utils.patch_args([
         "mesos-tail",

@@ -30,7 +30,6 @@ def files(fn, fltr, flist, fail=True):
     global dne
 
     tlist = MASTER.tasks(fltr)
-    mult = len(tlist) > 1 or len(flist) > 1
     dne = True
 
     def process((task, fname)):
@@ -49,7 +48,7 @@ def files(fn, fltr, flist, fail=True):
 
         if fobj.exists():
             dne = False
-            return fn(fobj, mult)
+            return fn(fobj)
 
     elements = itertools.chain(
         *[[(task, fname) for fname in flist] for task in tlist])
