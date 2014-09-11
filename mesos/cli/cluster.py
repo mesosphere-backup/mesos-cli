@@ -47,6 +47,7 @@ def files(fn, fltr, flist, fail=True):
             raise exceptions.SkipResult
 
         if fobj.exists():
+
             dne = False
             return fn(fobj)
 

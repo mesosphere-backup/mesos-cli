@@ -83,14 +83,18 @@ class File(object):
 
     def exists(self):
         try:
-            self._fetch()
+            self.size
             return True
         except exceptions.FileDoesNotExist:
             return False
         except exceptions.SlaveDoesNotExist:
             return False
 
-    @property
+    # When reading a file, it is common to first check whether it exists, then
+    # look at the size to determine where to seek. Instead of requiring
+    # multiple requests to the slave, the size is cached for a very short
+    # period of time.
+    @util.CachedProperty(ttl=0.5)
     def size(self):
         return self._fetch()["offset"]
 
