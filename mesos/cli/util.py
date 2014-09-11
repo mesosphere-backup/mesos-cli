@@ -49,10 +49,9 @@ class CachedProperty(object):
         return self
 
     def __get__(self, inst, owner):
-        now = time.time()
         try:
             value, last_update = inst._cache[self.__name__]
-            if self.ttl > 0 and now - last_update > self.ttl:
+            if self.ttl > 0 and time.time() - last_update > self.ttl:
                 raise AttributeError
         except (KeyError, AttributeError):
             value = self.fget(inst)
@@ -60,7 +59,7 @@ class CachedProperty(object):
                 cache = inst._cache
             except AttributeError:
                 cache = inst._cache = {}
-            cache[self.__name__] = (value, now)
+            cache[self.__name__] = (value, time.time())
         return value
 
 
