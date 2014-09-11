@@ -70,12 +70,12 @@ config = {
             # helpers
             'mesos-completion = mesos.cli.cmds.completion:main',
             'mesos-config = mesos.cli.cmds.config:main',
-            'mesos-events = mesos.cli.cmds.events:main',
             'mesos-resolve = mesos.cli.cmds.resolve:main',
             'mesos-state = mesos.cli.cmds.state:main',
 
             # coreutils
             'mesos-cat = mesos.cli.cmds.cat:main',
+            'mesos-events = mesos.cli.cmds.events:main',
             'mesos-find = mesos.cli.cmds.find:main',
             'mesos-head = mesos.cli.cmds.head:main',
             'mesos-help = mesos.cli.cmds.help:main',
