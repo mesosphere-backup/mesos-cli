@@ -38,9 +38,13 @@ parser.enable_print_header()
 
 @cli.init(parser)
 def main(args):
-    for fobj, show_header in cluster.files(args.task, args.file):
-        if not args.q and show_header:
-            cli.header(fobj)
 
-        for line in itertools.islice(fobj, args.n):
-            print(line)
+    def read_file(fobj, show_header):
+        return (str(fobj), list(itertools.islice(fobj, args.n)), show_header)
+
+    for (fname, lines, show_header) in cluster.files(
+            read_file,
+            args.task,
+            args.file):
+        cli.output_file(
+            lines, (not args.q and show_header), key=fname)

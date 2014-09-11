@@ -17,6 +17,8 @@
 
 from __future__ import absolute_import, print_function
 
+import re
+
 import mock
 
 import mesos.cli.cmds.tail
@@ -74,6 +76,7 @@ class TestTail(utils.MockState):
     def test_multiple_files(self):
         mesos.cli.cmds.tail.main()
 
+        assert len(re.findall("==>", self.stdout)) == 2
         assert len(self.lines) == 14
 
     @utils.patch_args([

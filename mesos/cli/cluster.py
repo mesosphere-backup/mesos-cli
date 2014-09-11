@@ -17,34 +17,47 @@
 
 from __future__ import absolute_import, print_function
 
-from . import cli, exceptions, log
+import itertools
+
+from . import cli, exceptions, log, parallel
 from .master import CURRENT as MASTER
 
+dne = True
 missing_slave = set([])
 
 
-def files(fltr, flist, fail=True):
+def files(fn, fltr, flist, fail=True):
+    global dne
+
     tlist = MASTER.tasks(fltr)
     mult = len(tlist) > 1 or len(flist) > 1
     dne = True
 
-    for task in tlist:
-        for fname in flist:
+    def process((task, fname)):
+        global dne
 
-            try:
-                fobj = task.file(fname)
-            except exceptions.SlaveDoesNotExist:
-                if task["id"] not in missing_slave:
-                    cli.header("{0}:{1}".format(
-                        task["id"], fname))
-                    print("Slave no longer exists.")
+        try:
+            fobj = task.file(fname)
+        except exceptions.SlaveDoesNotExist:
+            if task["id"] not in missing_slave:
+                cli.header("{0}:{1}".format(
+                    task["id"], fname))
+                print("Slave no longer exists.")
 
-                missing_slave.add(task["id"])
-                break
+            missing_slave.add(task["id"])
+            raise exceptions.SkipResult
 
-            if fobj.exists():
-                dne = False
-                yield (fobj, mult)
+        if fobj.exists():
+            dne = False
+            return fn(fobj, mult)
+
+    elements = itertools.chain(
+        *[[(task, fname) for fname in flist] for task in tlist])
+
+    for result in parallel.stream(process, elements):
+        if not result:
+            continue
+        yield result
 
     if dne and fail:
         log.fatal("No such task has the requested file or directory")

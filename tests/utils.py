@@ -26,6 +26,7 @@ import mock
 import testtools
 
 import mesos.cli
+import mesos.cli.cli
 import mesos.cli.exceptions
 
 
@@ -93,6 +94,10 @@ class MockState(testtools.TestCase):
         self.mock(
             "mesos.cli.slave.MesosSlave.state",
             get_state("slave-20140619-151434-16842879-5050-1196-0.json"))
+
+    def tearDown(self):
+        super(MockState, self).tearDown()
+        mesos.cli.cli.last_seen = None
 
     def mock(self, obj, val):
         m = mock.patch(obj, val)

@@ -17,6 +17,7 @@
 
 from __future__ import absolute_import, print_function
 
+import functools
 import itertools
 import time
 
@@ -46,33 +47,40 @@ parser.enable_print_header()
 files_seen = {}
 
 
-@cli.init(parser)
-def main(args):
+def until_end(fobj):
     global files_seen
 
-    for fobj, show_header in cluster.files(
-            args.task, args.file, fail=(not args.follow)):
-        if not args.q and show_header:
-            cli.header(fobj,)
+    fobj.seek(files_seen.get(fobj, 0))
+    return list(fobj)
 
-        lines = list(itertools.islice(reversed(fobj), args.n))
-        for line in reversed(lines):
-            print(line)
 
-        files_seen[fobj] = fobj.tell()
-        if len(lines) > 0:
-            cli.last_seen = str(fobj)
+def read_file(fn, fobj, show_header):
+    global files_seen
 
-    def follow():
-        global files_seen
-        for fobj, show_header in cluster.files(
-                args.task, args.file, fail=False):
+    lines = fn(fobj)
+    files_seen[fobj] = fobj.tell()
 
-            fobj.seek(files_seen.get(fobj, 0))
-            cli.output_file(fobj, args.q)
-            files_seen[fobj] = fobj.tell()
+    return (str(fobj), lines, show_header)
+
+
+@cli.init(parser)
+def main(args):
+
+    def last_lines(fobj):
+        return reversed(list(itertools.islice(reversed(fobj), args.n)))
+
+    def output(fn):
+        for (fname, lines, show_header) in cluster.files(
+                functools.partial(read_file, fn),
+                args.task,
+                args.file,
+                fail=(not args.follow)):
+            cli.output_file(
+                lines, (not args.q and show_header), key=fname)
+
+    output(last_lines)
 
     if args.follow:
         while True:
-            follow()
+            output(until_end)
             time.sleep(RECHECK)

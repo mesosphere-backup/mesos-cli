@@ -22,6 +22,7 @@ import itertools
 
 import concurrent.futures
 
+from . import exceptions
 from .cfg import CURRENT as CFG
 
 
@@ -30,6 +31,21 @@ def execute():
     with concurrent.futures.ThreadPoolExecutor(
             max_workers=CFG["max_workers"]) as executor:
         yield executor
+
+
+def stream(fn, elements):
+    """Yield the results of fn as jobs complete."""
+    jobs = []
+
+    with execute() as executor:
+        for elem in elements:
+            jobs.append(executor.submit(fn, elem))
+
+        for job in concurrent.futures.as_completed(jobs):
+            try:
+                yield job.result()
+            except exceptions.SkipResult:
+                pass
 
 
 def by_fn(keyfn, fn, items):
@@ -44,22 +60,18 @@ def by_fn(keyfn, fn, items):
     The solution to this predicament is to execute fn in parallel but only
     across a specific partition function (slave ids in this example).
     """
-    jobs = []
 
-    with execute() as executor:
-
-        # itertools.groupby returns a list of (key, generator) tuples. A job
-        # is submitted and then the local execution context continues. The
-        # partitioned generator is destroyed and you only end up executing fn
-        # over a small subset of the desired partition. Therefore, the list()
-        # conversion when submitting the partition for execution is very
-        # important.
-        for k, part in itertools.groupby(items, keyfn):
-            jobs.append(executor.submit(lambda: [fn(i) for i in list(part)]))
-
-    for job in concurrent.futures.as_completed(jobs):
-        for result in job.result():
-            yield result
+    # itertools.groupby returns a list of (key, generator) tuples. A job
+    # is submitted and then the local execution context continues. The
+    # partitioned generator is destroyed and you only end up executing fn
+    # over a small subset of the desired partition. Therefore, the list()
+    # conversion when submitting the partition for execution is very
+    # important.
+    for result in stream(
+            lambda (k, part): [fn(i) for i in list(part)],
+            itertools.groupby(items, keyfn)):
+        for l in result:
+            yield l
 
 
 def by_slave(fn, tasks):
