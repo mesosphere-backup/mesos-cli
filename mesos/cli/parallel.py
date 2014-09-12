@@ -28,9 +28,21 @@ from .cfg import CURRENT as CFG
 
 @contextlib.contextmanager
 def execute():
-    with concurrent.futures.ThreadPoolExecutor(
-            max_workers=CFG["max_workers"]) as executor:
+    try:
+        executor = concurrent.futures.ThreadPoolExecutor(
+            max_workers=CFG["max_workers"])
         yield executor
+    except KeyboardInterrupt:
+        # Threads in the ThreadPoolExecutor are created with
+        # daemon=True. There is, therefore, an atexit function registered
+        # that allows all the currently running threads to stop before
+        # allowing the interpreter to stop. Because we don't care whether
+        # the worker threads exit cleanly or not, we force shutdown to be
+        # immediate.
+        concurrent.futures.thread._threads_queues.clear()
+        raise
+    finally:
+        executor.shutdown(wait=False)
 
 
 def stream(fn, elements):
