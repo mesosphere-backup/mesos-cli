@@ -33,6 +33,11 @@ parser.task_argument()
 parser.file_argument()
 
 parser.add_argument(
+    '-a', '--active-only', action='store_true',
+    help="Only show active tasks."
+)
+
+parser.add_argument(
     '-f', '--follow', action='store_true',
     help="Wait for additional data to be appended to the file."
 )
@@ -74,6 +79,7 @@ def main(args):
                 functools.partial(read_file, fn),
                 args.task,
                 args.file,
+                active_only=args.active_only,
                 fail=(not args.follow)):
             cli.output_file(
                 lines, not args.q, key=fname)
