@@ -29,6 +29,11 @@ parser.task_argument()
 parser.file_argument()
 
 parser.add_argument(
+    "-i", "--inactive", action="store_true",
+    help="show inactive tasks as well"
+)
+
+parser.add_argument(
     '-n', default=10, type=int,
     help="Number of lines of the file to output."
 )
@@ -45,5 +50,6 @@ def main(args):
     for (fname, lines) in cluster.files(
             read_file,
             args.task,
-            args.file):
+            args.file,
+            active_only=not args.inactive):
         cli.output_file(lines, not args.q, key=fname)

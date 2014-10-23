@@ -33,6 +33,11 @@ parser.task_argument()
 parser.file_argument()
 
 parser.add_argument(
+    "-i", "--inactive", action="store_true",
+    help="show inactive tasks as well"
+)
+
+parser.add_argument(
     '-f', '--follow', action='store_true',
     help="Wait for additional data to be appended to the file."
 )
@@ -74,6 +79,7 @@ def main(args):
                 functools.partial(read_file, fn),
                 args.task,
                 args.file,
+                active_only=not args.inactive,
                 fail=(not args.follow)):
             cli.output_file(
                 lines, not args.q, key=fname)

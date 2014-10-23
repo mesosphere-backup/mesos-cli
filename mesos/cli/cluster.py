@@ -26,10 +26,10 @@ dne = True
 missing_slave = set([])
 
 
-def files(fn, fltr, flist, fail=True):
+def files(fn, fltr, flist, active_only=False, fail=True):
     global dne
 
-    tlist = MASTER.tasks(fltr)
+    tlist = MASTER.tasks(fltr, active_only=active_only)
     dne = True
 
     def process((task, fname)):

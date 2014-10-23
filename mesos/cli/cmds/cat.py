@@ -26,11 +26,16 @@ parser = cli.parser(
 parser.task_argument()
 parser.file_argument()
 
+parser.add_argument(
+    "-i", "--inactive", action="store_true",
+    help="show inactive tasks as well"
+)
 
 @cli.init(parser)
 def main(args):
     for (fname, lines) in cluster.files(
             lambda fobj: (str(fobj), list(fobj)),
             args.task,
-            args.file):
+            args.file,
+            active_only=not args.inactive):
         cli.output_file(lines, False, key=fname)
