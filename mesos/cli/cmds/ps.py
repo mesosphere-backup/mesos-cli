@@ -43,7 +43,9 @@ parser.task_argument(optional=True)
 
 def get_memory(x):
     max_mem = x["resources"]["mem"] * 1024 * 1024 * 1.0
-    return "{0:.2f}".format((x.rss / max_mem) * 100)
+    if max_mem > 0
+        return "{0:.2f}".format((x.rss / max_mem) * 100)
+    return "0"
 
 
 @cli.init(parser)
