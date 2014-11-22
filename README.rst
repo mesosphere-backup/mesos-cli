@@ -36,6 +36,8 @@ Installation
 
 Note that if you've already installed `mesos` locally, you can either install this to a location other than `/usr/local/bin` via. pip options or remove `/usr/local/bin/mesos`. There should be no downsides to just removing it.
 
+To build `mesos-cli`, run `python setup.py build` in the root of the repository. To install, run `python setup.py install`.
+
 -------------------
 Command Completion
 -------------------
