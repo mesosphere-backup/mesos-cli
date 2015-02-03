@@ -56,7 +56,7 @@ def main(args):
         "cd {0} && bash".format(task.directory)
     ]
 
-    if args.file != None:
+    if args.file is not None:
         cmd = cmd[:-1] + ["-i", args.file] + [cmd[-1]]
 
     if task.directory == "":
