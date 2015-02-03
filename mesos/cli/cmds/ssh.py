@@ -38,6 +38,11 @@ parser.add_argument(
     help="""Path of the identity key."""
 )
 
+parser.add_argument(
+    '-l', '--login', dest="user", default=None,
+    help="""Username to login as on sandbox."""
+)
+
 @cli.init(parser)
 def main(args):
     term = blessings.Terminal()
@@ -58,6 +63,9 @@ def main(args):
 
     if args.file is not None:
         cmd = cmd[:-1] + ["-i", args.file] + [cmd[-1]]
+
+    if args.user is not None:
+        cmd = cmd[:-1] + ["-l", args.user] + [cmd[-1]]
 
     if task.directory == "":
         print(term.red + "warning: the task no longer exists on the " +
