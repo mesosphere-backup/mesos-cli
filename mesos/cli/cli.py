@@ -31,15 +31,17 @@ from .cfg import CURRENT as CFG
 from .parser import ArgumentParser
 
 
-def init(parser=None):
+def init(arg):
+    # arg is:
+    # @cli.init         : the function to be decorated
+    # @cli.init(parser) : the parsing function
+    cmd_args = None if callable(arg) else arg.parse_args()
 
     def decorator(fn):
         @handle_signals
         @log.duration
         @functools.wraps(fn)
         def wrapper(*args, **kwargs):
-            cmd_args = parser.parse_args() if parser else None
-
             log_level = getattr(logging, CFG["log_level"].upper())
             logging.basicConfig(
                 level=log_level,
@@ -51,7 +53,11 @@ def init(parser=None):
 
             return fn(cmd_args, *args, **kwargs)
         return wrapper
-    return decorator
+
+    if callable(arg):
+        return decorator(arg)
+    else:
+        return decorator
 
 
 def parser(**kwargs):
