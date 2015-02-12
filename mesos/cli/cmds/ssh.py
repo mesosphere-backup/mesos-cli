@@ -33,6 +33,9 @@ parser.add_argument(
     help="""Name of the task."""
 ).completer = completion_helpers.task
 
+parser.add_argument(
+    '-s', "--ssh_args", type=str,
+    help="""provide any additional ssh arguments e.g.: -s "-l login_name -p port" """)
 
 @cli.init(parser)
 def main(args):
@@ -45,12 +48,17 @@ def main(args):
 
     task = MASTER.task(args.task)
 
-    cmd = [
-        "ssh",
+    cmd = ["ssh"]
+
+    if args.ssh_args is not None:
+        cmd += args.ssh_args.split()
+
+    cmd += [
         "-t",
         task.slave["hostname"],
         "cd {0} && bash".format(task.directory)
     ]
+
     if task.directory == "":
         print(term.red + "warning: the task no longer exists on the " +
               "target slave. Will not enter sandbox" + term.white + "\n\n")
