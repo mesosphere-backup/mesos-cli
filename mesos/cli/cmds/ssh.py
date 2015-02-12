@@ -35,7 +35,7 @@ parser.add_argument(
 
 parser.add_argument(
     '-s', "--ssh_args", type=str,
-    help="""provide any additional ssh arguments e.g.: -s "-l login_name -p port" """)
+    help="""provide any additional ssh arguments (for example: -s "-l login_name -p port")""")
 
 @cli.init(parser)
 def main(args):
