@@ -33,7 +33,7 @@ parser.add_argument(
     help="""Name of the task."""
 ).completer = completion_helpers.task
 
-parser.enable_command_arguments("Options (if any) to be passed through to the ssh command.")
+parser.enable_command_arguments("Options (if any) to be passed to the ssh command.")
 
 @cli.init(parser)
 def main(args):
