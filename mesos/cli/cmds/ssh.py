@@ -33,7 +33,7 @@ parser.add_argument(
     help="""Name of the task."""
 ).completer = completion_helpers.task
 
-parser.enable_command_arguments("Options (if any) to be passed to the ssh command.")
+parser.command_arguments("Options (if any) to pass to the ssh command. Should be after the task (for example: mesos ssh task -l login_name -p port).")
 
 @cli.init(parser)
 def main(args):
