@@ -60,9 +60,11 @@ def main(args):
         ("name", lambda x: x["name"]),
         ("host", lambda x: x["hostname"]),
         ("active", lambda x: x["active"]),
-        ("active tasks", lambda x: len(x["tasks"])),
     ])
 
+    # TODO: the task breakdown is not done in an efficient way (since we traverse the
+    # task list on every framework). This can be optimized to do the traversal only
+    # once per framework.
     if args.task_breakdown:
         # active tasks
         table_generator['staging'] = lambda x: task_stats(x["tasks"], "TASK_STAGING")
@@ -75,6 +77,9 @@ def main(args):
         table_generator['error'] = lambda x: task_stats(x["completed_tasks"], "TASK_ERROR")
         table_generator['lost'] = lambda x: task_stats(x["completed_tasks"], "TASK_ERROR")
         table_generator['finished'] = lambda x: task_stats(x["completed_tasks"], "TASK_FINISHED")
+    else:
+        table_generator['active tasks'] = lambda x: len(x["tasks"])
+
 
     tb = prettytable.PrettyTable(
         [x.upper() for x in table_generator.keys()],
@@ -94,6 +99,7 @@ def main(args):
             tb.add_row(format_row(framework))
  
     if tb.rowcount == 0:
+        # TODO: can this be possible ?
         print("===>{0}You have no frameworks{1}<===".format(
             term.red, term.white))
     else:
