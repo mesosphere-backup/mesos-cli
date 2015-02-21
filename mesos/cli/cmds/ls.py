@@ -24,7 +24,7 @@ from .. import cli, exceptions
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
-    description="List all the files inside a specific task's sandbox"
+    description="List all the files inside a specific task's sandbox."
 )
 
 parser.task_argument()

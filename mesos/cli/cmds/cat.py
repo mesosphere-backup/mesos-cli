@@ -20,7 +20,7 @@ from __future__ import absolute_import, print_function
 from .. import cli, cluster
 
 parser = cli.parser(
-    description="concatenate and print files"
+    description="Concatenate and print files."
 )
 
 parser.task_argument()

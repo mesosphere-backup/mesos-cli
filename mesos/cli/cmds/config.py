@@ -20,7 +20,7 @@ from .. import cli
 from ..cfg import CURRENT as CFG
 
 parser = cli.parser(
-    description="interact with your local cli configuration"
+    description="Interact with the local configuration of the Mesos CLI."
 )
 
 parser.add_argument(

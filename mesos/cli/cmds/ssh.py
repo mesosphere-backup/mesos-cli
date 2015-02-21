@@ -25,7 +25,7 @@ from .. import cli, completion_helpers, log
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
-    description="SSH into the sandbox of a specific task"
+    description="ssh into a given task's sandbox."
 )
 
 parser.add_argument(

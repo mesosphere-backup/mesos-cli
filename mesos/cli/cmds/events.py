@@ -25,7 +25,7 @@ from .. import cli, parallel
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
-    description="observe events from the cluster"
+    description="Observe events from the cluster."
 )
 
 parser.add_argument(

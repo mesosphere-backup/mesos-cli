@@ -23,13 +23,14 @@ from .. import cli, completion_helpers
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
-    description="fetch the json state for either the master or a specific " +
-                "slave"
+    description="Fetch the JSON encoded state for either the master " +
+                "or a specific slave."
 )
 
 parser.add_argument(
     "slave", nargs="?",
-    help="ID of the slave. May match multiple slaves (or all)"
+    help="Slave ID filter to retrieve state for. " +
+    	 "May match multiple slaves (or all if unspecified)"
 ).completer = completion_helpers.slave
 
 

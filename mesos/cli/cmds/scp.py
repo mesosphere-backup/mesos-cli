@@ -25,7 +25,7 @@ from .. import cli, log, parallel
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
-    description="upload the specified local file(s) to all slaves"
+    description="Upload the specified local file(s) to all slaves."
 )
 
 parser.add_argument(

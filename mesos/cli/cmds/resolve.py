@@ -21,7 +21,7 @@ from ..cfg import CURRENT as CFG
 from ..master import CURRENT as MASTER
 
 parser = cli.parser(
-    description="return the host/port for the currently leading master."
+    description="Return the host and port for the currently leading master."
 )
 
 parser.add_argument(

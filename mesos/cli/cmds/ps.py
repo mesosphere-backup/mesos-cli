@@ -30,7 +30,7 @@ except ImportError:
 
 
 parser = cli.parser(
-    description="process status"
+    description="List processes (i.e. tasks) running on the cluster."
 )
 
 parser.add_argument(

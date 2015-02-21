@@ -22,7 +22,7 @@ import itertools
 from .. import cli, cluster
 
 parser = cli.parser(
-    description="display first lines of a file"
+    description="Display first lines of a file within a given task's sandbox."
 )
 
 parser.task_argument()

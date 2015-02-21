@@ -26,7 +26,7 @@ from .. import cli, cluster
 RECHECK = 1
 
 parser = cli.parser(
-    description="display the last part of a file"
+    description="Display last lines of a file within a given task's sandbox."
 )
 
 parser.task_argument()
