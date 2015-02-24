@@ -51,23 +51,33 @@ class Framework(object):
     def user(self):
         return self['user']
 
-    def cpu_stats(self):
-        return self._resource_stats("cpus")
+    @property
+    def cpu_allocated(self):
+        return self._resource_allocated("cpus")
 
-    def mem_stats(self):
-        return self._resource_stats("mem")
-    
+    @property
+    def cpu_used(self):
+        return self._resource_used("cpus")
 
-    def disk_stats(self):
-        return self._resource_stats("disk")
+    @property
+    def mem_allocated(self):
+        return self._resource_allocated("mem")
 
-    def _resource_stats(self, resource):
-        r_used = self["used_resources"][resource]
-        r_allocated = self["resources"][resource]
-        if r_allocated > 0:
-            percent = int(r_used / r_allocated * 100)
-            return str(r_used) + "/" + str(r_allocated) + "(" + str(percent) + "%)"
-        else:
-            # no resources are being used/allocated
-            return "-"
+    @property
+    def mem_used(self):
+        return self._resource_used("mem")
+
+    @property
+    def disk_allocated(self):
+        return self._resource_allocated("disk")
+
+    @property
+    def disk_used(self):
+        return self._resource_used("disk")
+
+    def _resource_used(self, resource):
+        return self["used_resources"][resource]
+
+    def _resource_allocated(self, resource):
+        return self["resources"][resource]
 

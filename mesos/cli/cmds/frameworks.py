@@ -37,6 +37,14 @@ parser.add_argument(
     help="show inactive frameworks as well"
 )
 
+def format_resource(allocated, used):
+        if allocated > 0:
+            percent = int(used / allocated * 100)
+            return str(used) + "/" + str(allocated) + "(" + str(percent) + "%)"
+        else:
+            # no resources are being used/allocated
+            return "-"
+
 @cli.init(parser)
 def main(args):
     term = blessings.Terminal()
@@ -47,9 +55,9 @@ def main(args):
         ("host", lambda x: x.hostname),
         ("active", lambda x: x.active),
         ("tasks", lambda x: x.task_count),
-        ("cpu", lambda x: x.cpu_stats()),
-        ("mem", lambda x: x.mem_stats()),
-        ("disk", lambda x: x.disk_stats()),
+        ("cpu", lambda x: format_resource(x.cpu_allocated, x.cpu_used)),
+        ("mem", lambda x: format_resource(x.mem_allocated, x.mem_used)),
+        ("disk", lambda x: format_resource(x.disk_allocated, x.disk_used)),
     ])
 
     tb = prettytable.PrettyTable(
