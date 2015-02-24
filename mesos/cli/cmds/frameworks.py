@@ -40,7 +40,7 @@ parser.add_argument(
 def format_resource(allocated, used):
         if allocated > 0:
             percent = int(used / allocated * 100)
-            return str(used) + "/" + str(allocated) + "(" + str(percent) + "%)"
+            return "{0}/{1}({2}%)".format(used, allocated, percent)
         else:
             # no resources are being used/allocated
             return "-"
