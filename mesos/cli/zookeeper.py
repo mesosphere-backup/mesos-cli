@@ -44,3 +44,4 @@ def client(*args, **kwargs):
         yield zk
     finally:
         zk.stop()
+        zk.close()
