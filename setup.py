@@ -77,6 +77,7 @@ config = {
             'mesos-cat = mesos.cli.cmds.cat:main',
             'mesos-events = mesos.cli.cmds.events:main',
             'mesos-find = mesos.cli.cmds.find:main',
+            'mesos-frameworks = mesos.cli.cmds.frameworks:main',
             'mesos-head = mesos.cli.cmds.head:main',
             'mesos-help = mesos.cli.cmds.help:main',
             'mesos-ls = mesos.cli.cmds.ls:main',

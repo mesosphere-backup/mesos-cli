@@ -32,7 +32,7 @@ import requests.exceptions
 
 import mesos.interface.mesos_pb2
 
-from . import exceptions, log, mesos_file, slave, task, util, zookeeper
+from . import exceptions, framework, log, mesos_file, slave, task, util, zookeeper
 from .cfg import CURRENT as CFG
 
 ZOOKEEPER_TIMEOUT = 1
@@ -155,7 +155,7 @@ class MesosMaster(object):
         if not active_only:
             keys.append("completed_tasks")
         return itertools.chain(
-            *[util.merge(x, *keys) for x in self.frameworks(active_only)])
+            *[util.merge(x, *keys) for x in self._framework_list(active_only)])
 
     def task(self, fltr):
         lst = self.tasks(fltr)
@@ -180,14 +180,20 @@ class MesosMaster(object):
 
     def framework(self, fwid):
         return list(filter(
-            lambda x: x["id"] == fwid,
+            lambda x: x.id == fwid,
             self.frameworks()))[0]
+
+    def _framework_list(self, active_only=False):
+        keys = ["frameworks"]
+        if not active_only:
+            keys.append("completed_frameworks")
+        return util.merge(self.state, *keys)
 
     def frameworks(self, active_only=False):
         keys = ["frameworks"]
         if not active_only:
             keys.append("completed_frameworks")
-        return util.merge(self.state, *keys)
+        return list(map(lambda x: framework.Framework(x), self._framework_list(active_only)))
 
     @property
     @util.memoize

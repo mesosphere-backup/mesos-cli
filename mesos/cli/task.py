@@ -21,7 +21,7 @@ import datetime
 import os
 import re
 
-from . import exceptions, mesos_file, util
+from . import exceptions, framework, mesos_file, util
 
 
 class Task(object):
@@ -44,7 +44,7 @@ class Task(object):
 
     @property
     def framework(self):
-        return self.master.framework(self["framework_id"])
+        return framework.Framework(self.master.framework(self["framework_id"]))
 
     @util.CachedProperty()
     def directory(self):
@@ -102,4 +102,4 @@ class Task(object):
 
     @property
     def user(self):
-        return self.framework["user"]
+        return self.framework.user
