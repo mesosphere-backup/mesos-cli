@@ -29,21 +29,14 @@ except ImportError:
     from ordereddict import OrderedDict
 
 parser = cli.parser(
-    description="List frameworks with statistics about their active tasks and resource allocation"
+    description="List frameworks with statistics about their active tasks \
+     and resource allocation."
 )
 
 parser.add_argument(
     "-i", "--inactive", action="store_true",
     help="show inactive frameworks as well"
 )
-
-def format_resource(allocated, used):
-        if allocated > 0:
-            percent = int(used / allocated * 100)
-            return "{0}/{1}({2}%)".format(used, allocated, percent)
-        else:
-            # no resources are being used/allocated
-            return "-"
 
 @cli.init(parser)
 def main(args):
@@ -55,9 +48,9 @@ def main(args):
         ("host", lambda x: x.hostname),
         ("active", lambda x: x.active),
         ("tasks", lambda x: x.task_count),
-        ("cpu", lambda x: format_resource(x.cpu_allocated, x.cpu_used)),
-        ("mem", lambda x: format_resource(x.mem_allocated, x.mem_used)),
-        ("disk", lambda x: format_resource(x.disk_allocated, x.disk_used)),
+        ("cpu", lambda x: x.cpu_allocated),
+        ("mem", lambda x: x.mem_allocated),
+        ("disk", lambda x: x.disk_allocated),
     ])
 
     tb = prettytable.PrettyTable(
@@ -75,7 +68,7 @@ def main(args):
 
     for framework in MASTER.frameworks(active_only=not args.inactive):
         tb.add_row(format_row(framework))
- 
+
     if tb.rowcount == 0:
         cli.header('You have no frameworks')
     else:

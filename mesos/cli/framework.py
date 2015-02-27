@@ -56,27 +56,12 @@ class Framework(object):
         return self._resource_allocated("cpus")
 
     @property
-    def cpu_used(self):
-        return self._resource_used("cpus")
-
-    @property
     def mem_allocated(self):
         return self._resource_allocated("mem")
 
     @property
-    def mem_used(self):
-        return self._resource_used("mem")
-
-    @property
     def disk_allocated(self):
         return self._resource_allocated("disk")
-
-    @property
-    def disk_used(self):
-        return self._resource_used("disk")
-
-    def _resource_used(self, resource):
-        return self["used_resources"][resource]
 
     def _resource_allocated(self, resource):
         return self["resources"][resource]
