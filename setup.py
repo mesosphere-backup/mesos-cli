@@ -87,20 +87,7 @@ config = {
             'mesos-tail = mesos.cli.cmds.tail:main'
         ]
     },
-    'setup_requires': [
-        "nose>=1.3.3",
-        "tox>=1.7.1"
-    ],
     'install_requires': requires,
-    'tests_require': [
-        'coverage>=3.7.1',
-        'flake8>=2.2.2',
-        'isort>=3.9.0',
-        'mock>=1.0.1',
-        'pep8-naming>=0.2.2',
-        'testtools>=0.9.35',  # py26
-        'zake==0.0.20'
-    ],
     'test_suite': 'nose.collector',
     'scripts': [
         'bin/mesos-zsh-completion.sh'

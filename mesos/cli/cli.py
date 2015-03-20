@@ -35,7 +35,7 @@ def init(arg):
     # arg is:
     # @cli.init         : the function to be decorated
     # @cli.init(parser) : the parsing function
-    cmd_args = None if callable(arg) else arg.parse_args()
+    is_parser = not callable(arg)
 
     def decorator(fn):
         @handle_signals
@@ -51,6 +51,7 @@ def init(arg):
             if CFG["debug"] == "true":
                 debug_requests()
 
+            cmd_args = arg.parse_args() if is_parser else None
             return fn(cmd_args, *args, **kwargs)
         return wrapper
 
