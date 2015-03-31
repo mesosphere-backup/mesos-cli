@@ -37,29 +37,29 @@ From PyPI:
 .. code-block:: bash
 
     pip install mesos.cli
-    
+
 From this repo:
 
 .. code-block:: bash
-    
+
     python setup.py install
-    
+
 ------------------
 Create Environment
 ------------------
 
 .. code-block:: bash
-    
+
     make env
     source env/bin/activate
-    
+
 -----
 Build
 -----
 
 .. code-block:: bash
-    
-    (mesos-cli)$ python setup.py build
+
+    python setup.py build
 
 ----
 Test
@@ -67,7 +67,7 @@ Test
 
 .. code-block:: bash
 
-    (mesos-cli)$ make test
+    make test
 
 -------------------
 Command Completion
