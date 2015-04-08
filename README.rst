@@ -26,17 +26,48 @@ To solve the problem, some of the coreutil commands have been re-implemented to 
 - auto-complete. Most parameters tab-complete (see the section on auto-completion to configure), just type a couple characters in and get what you're looking for.
 - extensibility. Write your own subcommands. Most of the required information can be accessed via. existing subcommands (leading master resolution via. mesos-resolve), so you only need to implement what you want and not re-invent the wheel.
 
-------------
-Installation
-------------
+-------
+Install
+-------
+
+Note that if you've already installed `mesos` locally, you can either install this to a location other than `/usr/local/bin` via. pip options or remove `/usr/local/bin/mesos`. There should be no downsides to just removing it.
+
+From PyPI:
 
 .. code-block:: bash
 
     pip install mesos.cli
 
-Note that if you've already installed `mesos` locally, you can either install this to a location other than `/usr/local/bin` via. pip options or remove `/usr/local/bin/mesos`. There should be no downsides to just removing it.
+From this repo:
 
-To build `mesos-cli`, run `python setup.py build` in the root of the repository. To install, run `python setup.py install`.
+.. code-block:: bash
+
+    python setup.py install
+
+------------------
+Create Environment
+------------------
+
+.. code-block:: bash
+
+    make env
+    source env/bin/activate
+
+-----
+Build
+-----
+
+.. code-block:: bash
+
+    python setup.py build
+
+----
+Test
+----
+
+.. code-block:: bash
+
+    make test
 
 -------------------
 Command Completion

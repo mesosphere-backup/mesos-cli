@@ -62,7 +62,7 @@ def usage():
 completion up for your shell.""")
 
 
-@cli.init()
+@cli.init
 def main(args):
     cmdline = os.environ.get('COMP_LINE') or \
         os.environ.get('COMMAND_LINE') or ''

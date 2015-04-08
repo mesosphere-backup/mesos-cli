@@ -1,11 +1,8 @@
-
 .PHONY: test
+env:
+	bin/env.sh
 test:
-	python setup.py flake8
-	python setup.py nosetests --where tests
-	isort mesos/**/*.py tests/**/*.py -c
-	flake8 tests
-
+	bin/test.sh
 .PHONY: fix-isort
 fix-isort:
 	isort -rc .
