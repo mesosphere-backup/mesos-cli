@@ -2,6 +2,8 @@
 mesos-cli
 =========
 
+**This project has been deprecated and is no longer being actively maintained. Please use the** `DCOS CLI`_.
+
 CLI tools to work with mesos.
 
 -----------------------------
@@ -343,3 +345,5 @@ There are two ways to do testing. If you'd like to just test with your local set
 For a full virtualenv + specific python versions (py26, py27), you can use tox:
 
     tox
+
+.. _`DCOS CLI`: https://github.com/mesosphere/dcos-cli
