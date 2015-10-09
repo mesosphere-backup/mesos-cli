@@ -31,3 +31,7 @@ nosetests.xml
 
 # Translations
 *.mo
+
+.idea/
+.mesos.json
+
