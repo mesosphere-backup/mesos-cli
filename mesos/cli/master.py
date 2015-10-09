@@ -19,6 +19,7 @@ from __future__ import absolute_import, print_function
 
 import fnmatch
 import itertools
+import json
 import os
 import re
 import urlparse
@@ -93,18 +94,42 @@ class MesosMaster(object):
             except kazoo.exceptions.NoNodeError:
                 log.fatal(INVALID_PATH.format(cfg))
 
-            # Old versions of mesos stick a PID into zookeeper instead of the
-            # current MasterInfo. If the protobuf can't be decoded for whatever
-            # reason, assume that it is the old method.
-            val = None
+            if not data:
+                log.fatal("Cannot retrieve valid MasterInfo data from ZooKeeper")
+
+            # The serialization of the Master's PID to ZK has changed over time.
+            # Prior to 0.20 just the PID value was written to the znode; then the binary
+            # serialization of the `MasterInfo` Protobuf was written and then, as of 0.24.x,
+            # the protobuf is actually serialized as JSON.
+            # We try all strategies, starting with the most recent, falling back if we cannot
+            # parse the value.
+
+            # Try JSON first:
+            try:
+                parsed = json.loads(data)
+                if parsed and "address" in parsed:
+                    ip = parsed["address"].get("ip")
+                    port = parsed["address"].get("port")
+                    if ip and port:
+                        return "{ip}:{port}".format(ip=ip, port=port)
+            except ValueError as parse_error:
+                log.debug("[WARN] No JSON content, probably connecting to older Mesos version. "
+                          "Reason: {}".format(parse_error))
+
+            # Try to deserialize the MasterInfo protobuf next:
             try:
                 info = mesos.interface.mesos_pb2.MasterInfo()
                 info.ParseFromString(data)
-                val = info.pid
-            except google.protobuf.message.DecodeError:
-                val = data
-
-            return val.split("@")[-1]
+                return info.pid
+            except google.protobuf.message.DecodeError as parse_error:
+                log.debug("[WARN] Cannot deserialize Protobuf either, probably connecting to a "
+                          "legacy Mesos version, please consider upgrading. Reason: {}".format(
+                              parse_error))
+                # Finally try to just interpret the PID as a string:
+                if '@' in data:
+                    return data.split("@")[-1]
+            log.fatal("Could not retrieve the MasterInfo from ZooKeeper; the data in '{}' was:"
+                      "{}".format(path, data))
 
     @log.duration
     def resolve(self, cfg):
