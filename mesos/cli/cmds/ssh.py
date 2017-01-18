@@ -33,6 +33,15 @@ parser.add_argument(
     help="""Name of the task."""
 ).completer = completion_helpers.task
 
+parser.add_argument(
+    '-i', '--identity-file', dest="file", default=None,
+    help="""Path of the identity key."""
+)
+
+parser.add_argument(
+    '-l', '--login', dest="user", default=None,
+    help="""Username to login as on sandbox."""
+)
 
 @cli.init(parser)
 def main(args):
@@ -51,6 +60,13 @@ def main(args):
         task.slave["hostname"],
         "cd {0} && bash".format(task.directory)
     ]
+
+    if args.file is not None:
+        cmd = cmd[:-1] + ["-i", args.file] + [cmd[-1]]
+
+    if args.user is not None:
+        cmd = cmd[:-1] + ["-l", args.user] + [cmd[-1]]
+
     if task.directory == "":
         print(term.red + "warning: the task no longer exists on the " +
               "target slave. Will not enter sandbox" + term.white + "\n\n")
