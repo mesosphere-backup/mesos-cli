@@ -53,6 +53,27 @@ class TestSsh(utils.MockState):
 
     @utils.patch_args([
         "mesos-ssh",
+        "-s",
+        "-l a-login-name -p a-port",
+        "app-215.3e6a099c-fcba-11e3-8b67-b6f6cc110ef2"
+    ])
+    def test_sandbox_with_ssh_args(self):
+        with mock.patch("os.execvp") as m:
+            mesos.cli.cmds.ssh.main()
+
+            m.assert_called_with("ssh", [
+                'ssh',
+                '-l',
+                'a-login-name',
+                '-p',
+                'a-port',
+                '-t',
+                '10.141.141.10',
+                'cd {0} && bash'.format(DIR)
+            ])
+
+    @utils.patch_args([
+        "mesos-ssh",
         "app-215.2e6508c3-fafd-11e3-a955-b6f6cc110ef2"
     ])
     def test_missing(self):
