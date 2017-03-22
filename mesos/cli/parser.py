@@ -51,3 +51,9 @@ class ArgumentParser(argparse.ArgumentParser):
             'path', type=str, nargs="?", default="",
             help="""Path to view."""
         ).completer = completion_helpers.file
+
+    def command_arguments(self, help_msg="(Optional) Options to pass to the system command."):
+        self.add_argument(
+            'command_arguments', type=str, nargs=argparse.REMAINDER, default=None,
+            help=help_msg, metavar="..."
+        )
