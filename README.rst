@@ -2,7 +2,7 @@
 mesos-cli
 =========
 
-**This project has been deprecated and is no longer being actively maintained. Please use the** `DCOS CLI`_.
+**This project has been deprecated and is no longer being actively maintained. Please use the** `DC/OS CLI`_.
 
 CLI tools to work with mesos.
 
