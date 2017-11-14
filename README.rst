@@ -346,4 +346,4 @@ For a full virtualenv + specific python versions (py26, py27), you can use tox:
 
     tox
 
-.. _`DCOS CLI`: https://github.com/mesosphere/dcos-cli
+.. _`DC/OS CLI`: https://github.com/dcos/dcos-cli
